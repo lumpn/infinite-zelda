@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaPuzzle.Test", "Z
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout.Test", "ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{2861AB03-2D65-42D0-B410-C59CCA76C21A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon", "Lumpn.Dungeon\Lumpn.Dungeon.csproj", "{318F2992-7CC2-4543-9041-0E3CAE0562C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -61,6 +63,10 @@ Global
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.Build.0 = Debug|Any CPU
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.ActiveCfg = Release|Any CPU
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.Build.0 = Release|Any CPU
+		{318F2992-7CC2-4543-9041-0E3CAE0562C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{318F2992-7CC2-4543-9041-0E3CAE0562C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{318F2992-7CC2-4543-9041-0E3CAE0562C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{318F2992-7CC2-4543-9041-0E3CAE0562C2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
