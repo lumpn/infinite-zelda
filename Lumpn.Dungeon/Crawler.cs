@@ -1,15 +1,18 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Lumpn.Utils;
-using System.Linq;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
-    public sealed class ZeldaPuzzle
-    {
-        public const int entranceId = 0;
-        public const int exitId = 1;
+    using Locations = IDictionary<int, Location>;
 
-        public ZeldaPuzzle(Dictionary<int, Location> locations)
+    public sealed class Crawler
+    {
+        private const int entranceId = 0;
+        private const int exitId = 1;
+
+        private readonly Locations locations;
+
+        public Crawler(Locations locations)
         {
             this.locations = locations;
         }
@@ -36,7 +39,7 @@ namespace Lumpn.ZeldaPuzzle
             // initialize distance from exit
             foreach (var step in terminalSteps)
             {
-                step.distanceFromExit = 0;
+                step.SetDistanceFromExit(0);
             }
 
             // backward pass
@@ -69,16 +72,16 @@ namespace Lumpn.ZeldaPuzzle
                 // try every transition
                 var location = step.Location;
                 var state = step.State;
-                int nextDistanceFromEntry = step.distanceFromEntry + 1;
+                int nextDistanceFromEntrance = step.DistanceFromEntrance + 1;
                 foreach (var transition in location.Transitions)
                 {
                     // execute transition
-                    Location nextLocation = transition.destination;
+                    Location nextLocation = transition.Destination;
                     State nextState = transition.Execute(state);
                     if (nextState == null) continue; // transition impassable
 
                     // location reached with new state -> enqueue
-                    if (location.AddStep(nextState, nextDistanceFromEntry, out Step nextStep))
+                    if (location.AddStep(nextState, nextDistanceFromEntrance, out Step nextStep))
                     {
                         queue.Enqueue(nextStep);
                     }
@@ -107,7 +110,7 @@ namespace Lumpn.ZeldaPuzzle
                 int prevDistanceFromExit = step.distanceFromExit + 1;
                 foreach (var prevStep in step.Predecessors)
                 {
-                    if (prevStep.distanceFromExit != Step.distanceUnreachable) continue;
+                    if (prevStep.distanceFromExit != Step.unreachableDistance) continue;
 
                     // unseen step reached -> enqueue
                     prevStep.distanceFromExit = prevDistanceFromExit;
@@ -133,7 +136,5 @@ namespace Lumpn.ZeldaPuzzle
             var location = locations.GetOrFallback(locationId, null);
             return location?.DebugGetStep(state);
         }
-
-        private readonly Dictionary<int, Location> locations;
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
     public sealed class StateBuilder
     {
+        private readonly Dictionary<VariableIdentifier, int> variables;
+
         public StateBuilder(IDictionary<VariableIdentifier, int> variables)
         {
             this.variables = new Dictionary<VariableIdentifier, int>(variables);
@@ -25,7 +27,5 @@ namespace Lumpn.ZeldaPuzzle
         {
             return new State(variables);
         }
-
-        private readonly Dictionary<VariableIdentifier, int> variables;
     }
 }

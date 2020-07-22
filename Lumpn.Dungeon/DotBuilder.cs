@@ -1,9 +1,11 @@
 using System.IO;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
     public sealed class DotBuilder
     {
+        private readonly TextWriter writer;
+
         public DotBuilder()
         {
             this.writer = System.Console.Out;
@@ -33,7 +35,5 @@ namespace Lumpn.ZeldaPuzzle
         {
             writer.WriteLine("loc{0} -> loc{1} [label=\"{2}\"];\n", start, end, label);
         }
-
-        private readonly TextWriter writer;
     }
 }

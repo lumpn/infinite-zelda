@@ -1,16 +1,21 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lumpn.Utils;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
+    using Variables = IDictionary<VariableIdentifier, int>;
+
     public sealed class State : IEquatable<State>
     {
-        public State(IDictionary<VariableIdentifier, int> variables)
+        private readonly Variables variables;
+        private readonly int hashCode;
+
+        public State(Variables variables)
         {
             this.variables = variables;
-            this.hashCode = CalculateHashCode(variables);
+            this.hashCode = GetHashCode(variables);
         }
 
         public int Get(VariableIdentifier identifier, int fallbackValue)
@@ -35,16 +40,10 @@ namespace Lumpn.ZeldaPuzzle
 
         public bool Equals(State other)
         {
-            if (variables.Count != other.variables.Count) return false;
-            foreach (var entry in variables)
-            {
-                if (!other.variables.TryGetValue(entry.Key, out int value)) return false;
-                if (value != entry.Value) return false;
-            }
-            return true;
+            return Equals(variables, other.variables);
         }
 
-        private static int CalculateHashCode(IDictionary<VariableIdentifier, int> variables)
+        private static int GetHashCode(Variables variables)
         {
             unchecked
             {
@@ -58,7 +57,21 @@ namespace Lumpn.ZeldaPuzzle
             }
         }
 
-        private readonly int hashCode;
-        private readonly IDictionary<VariableIdentifier, int> variables;
+        private static bool Equals(Variables a, Variables b)
+        {
+            if (a.Count != b.Count) return false;
+            foreach (var entrance in a)
+            {
+                if (!b.TryGetValue(entrance.Key, out int value))
+                {
+                    return false;
+                }
+                if (value != entrance.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

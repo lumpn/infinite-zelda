@@ -1,9 +1,15 @@
 using System.Collections.Generic;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
+    using Identifiers = Dictionary<string, VariableIdentifier>;
+
     public sealed class VariableLookup
     {
+        private readonly Identifiers identifiers = new Identifiers();
+
+        private int serial = 0;
+
         public VariableIdentifier Unique(string name)
         {
             int uniqueId = serial++;
@@ -19,9 +25,5 @@ namespace Lumpn.ZeldaPuzzle
             }
             return identifier;
         }
-
-        private int serial = 0;
-
-        private readonly Dictionary<string, VariableIdentifier> identifiers = new Dictionary<string, VariableIdentifier>();
     }
 }

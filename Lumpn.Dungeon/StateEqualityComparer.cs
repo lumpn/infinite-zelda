@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.Dungeon
 {
     public sealed class StateEqualityComparer : IEqualityComparer<State>
     {
