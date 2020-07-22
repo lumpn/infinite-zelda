@@ -1,0 +1,52 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooga", "Mooga\Mooga.csproj", "{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{2CA9113E-A497-473F-B74F-F0AED4E9764F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooga.Test", "Mooga.Test\Mooga.Test.csproj", "{6CB833C7-351F-4DF7-AAC8-384157C9690B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeldaMooga", "ZeldaMooga\ZeldaMooga.csproj", "{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ZeldaLayout", "ZeldaLayout\ZeldaLayout.csproj", "{48F47D51-816E-4253-9D70-06C71B266CEF}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ZeldaPuzzle", "ZeldaPuzzle\ZeldaPuzzle.csproj", "{B3404720-B649-43ED-BAB7-E845175D60F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}.Debug|x86.ActiveCfg = Debug|x86
+		{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}.Debug|x86.Build.0 = Debug|x86
+		{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}.Release|x86.ActiveCfg = Release|x86
+		{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}.Release|x86.Build.0 = Release|x86
+		{2CA9113E-A497-473F-B74F-F0AED4E9764F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CA9113E-A497-473F-B74F-F0AED4E9764F}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CA9113E-A497-473F-B74F-F0AED4E9764F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CA9113E-A497-473F-B74F-F0AED4E9764F}.Release|x86.Build.0 = Release|Any CPU
+		{6CB833C7-351F-4DF7-AAC8-384157C9690B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CB833C7-351F-4DF7-AAC8-384157C9690B}.Debug|x86.Build.0 = Debug|Any CPU
+		{6CB833C7-351F-4DF7-AAC8-384157C9690B}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CB833C7-351F-4DF7-AAC8-384157C9690B}.Release|x86.Build.0 = Release|Any CPU
+		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Debug|x86.ActiveCfg = Debug|x86
+		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Debug|x86.Build.0 = Debug|x86
+		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Release|x86.ActiveCfg = Release|x86
+		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Release|x86.Build.0 = Release|x86
+		{48F47D51-816E-4253-9D70-06C71B266CEF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48F47D51-816E-4253-9D70-06C71B266CEF}.Debug|x86.Build.0 = Debug|Any CPU
+		{48F47D51-816E-4253-9D70-06C71B266CEF}.Release|x86.ActiveCfg = Release|Any CPU
+		{48F47D51-816E-4253-9D70-06C71B266CEF}.Release|x86.Build.0 = Release|Any CPU
+		{B3404720-B649-43ED-BAB7-E845175D60F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3404720-B649-43ED-BAB7-E845175D60F3}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3404720-B649-43ED-BAB7-E845175D60F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3404720-B649-43ED-BAB7-E845175D60F3}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+	EndGlobalSection
+EndGlobal

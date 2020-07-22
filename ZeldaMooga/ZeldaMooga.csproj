@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ZeldaMooga</RootNamespace>
+    <AssemblyName>ZeldaMooga</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <BaseIntermediateOutputPath>C:\Work\MonoDevelop\bin</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <IntermediateOutputPath>obj\x86\Debug</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <IntermediateOutputPath>obj\x86\Release</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="KeyDoorGene.cs" />
+    <Compile Include="ZeldaMooga.cs" />
+    <Compile Include="ObstacleGene.cs" />
+    <Compile Include="OneWayGene.cs" />
+    <Compile Include="Path.cs" />
+    <Compile Include="PathFinder.cs" />
+    <Compile Include="PistonGene.cs" />
+    <Compile Include="SwitchGene.cs" />
+    <Compile Include="TwoWayGene.cs" />
+    <Compile Include="ZeldaConfiguration.cs" />
+    <Compile Include="ZeldaEnvironment.cs" />
+    <Compile Include="ZeldaGene.cs" />
+    <Compile Include="ZeldaGeneFactory.cs" />
+    <Compile Include="ZeldaGenome.cs" />
+    <Compile Include="ZeldaGenomeFactory.cs" />
+    <Compile Include="ZeldaIndividual.cs" />
+    <Compile Include="ErrorCounter.cs" />
+    <Compile Include="IGene.cs" />
+    <Compile Include="IGeneFactory.cs" />
+    <Compile Include="GeneUtils.cs" />
+    <Compile Include="ItemGene.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mooga\Mooga.csproj">
+      <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
+      <Name>Mooga</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZeldaLayout\ZeldaLayout.csproj">
+      <Project>{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}</Project>
+      <Name>ZeldaLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZeldaPuzzle\ZeldaPuzzle.csproj">
+      <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
+      <Name>ZeldaPuzzle</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
