@@ -8,7 +8,7 @@ namespace Lumpn.Mooga.Test
     public sealed class DominationComparerTest
     {
         [Test]
-        public void ComparerSortsAscending()
+        public void SortsAscending()
         {
             var individuals = new List<Individual>();
             individuals.Add(new SimpleIndividual(3));
@@ -34,7 +34,7 @@ namespace Lumpn.Mooga.Test
         }
 
         [Test]
-        public void ComparerSortsTopologically()
+        public void SortsTopologically()
         {
             var individuals = new List<Individual>();
             individuals.Add(new SimpleIndividual(3));
@@ -56,7 +56,7 @@ namespace Lumpn.Mooga.Test
         }
 
         [Test]
-        public void ComparerSortsByDomination()
+        public void SortsByDomination()
         {
             // create individuals
             var individuals = new List<Individual>();
@@ -69,7 +69,7 @@ namespace Lumpn.Mooga.Test
 
             TopologicalSorting.SortDescending(individuals, new DominationComparer(2));
 
-            // stable sort by rank
+            // sort by rank
             Assert.AreEqual(6, individuals[0].GetScore(1), delta); // rank 1
             Assert.AreEqual(4, individuals[1].GetScore(1), delta); // rank 1
             Assert.AreEqual(2, individuals[2].GetScore(1), delta); // rank 1

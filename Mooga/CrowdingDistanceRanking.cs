@@ -18,23 +18,23 @@ namespace Lumpn.Mooga
             Rank(individuals, 0, individuals.Count);
         }
 
-        private void Rank(List<Individual> individuals, int startIndex, int endIndex)
+        private void Rank(List<Individual> individuals, int start, int end)
         {
-            System.Console.WriteLine("Rank {0} - {1} ({2})", startIndex, endIndex, endIndex - startIndex);
+            System.Console.WriteLine("Rank {0} - {1} ({2})", start, end, end - start);
 
             // trivially sorted?
-            int count = endIndex - startIndex;
+            int count = end - start;
             if (count < 2) return;
 
             // split into non-dominated and dominated
-            int splitIndex = startIndex;
-            for (int i = startIndex; i < endIndex; i++)
+            int splitIndex = start;
+            for (int i = start; i < end; i++)
             {
                 var individual = individuals[i];
 
                 // check domination
                 bool isDominated = false;
-                for (int j = startIndex; j < endIndex; j++)
+                for (int j = start; j < end; j++)
                 {
                     if (j == i) continue;
 
@@ -46,7 +46,7 @@ namespace Lumpn.Mooga
                     }
                 }
 
-                // put in respective list
+                // non-dominated first
                 if (!isDominated)
                 {
                     System.Console.WriteLine("Non dominated {0}", individual);
@@ -56,23 +56,23 @@ namespace Lumpn.Mooga
             }
 
             // sort non-dominated by crowding distance
-            SortByCrowdingDistance(individuals, startIndex, splitIndex);
+            SortByCrowdingDistanceDescending(individuals, start, splitIndex);
 
             // recursively rank the dominated individuals
-            Rank(individuals, splitIndex, endIndex);
+            Rank(individuals, splitIndex, end);
         }
 
-        private void SortByCrowdingDistance(List<Individual> individuals, int startIndex, int endIndex)
+        private void SortByCrowdingDistanceDescending(List<Individual> individuals, int start, int end)
         {
-            System.Console.WriteLine("Sort {0} - {1} ({2})", startIndex, endIndex, endIndex - startIndex);
+            System.Console.WriteLine("Sort {0} - {1} ({2})", start, end, end - start);
 
             // trivially sorted?
-            int count = endIndex - startIndex;
+            int count = end - start;
             if (count < 2) return;
 
             // reset crowding distance
             distances.Clear();
-            for (int i = startIndex; i < endIndex; i++)
+            for (int i = start; i < end; i++)
             {
                 var individual = individuals[i];
                 distances[individual] = 0;
@@ -83,10 +83,10 @@ namespace Lumpn.Mooga
             {
                 // sort by attribute
                 scoreComparer.attribute = attribute;
-                individuals.Sort(startIndex, count, scoreComparer);
+                individuals.Sort(start, count, scoreComparer);
 
-                var min = individuals[startIndex];
-                var max = individuals[endIndex - 1];
+                var min = individuals[start];
+                var max = individuals[end - 1];
 
                 var minValue = min.GetScore(attribute);
                 var maxValue = max.GetScore(attribute);
@@ -96,7 +96,7 @@ namespace Lumpn.Mooga
                 if (totalRange <= 0) continue;
 
                 // calculate crowding distance
-                for (int i = startIndex + 1; i < endIndex - 1; i++)
+                for (int i = start + 1; i < end - 1; i++)
                 {
                     var current = individuals[i];
                     var leftNeighbor = individuals[i - 1];
@@ -116,7 +116,8 @@ namespace Lumpn.Mooga
             }
 
             // sort by descending crowding distance
-            individuals.Sort(startIndex, count, distanceComparer);
+            individuals.Sort(start, count, distanceComparer);
+            individuals.Reverse(start, count);
         }
 
         private readonly int numAttributes;

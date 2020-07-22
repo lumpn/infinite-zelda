@@ -7,7 +7,7 @@ namespace Lumpn.Mooga.Test
     public sealed class CrowdingDistanceRankingTest
     {
         [Test]
-        public void TestRankHighestScoreFirst()
+        public void RanksHighestScoreFirst()
         {
             // create individuals
             var individuals = new List<Individual>();
@@ -32,13 +32,13 @@ namespace Lumpn.Mooga.Test
         }
 
         [Test]
-        public void TestParetoRanking()
+        public void RanksByDomination()
         {
             // create individuals
             var individuals = new List<Individual>();
-            individuals.Add(new ParetoIndividual(3, 6, 0)); // rank 1, dominates (1, 5)
-            individuals.Add(new ParetoIndividual(1, 5, 0)); // rank 2, dominates (1, 3)
-            individuals.Add(new ParetoIndividual(4, 4, 0)); // rank 1, dominates (1, 3)
+            individuals.Add(new ParetoIndividual(3, 6, 0)); // rank 1
+            individuals.Add(new ParetoIndividual(1, 5, 0)); // rank 2
+            individuals.Add(new ParetoIndividual(4, 4, 0)); // rank 1
             individuals.Add(new ParetoIndividual(1, 3, 0)); // rank 3
             individuals.Add(new ParetoIndividual(5, 2, 0)); // rank 1
             individuals.Add(new ParetoIndividual(9, 1, 0)); // rank 1
@@ -47,9 +47,11 @@ namespace Lumpn.Mooga.Test
             var ranking = new CrowdingDistanceRanking(3);
             ranking.Rank(individuals);
 
+            foreach (var ind in individuals) System.Console.WriteLine(ind);
+
             // assert highest score comes first
-            Assert.AreEqual(1, individuals[0].GetScore(1), delta); // rank 1 extreme
-            Assert.AreEqual(6, individuals[1].GetScore(1), delta); // rank 1 extreme
+            Assert.AreEqual(6, individuals[0].GetScore(1), delta); // rank 1 extreme
+            Assert.AreEqual(1, individuals[1].GetScore(1), delta); // rank 1 extreme
             Assert.AreEqual(2, individuals[2].GetScore(1), delta); // rank 1 middle
             Assert.AreEqual(4, individuals[3].GetScore(1), delta); // rank 1 crowded
             Assert.AreEqual(5, individuals[4].GetScore(1), delta); // rank 2
