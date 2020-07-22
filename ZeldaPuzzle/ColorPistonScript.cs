@@ -2,9 +2,9 @@ using Lumpn.Utils;
 
 namespace Lumpn.ZeldaPuzzle
 {
-    public sealed class PistonScript : ZeldaScript
+    public sealed class ColorPistonScript : ZeldaScript
     {
-        public PistonScript(VariableIdentifier switchIdentifier, int pistonColor)
+        public ColorPistonScript(VariableIdentifier switchIdentifier, int pistonColor)
         {
             this.switchIdentifier = switchIdentifier;
             this.pistonColor = pistonColor;

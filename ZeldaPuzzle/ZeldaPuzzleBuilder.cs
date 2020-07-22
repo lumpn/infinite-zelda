@@ -1,48 +1,45 @@
-package de.lumpn.zelda.puzzle;
+using System.Collections.Generic;
 
-import java.util.HashMap;
-import java.util.Map;
-import de.lumpn.zelda.puzzle.script.ZeldaScript;
+namespace Lumpn.ZeldaPuzzle
+{
+    /// Mutable puzzle builder
+    public sealed class ZeldaPuzzleBuilder
+    {
+        public void AddDirectedTransition(int start, int end, ZeldaScript script)
+        {
+            Location source = GetOrCreateLocation(start);
+            Location destination = GetOrCreateLocation(end);
+            source.AddTransition(destination, script);
+        }
 
-/**
- * Mutable puzzle builder
- */
-public class ZeldaPuzzleBuilder {
+        public void AddUndirectedTransition(int loc1, int loc2, ZeldaScript script)
+        {
+            AddDirectedTransition(loc1, loc2, script);
+            AddDirectedTransition(loc2, loc1, script);
+        }
 
-	public VariableLookup lookup() {
-		return lookup;
-	}
+        public void AddScript(int location, ZeldaScript script)
+        {
+            AddDirectedTransition(location, location, script);
+        }
 
-	public void addDirectedTransition(int start, int end, ZeldaScript script) {
-		Location source = getOrCreateLocation(start);
-		Location destination = getOrCreateLocation(end);
-		Transition transition = new Transition(source, destination, script);
-		source.addTransition(transition);
-	}
+        public ZeldaPuzzle ToPuzzle()
+        {
+            return new ZeldaPuzzle(locations);
+        }
 
-	public void addUndirectedTransition(int loc1, int loc2, ZeldaScript script) {
-		addDirectedTransition(loc1, loc2, script);
-		addDirectedTransition(loc2, loc1, script);
-	}
+        private Location GetOrCreateLocation(int id)
+        {
+            if (!locations.TryGetValue(id, out Location location))
+            {
+                location = new Location(id);
+                locations.Add(id, location);
+            }
+            return location;
+        }
 
-	public void addScript(int location, ZeldaScript script) {
-		addDirectedTransition(location, location, script);
-	}
+        private readonly Dictionary<int, Location> locations = new Dictionary<int, Location>();
 
-	public ZeldaPuzzle puzzle() {
-		return new ZeldaPuzzle(locations);
-	}
-
-	private Location getOrCreateLocation(int id) {
-		Location location = locations.get(id);
-		if (location == null) {
-			location = new Location(id);
-			locations.put(id, location);
-		}
-		return location;
-	}
-
-	private final Map<Integer, Location> locations = new HashMap<Integer, Location>();
-
-	private final VariableLookup lookup = new VariableLookup();
+        private readonly VariableLookup lookup = new VariableLookup();
+    }
 }

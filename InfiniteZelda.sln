@@ -1,19 +1,23 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooga", "Mooga\Mooga.csproj", "{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Mooga", "Mooga\Lumpn.Mooga.csproj", "{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{2CA9113E-A497-473F-B74F-F0AED4E9764F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Utils", "Utils\Lumpn.Utils.csproj", "{2CA9113E-A497-473F-B74F-F0AED4E9764F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooga.Test", "Mooga.Test\Mooga.Test.csproj", "{6CB833C7-351F-4DF7-AAC8-384157C9690B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Mooga.Test", "Mooga.Test\Lumpn.Mooga.Test.csproj", "{6CB833C7-351F-4DF7-AAC8-384157C9690B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeldaMooga", "ZeldaMooga\ZeldaMooga.csproj", "{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaMooga", "ZeldaMooga\Lumpn.ZeldaMooga.csproj", "{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeldaLayout", "ZeldaLayout\ZeldaLayout.csproj", "{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout", "ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeldaPuzzle", "ZeldaPuzzle\ZeldaPuzzle.csproj", "{A1C8364B-3AEE-4A38-9C79-9A47621FF767}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaPuzzle", "ZeldaPuzzle\Lumpn.ZeldaPuzzle.csproj", "{A1C8364B-3AEE-4A38-9C79-9A47621FF767}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Test", "Utils.Test\Utils.Test.csproj", "{331AB27A-6701-4FD8-B46A-B7741A0681A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Utils.Test", "Utils.Test\Lumpn.Utils.Test.csproj", "{331AB27A-6701-4FD8-B46A-B7741A0681A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaPuzzle.Test", "ZeldaPuzzle.Test\Lumpn.ZeldaPuzzle.Test.csproj", "{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout.Test", "ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{2861AB03-2D65-42D0-B410-C59CCA76C21A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,14 @@ Global
 		{331AB27A-6701-4FD8-B46A-B7741A0681A4}.Debug|x86.Build.0 = Debug|Any CPU
 		{331AB27A-6701-4FD8-B46A-B7741A0681A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{331AB27A-6701-4FD8-B46A-B7741A0681A4}.Release|x86.Build.0 = Release|Any CPU
+		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Release|x86.Build.0 = Release|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

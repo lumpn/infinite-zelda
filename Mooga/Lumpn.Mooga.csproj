@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{331AB27A-6701-4FD8-B46A-B7741A0681A4}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Utils.Test</RootNamespace>
-    <AssemblyName>Utils.Test</AssemblyName>
+    <RootNamespace>Mooga</RootNamespace>
+    <AssemblyName>Mooga</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <BaseIntermediateOutputPath>C:\Work\MonoDevelop\bin</BaseIntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -19,30 +18,36 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>obj\Debug</IntermediateOutputPath>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>obj\Release</IntermediateOutputPath>
+    <ExternalConsole>true</ExternalConsole>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="TopologicalSortTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="BinaryTournamentSelection.cs" />
+    <Compile Include="CrowdingDistanceRanking.cs" />
+    <Compile Include="DominationComparer.cs" />
+    <Compile Include="ElitistEvolution.cs" />
+    <Compile Include="Environment.cs" />
+    <Compile Include="Evolution.cs" />
+    <Compile Include="Genome.cs" />
+    <Compile Include="GenomeFactory.cs" />
+    <Compile Include="Individual.cs" />
+    <Compile Include="Ranking.cs" />
+    <Compile Include="ScoreComparer.cs" />
+    <Compile Include="Selection.cs" />
+    <Compile Include="DistanceComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Utils</Name>
+      <Name>Lumpn.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

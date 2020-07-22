@@ -8,13 +8,15 @@ namespace Lumpn.ZeldaPuzzle
     {
         public const int distanceUnreachable = -1;
 
-        public Step(Location location, State state)
+        public Step(Location location, State state, int distanceFromEntry)
         {
             this.location = location;
             this.state = state;
-            this.distanceFromEntry = distanceUnreachable;
+            this.distanceFromEntry = distanceFromEntry;
             this.distanceFromExit = distanceUnreachable;
         }
+
+        public IEnumerable<Step> Predecessors { get { return predecessors; } }
 
         public void AddPredecessor(Step predecessor)
         {
@@ -26,16 +28,6 @@ namespace Lumpn.ZeldaPuzzle
             successors.Add(successor);
         }
 
-        public void SetDistanceFromEntry(int distance)
-        {
-            distanceFromEntry = distance;
-        }
-
-        public void SetDistanceFromExit(int distance)
-        {
-            distanceFromExit = distance;
-        }
-
         public bool Equals(Step other)
         {
             if (!location.Equals(other.location)) return false;
@@ -43,13 +35,13 @@ namespace Lumpn.ZeldaPuzzle
             return true;
         }
 
-        private readonly Location location;
-        private readonly State state;
+        public readonly Location location;
+        public readonly State state;
 
         private readonly List<Step> predecessors = new List<Step>();
         private readonly List<Step> successors = new List<Step>();
 
         /// cached distances (could be inferred from predecessors/successors)
-        private int distanceFromEntry, distanceFromExit;
+        public int distanceFromEntry, distanceFromExit;
     }
 }

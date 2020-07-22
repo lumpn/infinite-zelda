@@ -58,19 +58,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">
       <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
-      <Name>Mooga</Name>
+      <Name>Lumpn.Mooga</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZeldaLayout\ZeldaLayout.csproj">
       <Project>{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}</Project>
-      <Name>ZeldaLayout</Name>
+      <Name>Lumpn.ZeldaLayout</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Utils</Name>
+      <Name>Lumpn.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZeldaPuzzle\ZeldaPuzzle.csproj">
       <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
-      <Name>ZeldaPuzzle</Name>
+      <Name>Lumpn.ZeldaPuzzle</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

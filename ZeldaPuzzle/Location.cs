@@ -10,40 +10,33 @@ namespace Lumpn.ZeldaPuzzle
             this.id = id;
         }
 
-        // TODO Jonas: change to AddTransition(Location destination, Script script)?
-        public void AddTransition(Transition transition)
+        public IEnumerable<Transition> Transitions { get { return transitions; } }
+
+        public void AddTransition(Location destination, ZeldaScript script)
         {
-            Debug.Assert(transition.source == this);
+            var transition = new Transition(this, destination, script);
             transitions.Add(transition);
         }
 
-        // TODO Jonas: remove
-        /// See if the location has been reached with the specified state
-        public Step GetStep(State state)
+        public IEnumerable<Step> GetSteps()
         {
-            return steps.GetOrFallback(state, null);
+            return steps.Values;
         }
 
-        // TODO Jonas: remove
-        public void GetSteps(List<Step> result)
-        {
-            result.AddRange(steps.Values);
-        }
-
-        // TODO Jonas: rename
         /// Reach this location with the specified state
-        public Step CreateStep(State state)
+        public bool AddStep(State state, int distanceFromEntry, out Step step)
         {
-            Step step = new Step(this, state);
+            if (steps.TryGetValue(state, out step)) return false;
+
+            step = new Step(this, state, distanceFromEntry);
             steps.Add(state, step);
-            return step;
+            return true;
         }
 
-        public void Express(DotBuilder builder)
+        public void Express(DotBuilder builder, DotTransitionBuilder transitionBuilder)
         {
             builder.AddNode(id);
 
-            var transitionBuilder = new DotTransitionBuilder();
             foreach (Transition transition in transitions)
             {
                 transition.Express(transitionBuilder);

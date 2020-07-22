@@ -1,40 +1,47 @@
-package de.lumpn.zelda.puzzle.script;
+namespace Lumpn.ZeldaPuzzle
+{
+    public static class ZeldaScripts
+    {
+        private static readonly string switchName = "red/blue\nswitch";
 
-import de.lumpn.zelda.puzzle.VariableLookup;
-import de.lumpn.zelda.puzzle.ZeldaStates;
+        private static readonly string[] keys = { "small\nkey", "bomb" };
+        private static readonly string[] doors = { "door", "crack" };
+        private static readonly string[] tools = { "sword", "shield", "boomerang", "bow", "flippers", "feather" };
+        private static readonly string[] obstacles = { "bush", "trap", "orb", "statue", "water", "gap" };
 
-public final class ZeldaScripts {
+        public static ItemScript CreateKey(int type, VariableLookup lookup)
+        {
+            return new ItemScript(lookup.Resolve(keys[type]), lookup);
+        }
 
-	private static final String KEY_NAME = "small key";
-	private static final String SWITCH_NAME = "red/blue switch";
-	private static final String[] ITEM_NAME = { "sword", "shield", "boomerang", "bow", "flippers", "feather", "bombs" };
-	private static final String[] OBSTACLE_NAME = { "bush", "trap", "orb", "statue", "water", "gap", "crack" };
+        public static DoorScript CreateDoor(int type, VariableLookup lookup)
+        {
+            return new DoorScript(lookup.Resolve(keys[type]), lookup, doors[type]);
+        }
 
-	public static SmallKeyScript createKey(VariableLookup lookup) {
-		return new SmallKeyScript(lookup.resolve(KEY_NAME), lookup);
-	}
+        public static ColorSwitchScript CreateColorSwitch(VariableLookup lookup)
+        {
+            return new ColorSwitchScript(lookup.Resolve(switchName));
+        }
 
-	public static DoorScript createDoor(VariableLookup lookup) {
-		return new DoorScript(lookup.resolve(KEY_NAME), lookup);
-	}
+        public static ColorPistonScript CreateRedPiston(VariableLookup lookup)
+        {
+            return new ColorPistonScript(lookup.Resolve(switchName), ZeldaStates.SwitchRed);
+        }
 
-	public static ColorSwitchScript createSwitch(VariableLookup lookup) {
-		return new ColorSwitchScript(lookup.resolve(SWITCH_NAME));
-	}
+        public static ColorPistonScript CreateBluePiston(VariableLookup lookup)
+        {
+            return new ColorPistonScript(lookup.Resolve(switchName), ZeldaStates.SwitchBlue);
+        }
 
-	public static PistonScript createRedPiston(VariableLookup lookup) {
-		return new PistonScript(lookup.resolve(SWITCH_NAME), ZeldaStates.SWITCH_RED);
-	}
+        public static ItemScript CreateTool(int type, VariableLookup lookup)
+        {
+            return new ItemScript(lookup.Resolve(tools[type]), lookup);
+        }
 
-	public static PistonScript createBluePiston(VariableLookup lookup) {
-		return new PistonScript(lookup.resolve(SWITCH_NAME), ZeldaStates.SWITCH_BLUE);
-	}
-
-	public static ItemScript createItem(int item, VariableLookup lookup) {
-		return new ItemScript(lookup.resolve(ITEM_NAME[item]), ITEM_NAME[item]);
-	}
-
-	public static ObstacleScript createObstacle(int requiredItem, VariableLookup lookup) {
-		return new ObstacleScript(lookup.resolve(ITEM_NAME[requiredItem]), OBSTACLE_NAME[requiredItem]);
-	}
+        public static ObstacleScript CreateObstacle(int type, VariableLookup lookup)
+        {
+            return new ObstacleScript(lookup.Resolve(tools[type]), obstacles[type]);
+        }
+    }
 }

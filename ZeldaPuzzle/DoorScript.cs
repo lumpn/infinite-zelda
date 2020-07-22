@@ -1,11 +1,13 @@
 namespace Lumpn.ZeldaPuzzle
 {
+    /// any type of door that can be opened by consuming an item
     public sealed class DoorScript : ZeldaScript
     {
-        public DoorScript(VariableIdentifier keyIdentifier, VariableLookup lookup)
+        public DoorScript(VariableIdentifier keyIdentifier, VariableLookup lookup, string doorName)
         {
             this.keyIdentifier = keyIdentifier;
             this.doorStateIdentifier = lookup.Unique("door state");
+            this.doorName = doorName;
         }
 
         public State Execute(State state)
@@ -33,9 +35,10 @@ namespace Lumpn.ZeldaPuzzle
 
         public void Express(DotTransitionBuilder builder)
         {
-            builder.SetLabel("door");
+            builder.SetLabel(doorName);
         }
 
         private readonly VariableIdentifier keyIdentifier, doorStateIdentifier;
+        private readonly string doorName;
     }
 }
