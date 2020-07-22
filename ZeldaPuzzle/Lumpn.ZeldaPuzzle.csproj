@@ -51,6 +51,7 @@
     <Compile Include="ZeldaScript.cs" />
     <Compile Include="ZeldaScripts.cs" />
     <Compile Include="ZeldaStates.cs" />
+    <Compile Include="StateEqualityComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Lumpn.Utils.csproj">

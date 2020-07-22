@@ -1,4 +1,4 @@
-package de.lumpn.zelda.layout.test;
+﻿package de.lumpn.zelda.layout.test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +11,7 @@ public class PathTest {
 	public void testPath() {
 		Path path = new Path(new Position(0, 0, 0));
 
-		Assert.assertNotNull(path);
+		Assert.NotNull(path);
 	}
 
 	@Test
@@ -19,7 +19,7 @@ public class PathTest {
 		Position position = new Position(1, 2, 3);
 		Path path = new Path(position);
 
-		Assert.assertEquals(position, path.getPosition());
+		Assert.AreEqual(position, path.getPosition());
 	}
 
 	@Test
@@ -45,8 +45,8 @@ public class PathTest {
 		Path b = new Path(new Position(1, 0, 0), c);
 		Path a = new Path(new Position(0, 0, 0), b);
 
-		Assert.assertEquals(1, Path.length(c));
-		Assert.assertEquals(2, Path.length(b));
-		Assert.assertEquals(3, Path.length(a));
+		Assert.AreEqual(1, Path.length(c));
+		Assert.AreEqual(2, Path.length(b));
+		Assert.AreEqual(3, Path.length(a));
 	}
 }

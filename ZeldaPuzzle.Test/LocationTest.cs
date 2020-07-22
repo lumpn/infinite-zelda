@@ -1,70 +1,69 @@
-package de.lumpn.zelda.puzzle.test;
+﻿namespace Lumpn.ZeldaPuzzle.Test
+{
+    [TestFixture]
+    public sealed class LocationTest
+    {
+        [Test]
+        public void TestEquality()
+        {
+            Location x = new Location(42);
+            Location y = new Location(42);
+            Location z = new Location(0);
+            Object o = y;
+            Integer i = 42;
 
-import org.junit.Assert;
-import org.junit.Test;
-import de.lumpn.zelda.puzzle.Location;
+            // equality by content
+            Assert.assertNotSame(x, y);
+            Assert.assertNotSame(x, z);
+            Assert.assertNotSame(y, z);
+            Assert.AreEqual(x, x);
+            Assert.AreEqual(x, y);
+            Assert.AreEqual(y, x);
+            Assert.AreNotEqual(x, z);
+            Assert.AreNotEqual(z, x);
 
-public class LocationTest {
+            // equality to other types
+            Assert.assertNotSame(x, o);
+            Assert.assertNotSame(x, i);
+            Assert.AreEqual(x, o);
+            Assert.AreEqual(o, x);
+            Assert.AreNotEqual(x, i);
+            Assert.AreNotEqual(i, x);
 
-	@Test
-	public void testEquality() {
+            // equality to null
+            Assert.assertNotSame(x, null);
+            Assert.AreNotEqual(x, null);
+            Assert.AreNotEqual(null, x);
+        }
 
-		Location x = new Location(42);
-		Location y = new Location(42);
-		Location z = new Location(0);
-		Object o = y;
-		Integer i = 42;
+        @Test
+        public void testHashCode()
+        {
 
-		// equality by content
-		Assert.assertNotSame(x, y);
-		Assert.assertNotSame(x, z);
-		Assert.assertNotSame(y, z);
-		Assert.assertEquals(x, x);
-		Assert.assertEquals(x, y);
-		Assert.assertEquals(y, x);
-		Assert.assertNotEquals(x, z);
-		Assert.assertNotEquals(z, x);
+            Location x = new Location(42);
+            Location y = new Location(42);
+            Location z = new Location(0);
+            Object o = y;
+            Integer i = 42;
 
-		// equality to other types
-		Assert.assertNotSame(x, o);
-		Assert.assertNotSame(x, i);
-		Assert.assertEquals(x, o);
-		Assert.assertEquals(o, x);
-		Assert.assertNotEquals(x, i);
-		Assert.assertNotEquals(i, x);
+            // hash code by content
+            Assert.assertNotSame(x, y);
+            Assert.assertNotSame(x, z);
+            Assert.assertNotSame(y, z);
+            Assert.AreEqual(x.hashCode(), x.hashCode());
+            Assert.AreEqual(x.hashCode(), y.hashCode());
+            Assert.AreEqual(y.hashCode(), x.hashCode());
+            Assert.AreNotEqual(x.hashCode(), z.hashCode());
+            Assert.AreNotEqual(z.hashCode(), x.hashCode());
 
-		// equality to null
-		Assert.assertNotSame(x, null);
-		Assert.assertNotEquals(x, null);
-		Assert.assertNotEquals(null, x);
-	}
+            // hash code compared to other types
+            Assert.assertNotSame(x, o);
+            Assert.assertNotSame(x, i);
+            Assert.AreEqual(x.hashCode(), o.hashCode());
+            Assert.AreEqual(o.hashCode(), x.hashCode());
+            Assert.AreEqual(x.hashCode(), i.hashCode());
+            Assert.AreEqual(i.hashCode(), x.hashCode());
+        }
 
-	@Test
-	public void testHashCode() {
-
-		Location x = new Location(42);
-		Location y = new Location(42);
-		Location z = new Location(0);
-		Object o = y;
-		Integer i = 42;
-
-		// hash code by content
-		Assert.assertNotSame(x, y);
-		Assert.assertNotSame(x, z);
-		Assert.assertNotSame(y, z);
-		Assert.assertEquals(x.hashCode(), x.hashCode());
-		Assert.assertEquals(x.hashCode(), y.hashCode());
-		Assert.assertEquals(y.hashCode(), x.hashCode());
-		Assert.assertNotEquals(x.hashCode(), z.hashCode());
-		Assert.assertNotEquals(z.hashCode(), x.hashCode());
-
-		// hash code compared to other types
-		Assert.assertNotSame(x, o);
-		Assert.assertNotSame(x, i);
-		Assert.assertEquals(x.hashCode(), o.hashCode());
-		Assert.assertEquals(o.hashCode(), x.hashCode());
-		Assert.assertEquals(x.hashCode(), i.hashCode());
-		Assert.assertEquals(i.hashCode(), x.hashCode());
-	}
-
+    }
 }

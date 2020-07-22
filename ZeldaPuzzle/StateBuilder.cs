@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Lumpn.ZeldaPuzzle
 {
-    /// Mutable state
     public sealed class StateBuilder
     {
         public StateBuilder(IDictionary<VariableIdentifier, int> variables)
@@ -12,7 +11,14 @@ namespace Lumpn.ZeldaPuzzle
 
         public void Set(VariableIdentifier identifier, int value)
         {
-            variables[identifier] = value;
+            if (value == 0)
+            {
+                variables.Remove(identifier);
+            }
+            else
+            {
+                variables[identifier] = value;
+            }
         }
 
         public State ToState()

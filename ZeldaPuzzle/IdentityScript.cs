@@ -2,7 +2,7 @@ namespace Lumpn.ZeldaPuzzle
 {
     public sealed class IdentityScript : ZeldaScript
     {
-        public static readonly IdentityScript instance = new IdentityScript();
+        public static readonly IdentityScript Default = new IdentityScript();
 
         public State Execute(State state)
         {

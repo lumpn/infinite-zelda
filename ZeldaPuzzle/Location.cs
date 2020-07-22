@@ -10,17 +10,10 @@ namespace Lumpn.ZeldaPuzzle
             this.id = id;
         }
 
-        public IEnumerable<Transition> Transitions { get { return transitions; } }
-
         public void AddTransition(Location destination, ZeldaScript script)
         {
             var transition = new Transition(this, destination, script);
             transitions.Add(transition);
-        }
-
-        public IEnumerable<Step> GetSteps()
-        {
-            return steps.Values;
         }
 
         /// Reach this location with the specified state
@@ -44,17 +37,25 @@ namespace Lumpn.ZeldaPuzzle
             }
         }
 
-        public bool Equals(Location other)
+        public Step DebugGetStep(State state)
         {
-            return id == other.id;
+            return steps.GetOrFallback(state, null);
         }
 
-        public readonly int id;
+        public IEnumerable<Step> DebugGetSteps()
+        {
+            return steps.Values;
+        }
+
+        public int Id { get { return id; } }
+        public IEnumerable<Transition> Transitions { get { return transitions; } }
+
+        private readonly int id;
 
         /// outgoing transitions
         private readonly List<Transition> transitions = new List<Transition>();
 
         /// steps that reached this location
-        private readonly Dictionary<State, Step> steps = new Dictionary<State, Step>();
+        private readonly Dictionary<State, Step> steps = new Dictionary<State, Step>(StateEqualityComparer.Default);
     }
 }

@@ -13,7 +13,10 @@ namespace Lumpn.ZeldaPuzzle
             return string.Format("{0}", name);
         }
 
+        public int Id { get { return id; } }
+        public string Name { get { return name; } }
+
         private readonly int id;
-        public readonly string name;
+        private readonly string name;
     }
 }

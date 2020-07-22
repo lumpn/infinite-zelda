@@ -1,4 +1,4 @@
-package de.lumpn.zelda.puzzle.test;
+﻿package de.lumpn.zelda.puzzle.test;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,38 +48,38 @@ public class StepTest {
 		Assert.assertNotSame(x, y);
 		Assert.assertNotSame(x, z);
 		Assert.assertNotSame(y, z);
-		Assert.assertEquals(x, x);
-		Assert.assertEquals(y, y);
-		Assert.assertEquals(z, z);
+		Assert.AreEqual(x, x);
+		Assert.AreEqual(y, y);
+		Assert.AreEqual(z, z);
 
 		// equality by content
-		Assert.assertEquals(x, y);
-		Assert.assertEquals(y, x);
-		Assert.assertEquals(x, z);
-		Assert.assertEquals(z, x);
-		Assert.assertEquals(y, z);
-		Assert.assertEquals(z, y);
+		Assert.AreEqual(x, y);
+		Assert.AreEqual(y, x);
+		Assert.AreEqual(x, z);
+		Assert.AreEqual(z, x);
+		Assert.AreEqual(y, z);
+		Assert.AreEqual(z, y);
 
 		// more equality by content
 		Assert.assertNotSame(x, a);
 		Assert.assertNotSame(x, b);
-		Assert.assertNotEquals(x, a);
-		Assert.assertNotEquals(a, x);
-		Assert.assertNotEquals(x, b);
-		Assert.assertNotEquals(b, x);
+		Assert.AreNotEqual(x, a);
+		Assert.AreNotEqual(a, x);
+		Assert.AreNotEqual(x, b);
+		Assert.AreNotEqual(b, x);
 
 		// equality to other types
 		Assert.assertNotSame(x, o);
 		Assert.assertNotSame(x, i);
-		Assert.assertEquals(x, o);
-		Assert.assertEquals(o, x);
-		Assert.assertNotEquals(x, i);
-		Assert.assertNotEquals(i, x);
+		Assert.AreEqual(x, o);
+		Assert.AreEqual(o, x);
+		Assert.AreNotEqual(x, i);
+		Assert.AreNotEqual(i, x);
 
 		// equality to null
 		Assert.assertNotSame(x, null);
-		Assert.assertNotEquals(x, null);
-		Assert.assertNotEquals(null, x);
+		Assert.AreNotEqual(x, null);
+		Assert.AreNotEqual(null, x);
 	}
 
 	@Test
@@ -100,33 +100,33 @@ public class StepTest {
 		Assert.assertNotSame(x, y);
 		Assert.assertNotSame(x, z);
 		Assert.assertNotSame(y, z);
-		Assert.assertEquals(x.hashCode(), x.hashCode());
-		Assert.assertEquals(y.hashCode(), y.hashCode());
-		Assert.assertEquals(z.hashCode(), z.hashCode());
+		Assert.AreEqual(x.hashCode(), x.hashCode());
+		Assert.AreEqual(y.hashCode(), y.hashCode());
+		Assert.AreEqual(z.hashCode(), z.hashCode());
 
 		// hash equality by content
-		Assert.assertEquals(x.hashCode(), y.hashCode());
-		Assert.assertEquals(y.hashCode(), x.hashCode());
-		Assert.assertEquals(x.hashCode(), z.hashCode());
-		Assert.assertEquals(z.hashCode(), x.hashCode());
-		Assert.assertEquals(y.hashCode(), z.hashCode());
-		Assert.assertEquals(z.hashCode(), y.hashCode());
+		Assert.AreEqual(x.hashCode(), y.hashCode());
+		Assert.AreEqual(y.hashCode(), x.hashCode());
+		Assert.AreEqual(x.hashCode(), z.hashCode());
+		Assert.AreEqual(z.hashCode(), x.hashCode());
+		Assert.AreEqual(y.hashCode(), z.hashCode());
+		Assert.AreEqual(z.hashCode(), y.hashCode());
 
 		// more hash equality by content
 		Assert.assertNotSame(x, a);
 		Assert.assertNotSame(x, b);
-		Assert.assertNotEquals(x.hashCode(), a.hashCode());
-		Assert.assertNotEquals(a.hashCode(), x.hashCode());
-		Assert.assertNotEquals(x.hashCode(), b.hashCode());
-		Assert.assertNotEquals(b.hashCode(), x.hashCode());
+		Assert.AreNotEqual(x.hashCode(), a.hashCode());
+		Assert.AreNotEqual(a.hashCode(), x.hashCode());
+		Assert.AreNotEqual(x.hashCode(), b.hashCode());
+		Assert.AreNotEqual(b.hashCode(), x.hashCode());
 
 		// hash equality to other types
 		Assert.assertNotSame(x, o);
 		Assert.assertNotSame(x, i);
-		Assert.assertEquals(x.hashCode(), o.hashCode());
-		Assert.assertEquals(o.hashCode(), x.hashCode());
-		Assert.assertNotEquals(x.hashCode(), i.hashCode());
-		Assert.assertNotEquals(i.hashCode(), x.hashCode());
+		Assert.AreEqual(x.hashCode(), o.hashCode());
+		Assert.AreEqual(o.hashCode(), x.hashCode());
+		Assert.AreNotEqual(x.hashCode(), i.hashCode());
+		Assert.AreNotEqual(i.hashCode(), x.hashCode());
 	}
 
 }

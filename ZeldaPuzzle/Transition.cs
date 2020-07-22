@@ -16,7 +16,7 @@ namespace Lumpn.ZeldaPuzzle
 
         public void Express(DotTransitionBuilder builder)
         {
-            builder.SetEdge(source.id, destination.id);
+            builder.SetEdge(source.Id, destination.Id);
             script.Express(builder);
         }
 

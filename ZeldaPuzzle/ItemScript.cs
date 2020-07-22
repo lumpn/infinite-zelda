@@ -28,7 +28,7 @@ namespace Lumpn.ZeldaPuzzle
 
         public void Express(DotTransitionBuilder builder)
         {
-            builder.SetLabel(itemIdentifier.name);
+            builder.SetLabel(itemIdentifier.Name);
         }
 
         private readonly VariableIdentifier itemIdentifier, itemStateIdentifier;

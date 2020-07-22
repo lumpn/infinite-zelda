@@ -14,7 +14,7 @@ namespace Lumpn.ZeldaPuzzle
             this.locations = locations;
         }
 
-        public void Crawl(List<State> initialStates, int maxSteps)
+        public List<Step> Crawl(IEnumerable<State> initialStates, int maxSteps)
         {
             // find entrance & exit
             var entrance = locations[entranceId];
@@ -31,10 +31,9 @@ namespace Lumpn.ZeldaPuzzle
             }
 
             // forward pass
-            Crawl(initialSteps, maxSteps);
+            var terminalSteps = Crawl(initialSteps, maxSteps, exit);
 
             // initialize distance from exit
-            var terminalSteps = exit.GetSteps().ToList();
             foreach (var step in terminalSteps)
             {
                 step.distanceFromExit = 0;
@@ -42,9 +41,10 @@ namespace Lumpn.ZeldaPuzzle
 
             // backward pass
             CrawlBackward(terminalSteps);
+            return terminalSteps;
         }
 
-        private static List<Step> Crawl(List<Step> initialSteps, int maxSteps)
+        private static List<Step> Crawl(List<Step> initialSteps, int maxSteps, Location exit)
         {
             // keep track of terminals
             var terminalSteps = new List<Step>();
@@ -60,9 +60,15 @@ namespace Lumpn.ZeldaPuzzle
                 Step step = queue.Dequeue();
                 visitedSteps++;
 
+                // track terminals
+                if (step.Location == exit)
+                {
+                    terminalSteps.Add(step);
+                }
+
                 // try every transition
-                var location = step.location;
-                var state = step.state;
+                var location = step.Location;
+                var state = step.State;
                 int nextDistanceFromEntry = step.distanceFromEntry + 1;
                 foreach (var transition in location.Transitions)
                 {
@@ -120,6 +126,12 @@ namespace Lumpn.ZeldaPuzzle
                 location.Express(builder, transitionBuilder);
             }
             builder.End();
+        }
+
+        public Step DebugGetStep(int locationId, State state)
+        {
+            var location = locations.GetOrFallback(locationId, null);
+            return location?.DebugGetStep(state);
         }
 
         private readonly Dictionary<int, Location> locations;

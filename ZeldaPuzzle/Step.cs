@@ -35,8 +35,11 @@ namespace Lumpn.ZeldaPuzzle
             return true;
         }
 
-        public readonly Location location;
-        public readonly State state;
+        public Location Location { get { return location; } }
+        public State State { get { return state; } }
+
+        private readonly Location location;
+        private readonly State state;
 
         private readonly List<Step> predecessors = new List<Step>();
         private readonly List<Step> successors = new List<Step>();
