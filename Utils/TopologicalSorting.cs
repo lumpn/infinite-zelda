@@ -4,17 +4,15 @@ namespace Lumpn.Utils
 {
     public static class TopologicalSorting
     {
-        /// sorts items, non-dominated first
+        /// sorts items, non-dominated first, not stable
         public static void SortDescending<T>(IList<T> items, IComparer<T> comparer)
         {
             SortDescending(0, items.Count, items, comparer);
         }
 
-        /// sorts items, non-dominated first
+        /// sorts items, non-dominated first, not stable
         private static void SortDescending<T>(int start, int count, IList<T> items, IComparer<T> comparer)
         {
-            System.Console.WriteLine("Sort {0} - {1} ({2})", start, start + count, count);
-
             // trivially sorted?
             if (count < 2) return;
 
@@ -42,7 +40,6 @@ namespace Lumpn.Utils
                 // put in respective list
                 if (!isDominated)
                 {
-                    System.Console.WriteLine("Non dominated {0}", item);
                     items.Swap(split, i);
                     split++;
                 }

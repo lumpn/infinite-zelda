@@ -25,9 +25,7 @@ namespace Lumpn.Mooga
             }
 
             // determine domination
-            int result = comparer.Compare(isBetterA, isBetterB);
-            System.Console.WriteLine("Compare {0} vs {1}: {2})", a, b, result);
-            return result;
+            return comparer.Compare(isBetterA, isBetterB);
         }
 
         private readonly int numAttributes;

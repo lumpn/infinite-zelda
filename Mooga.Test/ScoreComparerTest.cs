@@ -7,7 +7,7 @@ namespace Lumpn.Mooga.Test
     public sealed class ScoreComparerTest
     {
         [Test]
-        public void TestSortAscending()
+        public void ComparerSortsAscending()
         {
             var individuals = new List<Individual>();
             individuals.Add(new SimpleIndividual(3));
@@ -28,7 +28,7 @@ namespace Lumpn.Mooga.Test
         }
 
         [Test]
-        public void TestSortByAttributeAscending()
+        public void ComparerSortsAscendingByAttribute()
         {
             var individuals = new List<Individual>();
             individuals.Add(new ParetoIndividual(3, 6, 0));
