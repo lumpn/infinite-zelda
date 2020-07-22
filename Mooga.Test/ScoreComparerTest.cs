@@ -7,7 +7,7 @@ namespace Lumpn.Mooga.Test
     public sealed class ScoreComparerTest
     {
         [Test]
-        public void TestSortHighestScoreFirst()
+        public void TestSortAscending()
         {
             var individuals = new List<Individual>();
             individuals.Add(new SimpleIndividual(3));
@@ -19,16 +19,16 @@ namespace Lumpn.Mooga.Test
 
             individuals.Sort(new ScoreComparer(0));
 
-            Assert.AreEqual(9, individuals[0].GetScore(0), delta);
-            Assert.AreEqual(5, individuals[1].GetScore(0), delta);
-            Assert.AreEqual(4, individuals[2].GetScore(0), delta);
-            Assert.AreEqual(3, individuals[3].GetScore(0), delta);
-            Assert.AreEqual(1, individuals[4].GetScore(0), delta);
-            Assert.AreEqual(1, individuals[5].GetScore(0), delta);
+            Assert.AreEqual(1, individuals[0].GetScore(0), delta);
+            Assert.AreEqual(1, individuals[1].GetScore(0), delta);
+            Assert.AreEqual(3, individuals[2].GetScore(0), delta);
+            Assert.AreEqual(4, individuals[3].GetScore(0), delta);
+            Assert.AreEqual(5, individuals[4].GetScore(0), delta);
+            Assert.AreEqual(9, individuals[5].GetScore(0), delta);
         }
 
         [Test]
-        public void TestSortByAttribute()
+        public void TestSortByAttributeAscending()
         {
             var individuals = new List<Individual>();
             individuals.Add(new ParetoIndividual(3, 6, 0));
@@ -40,21 +40,21 @@ namespace Lumpn.Mooga.Test
 
             individuals.Sort(new ScoreComparer(0));
 
-            Assert.AreEqual(9, individuals[0].GetScore(0), delta);
-            Assert.AreEqual(5, individuals[1].GetScore(0), delta);
-            Assert.AreEqual(4, individuals[2].GetScore(0), delta);
-            Assert.AreEqual(3, individuals[3].GetScore(0), delta);
-            Assert.AreEqual(1, individuals[4].GetScore(0), delta);
-            Assert.AreEqual(1, individuals[5].GetScore(0), delta);
+            Assert.AreEqual(1, individuals[0].GetScore(0), delta);
+            Assert.AreEqual(1, individuals[1].GetScore(0), delta);
+            Assert.AreEqual(3, individuals[2].GetScore(0), delta);
+            Assert.AreEqual(4, individuals[3].GetScore(0), delta);
+            Assert.AreEqual(5, individuals[4].GetScore(0), delta);
+            Assert.AreEqual(9, individuals[5].GetScore(0), delta);
 
             individuals.Sort(new ScoreComparer(1));
 
-            Assert.AreEqual(6, individuals[0].GetScore(1), delta);
-            Assert.AreEqual(5, individuals[1].GetScore(1), delta);
-            Assert.AreEqual(4, individuals[2].GetScore(1), delta);
-            Assert.AreEqual(3, individuals[3].GetScore(1), delta);
-            Assert.AreEqual(2, individuals[4].GetScore(1), delta);
-            Assert.AreEqual(1, individuals[5].GetScore(1), delta);
+            Assert.AreEqual(1, individuals[0].GetScore(1), delta);
+            Assert.AreEqual(2, individuals[1].GetScore(1), delta);
+            Assert.AreEqual(3, individuals[2].GetScore(1), delta);
+            Assert.AreEqual(4, individuals[3].GetScore(1), delta);
+            Assert.AreEqual(5, individuals[4].GetScore(1), delta);
+            Assert.AreEqual(6, individuals[5].GetScore(1), delta);
         }
 
         private const double delta = 0.1;

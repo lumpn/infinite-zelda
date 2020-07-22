@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Lumpn.Mooga
 {
-    /// compares individuals by score of specific attribute (larger score first)
+    /// compares individuals by score of specific attribute (ascending)
     public sealed class ScoreComparer : IComparer<Individual>
     {
         public int attribute;
@@ -16,7 +16,7 @@ namespace Lumpn.Mooga
         {
             double scoreA = a.GetScore(attribute);
             double scoreB = b.GetScore(attribute);
-            return -comparer.Compare(scoreA, scoreB);
+            return comparer.Compare(scoreA, scoreB);
         }
 
         private static readonly Comparer<double> comparer = Comparer<double>.Default;

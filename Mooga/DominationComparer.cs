@@ -2,7 +2,7 @@
 
 namespace Lumpn.Mooga
 {
-    /// compares individuals by domination of attribute scores
+    /// compares individuals by domination of attribute scores (ascending)
     public sealed class DominationComparer : IComparer<Individual>
     {
         public DominationComparer(int numAttributes)
@@ -25,7 +25,9 @@ namespace Lumpn.Mooga
             }
 
             // determine domination
-            return -comparer.Compare(isBetterA, isBetterB);
+            int result = comparer.Compare(isBetterA, isBetterB);
+            System.Console.WriteLine("Compare {0} vs {1}: {2})", a, b, result);
+            return result;
         }
 
         private readonly int numAttributes;
