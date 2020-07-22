@@ -6,7 +6,7 @@ namespace Lumpn.Dungeon
     /// Linked graph of steps taken within a puzzle.
     public sealed class Step
     {
-        public const int UnreachableDistance = -1;
+        private const int infiniteDistance = -1;
 
         private readonly Location location;
         private readonly State state;
@@ -21,8 +21,9 @@ namespace Lumpn.Dungeon
         public Location Location { get { return location; } }
         public State State { get { return state; } }
 
-        public int DistanceFromEntrance{get{return distanceFromEntrance; } }
-        public int DistanceFromExit{get{return distanceFromExit; } }
+        public int DistanceFromEntrance { get { return distanceFromEntrance; } }
+        public int DistanceFromExit { get { return distanceFromExit; } }
+        public bool HasDistanceFromExit { get { return distanceFromExit != infiniteDistance; } }
 
         public IEnumerable<Step> Predecessors { get { return predecessors; } }
         public IEnumerable<Step> Successors { get { return successors; } }
@@ -32,7 +33,7 @@ namespace Lumpn.Dungeon
             this.location = location;
             this.state = state;
             this.distanceFromEntrance = distanceFromEntrance;
-            this.distanceFromExit = UnreachableDistance;
+            this.distanceFromExit = infiniteDistance;
         }
 
         public void AddPredecessor(Step predecessor)

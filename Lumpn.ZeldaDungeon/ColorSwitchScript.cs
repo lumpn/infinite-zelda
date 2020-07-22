@@ -1,8 +1,9 @@
+using Lumpn.Dungeon;
 using Lumpn.Utils;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.ZeldaDungeon
 {
-    public sealed class ColorSwitchScript : ZeldaScript
+    public sealed class ColorSwitchScript : Script
     {
         public ColorSwitchScript(VariableIdentifier switchIdentifier)
         {

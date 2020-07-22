@@ -107,13 +107,13 @@ namespace Lumpn.Dungeon
                 var step = queue.Dequeue();
 
                 // try every predecessor
-                int prevDistanceFromExit = step.distanceFromExit + 1;
+                int prevDistanceFromExit = step.DistanceFromExit + 1;
                 foreach (var prevStep in step.Predecessors)
                 {
-                    if (prevStep.distanceFromExit != Step.unreachableDistance) continue;
+                    if (prevStep.HasDistanceFromExit) continue;
 
                     // unseen step reached -> enqueue
-                    prevStep.distanceFromExit = prevDistanceFromExit;
+                    prevStep.SetDistanceFromExit(prevDistanceFromExit);
                     queue.Enqueue(prevStep);
                 }
             }
@@ -121,12 +121,10 @@ namespace Lumpn.Dungeon
 
         public void Express(DotBuilder builder)
         {
-            var transitionBuilder = new DotTransitionBuilder();
-
             builder.Begin();
             foreach (var location in locations.Values)
             {
-                location.Express(builder, transitionBuilder);
+                location.Express(builder);
             }
             builder.End();
         }

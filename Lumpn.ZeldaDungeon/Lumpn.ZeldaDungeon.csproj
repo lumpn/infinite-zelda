@@ -36,9 +36,7 @@
     <Compile Include="ObstacleScript.cs" />
     <Compile Include="ColorPistonScript.cs" />
     <Compile Include="ItemScript.cs" />
-    <Compile Include="ZeldaPuzzle.cs" />
     <Compile Include="ZeldaPuzzleBuilder.cs" />
-    <Compile Include="ZeldaScript.cs" />
     <Compile Include="ZeldaScripts.cs" />
     <Compile Include="ZeldaStates.cs" />
   </ItemGroup>
@@ -46,6 +44,10 @@
     <ProjectReference Include="..\Utils\Lumpn.Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
       <Name>Lumpn.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
+      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
+      <Name>Lumpn.Dungeon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

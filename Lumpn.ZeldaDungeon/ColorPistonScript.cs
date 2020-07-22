@@ -1,9 +1,15 @@
+using Lumpn.Dungeon;
 using Lumpn.Utils;
 
 namespace Lumpn.ZeldaPuzzle
 {
-    public sealed class ColorPistonScript : ZeldaScript
+    public sealed class ColorPistonScript : Script
     {
+        private readonly VariableIdentifier switchIdentifier;
+        private readonly int pistonColor;
+
+        public string Name { get { return GetName(pistonColor); } }
+
         public ColorPistonScript(VariableIdentifier switchIdentifier, int pistonColor)
         {
             this.switchIdentifier = switchIdentifier;
@@ -22,23 +28,16 @@ namespace Lumpn.ZeldaPuzzle
             return null; // you shall not pass!
         }
 
-        public void Express(DotTransitionBuilder builder)
+        private static string GetName(int pistonColor)
         {
             switch (pistonColor)
             {
-                case ZeldaStates.SwitchRed:
-                    builder.SetLabel("red\\npistons");
-                    break;
-                case ZeldaStates.SwitchBlue:
-                    builder.SetLabel("blue\\npistons");
-                    break;
-                default:
-                    Debug.Fail();
-                    break;
+                case ZeldaStates.SwitchRed: return "red\\npistons";
+                case ZeldaStates.SwitchBlue: return "blue\\npistons";
             }
-        }
 
-        private readonly VariableIdentifier switchIdentifier;
-        private readonly int pistonColor;
+            Debug.Fail();
+            return string.Empty;
+        }
     }
 }
