@@ -15,6 +15,24 @@ namespace Lumpn.ZeldaDungeon.Test
         private static readonly Variables emptyVariables = new Variables();
 
         [Test]
+        public void CrawlMinimal()
+        {
+            // 0 - 1
+            var builder = new ZeldaDungeonBuilder();
+            builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
+            var crawler = builder.Build();
+
+            var initialState = new State(emptyVariables);
+            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+
+            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotNull(crawler.DebugGetStep(0, initialState));
+            Assert.NotNull(crawler.DebugGetStep(1, initialState));
+            Assert.True(crawler.DebugGetStep(0, initialState).HasDistanceFromExit);
+            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+        }
+
+        [Test]
         public void CrawlLinear()
         {
             // 0 - 2 - 3 - 1

@@ -32,9 +32,11 @@ namespace Lumpn.Dungeon
                     initialSteps.Add(step);
                 }
             }
+            System.Console.WriteLine("{0} initial steps", initialSteps.Count);
 
             // forward pass
             var terminalSteps = Crawl(initialSteps, maxSteps, exit);
+            System.Console.WriteLine("{0} terminal steps", terminalSteps.Count);
 
             // initialize distance from exit
             foreach (var step in terminalSteps)
@@ -62,6 +64,7 @@ namespace Lumpn.Dungeon
                 // fetch step
                 Step step = queue.Dequeue();
                 visitedSteps++;
+                System.Console.WriteLine("expanding step {0}", step);
 
                 // track terminals
                 if (step.Location == exit)
@@ -77,12 +80,15 @@ namespace Lumpn.Dungeon
                 {
                     // execute transition
                     Location nextLocation = transition.Destination;
+                    System.Console.WriteLine("going to {0}", nextLocation);
                     State nextState = transition.Execute(state);
                     if (nextState == null) continue; // transition impassable
+                    System.Console.WriteLine("reached {0} with state {1}", nextLocation, nextState);
 
                     // location reached with new state -> enqueue
-                    if (location.AddStep(nextState, nextDistanceFromEntrance, out Step nextStep))
+                    if (nextLocation.AddStep(nextState, nextDistanceFromEntrance, out Step nextStep))
                     {
+                        System.Console.WriteLine("enqueued {0}", nextStep);
                         queue.Enqueue(nextStep);
                     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Lumpn.Utils;
 
 namespace Lumpn.Dungeon
@@ -26,6 +27,21 @@ namespace Lumpn.Dungeon
         public StateBuilder ToStateBuilder()
         {
             return new StateBuilder(variables);
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("(state");
+            foreach (var entry in variables)
+            {
+                sb.Append(", ");
+                sb.Append(entry.Key.Name);
+                sb.Append("=");
+                sb.Append(entry.Value);
+            }
+            sb.Append(")");
+            return sb.ToString();
         }
 
         public override int GetHashCode()

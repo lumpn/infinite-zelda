@@ -9,11 +9,13 @@ namespace Lumpn.Dungeon
 
         public bool Equals(State a, State b)
         {
+            System.Console.WriteLine("Compare {0} with {1}", a, b);
             return a.Equals(b);
         }
 
         public int GetHashCode(State state)
         {
+            System.Console.WriteLine("Hash {0} ", state);
             return state.GetHashCode();
         }
     }

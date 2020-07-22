@@ -9,6 +9,11 @@ namespace Lumpn.ZeldaDungeon.Test
     [TestFixture]
     public sealed class StateTest
     {
+        private static readonly VariableIdentifier va = new VariableIdentifier(1, "a");
+        private static readonly VariableIdentifier vb = new VariableIdentifier(2, "b");
+        private static readonly VariableIdentifier vc = new VariableIdentifier(3, "c");
+        private static readonly VariableIdentifier vx = new VariableIdentifier(42, "x");
+
         private static Variables CreateVariables1()
         {
             return new Variables();
@@ -17,16 +22,16 @@ namespace Lumpn.ZeldaDungeon.Test
         private static Variables CreateVariables2()
         {
             var variables = new Variables();
-            variables.Add(new VariableIdentifier(42, "x"), 3);
+            variables.Add(vx, 3);
             return variables;
         }
 
         private static Variables CreateVariables3()
         {
             var variables = new Variables();
-            variables.Add(new VariableIdentifier(1, "a"), 1);
-            variables.Add(new VariableIdentifier(2, "b"), 1);
-            variables.Add(new VariableIdentifier(3, "c"), 1);
+            variables.Add(va, 1);
+            variables.Add(vb, 1);
+            variables.Add(vc, 1);
             return variables;
         }
 

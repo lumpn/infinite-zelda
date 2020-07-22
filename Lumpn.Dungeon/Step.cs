@@ -50,5 +50,10 @@ namespace Lumpn.Dungeon
         {
             this.distanceFromExit = distanceFromExit;
         }
+
+        public override string ToString()
+        {
+            return string.Format("(loc {0}, state {1})", location, state);
+        }
     }
 }
