@@ -70,7 +70,7 @@
     </ProjectReference>
     <ProjectReference Include="..\ZeldaPuzzle\ZeldaPuzzle.csproj">
       <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
-      <Name>Lumpn.ZeldaPuzzle</Name>
+      <Name>Lumpn.ZeldaDungeon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
