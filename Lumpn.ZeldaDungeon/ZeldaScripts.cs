@@ -1,4 +1,6 @@
-namespace Lumpn.ZeldaPuzzle
+using Lumpn.Dungeon;
+
+namespace Lumpn.ZeldaDungeon
 {
     public static class ZeldaScripts
     {

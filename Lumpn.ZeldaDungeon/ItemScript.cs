@@ -1,8 +1,14 @@
-namespace Lumpn.ZeldaPuzzle
+using Lumpn.Dungeon;
+
+namespace Lumpn.ZeldaDungeon
 {
     /// any item that can be picked up
-    public sealed class ItemScript : ZeldaScript
+    public sealed class ItemScript : Script
     {
+        private readonly VariableIdentifier itemIdentifier, itemStateIdentifier;
+
+        public string Name { get { return itemIdentifier.Name; } }
+
         public ItemScript(VariableIdentifier itemIdentifier, VariableLookup lookup)
         {
             this.itemIdentifier = itemIdentifier;
@@ -25,12 +31,5 @@ namespace Lumpn.ZeldaPuzzle
             builder.Set(itemStateIdentifier, ZeldaStates.ItemTaken);
             return builder.ToState();
         }
-
-        public void Express(DotTransitionBuilder builder)
-        {
-            builder.SetLabel(itemIdentifier.Name);
-        }
-
-        private readonly VariableIdentifier itemIdentifier, itemStateIdentifier;
     }
 }

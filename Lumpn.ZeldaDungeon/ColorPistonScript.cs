@@ -1,7 +1,7 @@
 using Lumpn.Dungeon;
 using Lumpn.Utils;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.ZeldaDungeon
 {
     public sealed class ColorPistonScript : Script
     {
@@ -19,7 +19,7 @@ namespace Lumpn.ZeldaPuzzle
         public State Execute(State state)
         {
             // color correct?
-            int switchColor = state.Get(switchIdentifier, ZeldaStates.SwitchDefault);
+            int switchColor = state.Get(switchIdentifier, ZeldaStates.SwitchRed);
             if (switchColor == pistonColor)
             {
                 return state; // pass

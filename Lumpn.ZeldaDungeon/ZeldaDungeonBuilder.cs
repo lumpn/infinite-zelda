@@ -1,31 +1,37 @@
 using System.Collections.Generic;
+using Lumpn.Dungeon;
 
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.ZeldaDungeon
 {
-    /// Mutable puzzle builder
-    public sealed class ZeldaPuzzleBuilder
+    using Locations = Dictionary<int,Location>;
+
+    public sealed class ZeldaDungeonBuilder
     {
-        public void AddDirectedTransition(int start, int end, ZeldaScript script)
+        private readonly Locations locations = new Locations();
+
+        private readonly VariableLookup lookup = new VariableLookup();
+
+        public void AddDirectedTransition(int start, int end, Script script)
         {
             Location source = GetOrCreateLocation(start);
             Location destination = GetOrCreateLocation(end);
             source.AddTransition(destination, script);
         }
 
-        public void AddUndirectedTransition(int loc1, int loc2, ZeldaScript script)
+        public void AddUndirectedTransition(int loc1, int loc2, Script script)
         {
             AddDirectedTransition(loc1, loc2, script);
             AddDirectedTransition(loc2, loc1, script);
         }
 
-        public void AddScript(int location, ZeldaScript script)
+        public void AddScript(int location, Script script)
         {
             AddDirectedTransition(location, location, script);
         }
 
-        public ZeldaPuzzle ToPuzzle()
+        public Crawler Build()
         {
-            return new ZeldaPuzzle(locations);
+            return new Crawler(locations);
         }
 
         private Location GetOrCreateLocation(int id)
@@ -37,9 +43,5 @@ namespace Lumpn.ZeldaPuzzle
             }
             return location;
         }
-
-        private readonly Dictionary<int, Location> locations = new Dictionary<int, Location>();
-
-        private readonly VariableLookup lookup = new VariableLookup();
     }
 }

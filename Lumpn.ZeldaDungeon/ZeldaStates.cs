@@ -1,4 +1,4 @@
-namespace Lumpn.ZeldaPuzzle
+namespace Lumpn.ZeldaDungeon
 {
     public class ZeldaStates
     {
@@ -7,7 +7,6 @@ namespace Lumpn.ZeldaPuzzle
 
         public const int SwitchRed = 0;
         public const int SwitchBlue = 1;
-        public const int SwitchDefault = SwitchRed;
 
         public const int ItemAvailable = 0;
         public const int ItemTaken = 1;

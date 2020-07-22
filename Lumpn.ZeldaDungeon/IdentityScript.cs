@@ -1,17 +1,16 @@
-namespace Lumpn.ZeldaPuzzle
+using Lumpn.Dungeon;
+
+namespace Lumpn.ZeldaDungeon
 {
-    public sealed class IdentityScript : ZeldaScript
+    public sealed class IdentityScript : Script
     {
         public static readonly IdentityScript Default = new IdentityScript();
+
+        public string Name { get { return string.Empty; } }
 
         public State Execute(State state)
         {
             return state;
-        }
-
-        public void Express(DotTransitionBuilder builder)
-        {
-            builder.SetLabel("");
         }
     }
 }

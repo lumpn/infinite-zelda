@@ -5,6 +5,10 @@ namespace Lumpn.ZeldaDungeon
 {
     public sealed class ColorSwitchScript : Script
     {
+        private readonly VariableIdentifier switchIdentifier;
+
+        public string Name { get { return switchIdentifier.Name; } }
+
         public ColorSwitchScript(VariableIdentifier switchIdentifier)
         {
             this.switchIdentifier = switchIdentifier;
@@ -14,7 +18,7 @@ namespace Lumpn.ZeldaDungeon
         {
             var builder = state.ToStateBuilder();
 
-            int switchState = state.Get(switchIdentifier, ZeldaStates.SwitchDefault);
+            int switchState = state.Get(switchIdentifier, ZeldaStates.SwitchRed);
             switch (switchState)
             {
                 case ZeldaStates.SwitchRed:
@@ -30,12 +34,5 @@ namespace Lumpn.ZeldaDungeon
 
             return builder.ToState();
         }
-
-        public void Express(DotTransitionBuilder builder)
-        {
-            builder.SetLabel("switch");
-        }
-
-        private readonly VariableIdentifier switchIdentifier;
     }
 }
