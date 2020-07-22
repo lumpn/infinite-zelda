@@ -47,8 +47,6 @@ namespace Lumpn.Mooga.Test
             var ranking = new CrowdingDistanceRanking(3);
             ranking.Rank(individuals);
 
-            foreach (var ind in individuals) System.Console.WriteLine(ind);
-
             // assert highest score comes first
             Assert.AreEqual(6, individuals[0].GetScore(1), delta); // rank 1 extreme
             Assert.AreEqual(1, individuals[1].GetScore(1), delta); // rank 1 extreme

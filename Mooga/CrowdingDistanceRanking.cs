@@ -20,8 +20,6 @@ namespace Lumpn.Mooga
 
         private void Rank(List<Individual> individuals, int start, int end)
         {
-            System.Console.WriteLine("Rank {0} - {1} ({2})", start, end, end - start);
-
             // trivially sorted?
             int count = end - start;
             if (count < 2) return;
@@ -49,7 +47,6 @@ namespace Lumpn.Mooga
                 // non-dominated first
                 if (!isDominated)
                 {
-                    System.Console.WriteLine("Non dominated {0}", individual);
                     individuals.Swap(splitIndex, i);
                     splitIndex++;
                 }
@@ -64,8 +61,6 @@ namespace Lumpn.Mooga
 
         private void SortByCrowdingDistanceDescending(List<Individual> individuals, int start, int end)
         {
-            System.Console.WriteLine("Sort {0} - {1} ({2})", start, end, end - start);
-
             // trivially sorted?
             int count = end - start;
             if (count < 2) return;

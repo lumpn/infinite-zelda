@@ -38,6 +38,8 @@
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="TopologicalSorting.cs" />
+    <Compile Include="MathUtils.cs" />
+    <Compile Include="RandomExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

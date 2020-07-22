@@ -1,15 +1,14 @@
-﻿using Lumpn.Utils;
-
-namespace Lumpn.Mooga.Test
+﻿namespace Lumpn.Mooga.Test
 {
     public sealed class SimpleIndividual : Individual
     {
-        public SimpleIndividual(double score)
+        public SimpleIndividual(double score, Genome genome = null)
         {
             this.score = score;
+            this.genome = genome;
         }
 
-        public Genome Genome { get { return null; } } // not needed for test
+        public Genome Genome { get { return genome; } }
 
         public double GetScore(int attribute)
         {
@@ -22,5 +21,6 @@ namespace Lumpn.Mooga.Test
         }
 
         private readonly double score;
+        private readonly Genome genome;
     }
 }

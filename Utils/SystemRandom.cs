@@ -15,5 +15,10 @@ namespace Lumpn.Utils
         {
             return random.Next(max);
         }
+
+        public double NextDouble()
+        {
+            return random.NextDouble();
+        }
     }
 }

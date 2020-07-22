@@ -39,6 +39,11 @@
     <Compile Include="ParetoIndividual.cs" />
     <Compile Include="ScoreComparerTest.cs" />
     <Compile Include="DominationComparerTest.cs" />
+    <Compile Include="EvolutionTest.cs" />
+    <Compile Include="SimpleGenome.cs" />
+    <Compile Include="ParetoGenome.cs" />
+    <Compile Include="SimpleGenomeFactory.cs" />
+    <Compile Include="SimpleEnvironment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">
