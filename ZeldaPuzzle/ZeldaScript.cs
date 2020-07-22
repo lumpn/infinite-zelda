@@ -1,8 +1,7 @@
-package de.lumpn.zelda.puzzle.script;
-
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-
-public interface ZeldaScript extends Script {
-
-	public void express(DotTransitionBuilder builder);
+namespace Lumpn.ZeldaPuzzle
+{
+    public interface ZeldaScript : Script
+    {
+        void Express(DotTransitionBuilder builder);
+    }
 }

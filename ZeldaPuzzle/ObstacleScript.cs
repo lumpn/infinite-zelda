@@ -1,33 +1,32 @@
-package de.lumpn.zelda.puzzle.script;
+namespace Lumpn.ZeldaPuzzle
+{
+    /// permanent obstacle that can be overcome by using a tool
+    public sealed class ObstacleScript : ZeldaScript
+    {
+        public ObstacleScript(VariableIdentifier toolIdentifier, string obstacleName)
+        {
+            this.toolIdentifier = toolIdentifier;
+            this.obstacleName = obstacleName;
+        }
 
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.VariableIdentifier;
+        public State Execute(State state)
+        {
+            // tool present?
+            int numItems = state.Get(toolIdentifier, 0);
+            if (numItems > 0)
+            {
+                return state; // pass
+            }
 
-public final class ObstacleScript implements ZeldaScript {
+            return null; // you shall not pass!
+        }
 
-	public ObstacleScript(VariableIdentifier itemIdentifier, String obstacleName) {
-		this.itemIdentifier = itemIdentifier;
-		this.obstacleName = obstacleName;
-	}
+        public void Express(DotTransitionBuilder builder)
+        {
+            builder.SetLabel(obstacleName);
+        }
 
-	@Override
-	public State execute(State state) {
-
-		// item present?
-		int numItems = state.getOrDefault(itemIdentifier, 0);
-		if (numItems > 0) {
-			return state; // pass
-		}
-
-		return null; // you shall not pass!
-	}
-
-	@Override
-	public void express(DotTransitionBuilder builder) {
-		builder.setLabel(obstacleName);
-	}
-
-	private final VariableIdentifier itemIdentifier;
-	private final String obstacleName;
+        private readonly VariableIdentifier toolIdentifier;
+        private readonly string obstacleName;
+    }
 }

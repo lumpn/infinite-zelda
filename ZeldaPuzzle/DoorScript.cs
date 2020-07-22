@@ -1,45 +1,41 @@
-package de.lumpn.zelda.puzzle.script;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class DoorScript : ZeldaScript
+    {
+        public DoorScript(VariableIdentifier keyIdentifier, VariableLookup lookup)
+        {
+            this.keyIdentifier = keyIdentifier;
+            this.doorStateIdentifier = lookup.Unique("door state");
+        }
 
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.StateBuilder;
-import de.lumpn.zelda.puzzle.VariableIdentifier;
-import de.lumpn.zelda.puzzle.VariableLookup;
-import de.lumpn.zelda.puzzle.ZeldaStates;
+        public State Execute(State state)
+        {
+            // already unlocked?
+            int doorState = state.Get(doorStateIdentifier, ZeldaStates.DoorLocked);
+            if (doorState == ZeldaStates.DoorUnlocked)
+            {
+                return state; // pass
+            }
 
-public final class DoorScript implements ZeldaScript {
+            // has key?
+            int numKeys = state.Get(keyIdentifier, 0);
+            if (numKeys == 0)
+            {
+                return null; // you shall not pass!
+            }
 
-	public DoorScript(VariableIdentifier keyIdentifier, VariableLookup resolution) {
-		this.keyIdentifier = keyIdentifier;
-		this.doorStateIdentifier = resolution.unique("door state");
-	}
+            // consume key & unlock
+            var builder = state.ToStateBuilder();
+            builder.Set(keyIdentifier, numKeys - 1);
+            builder.Set(doorStateIdentifier, ZeldaStates.DoorUnlocked);
+            return builder.ToState();
+        }
 
-	@Override
-	public State execute(State state) {
+        public void Express(DotTransitionBuilder builder)
+        {
+            builder.SetLabel("door");
+        }
 
-		// already unlocked?
-		int doorState = state.getOrDefault(doorStateIdentifier, ZeldaStates.DOOR_LOCKED);
-		if (doorState == ZeldaStates.DOOR_UNLOCKED) {
-			return state; // pass
-		}
-
-		// has key?
-		int numKeys = state.getOrDefault(keyIdentifier, 0);
-		if (numKeys == 0) {
-			return null; // you shall not pass!
-		}
-
-		// consume key & unlock
-		StateBuilder mutable = state.mutable();
-		mutable.set(keyIdentifier, numKeys - 1);
-		mutable.set(doorStateIdentifier, ZeldaStates.DOOR_UNLOCKED);
-		return mutable.state();
-	}
-
-	@Override
-	public void express(DotTransitionBuilder builder) {
-		builder.setLabel("door");
-	}
-
-	private final VariableIdentifier keyIdentifier, doorStateIdentifier;
+        private readonly VariableIdentifier keyIdentifier, doorStateIdentifier;
+    }
 }

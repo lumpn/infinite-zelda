@@ -1,41 +1,40 @@
-package de.lumpn.zelda.puzzle.script;
+using Lumpn.Utils;
 
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.StateBuilder;
-import de.lumpn.zelda.puzzle.VariableIdentifier;
-import de.lumpn.zelda.puzzle.ZeldaStates;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class ColorSwitchScript : ZeldaScript
+    {
+        public ColorSwitchScript(VariableIdentifier switchIdentifier)
+        {
+            this.switchIdentifier = switchIdentifier;
+        }
 
-public final class ColorSwitchScript implements ZeldaScript {
+        public State Execute(State state)
+        {
+            var builder = state.ToStateBuilder();
 
-	public ColorSwitchScript(VariableIdentifier switchIdentifier) {
-		this.switchIdentifier = switchIdentifier;
-	}
+            int switchState = state.Get(switchIdentifier, ZeldaStates.SwitchDefault);
+            switch (switchState)
+            {
+                case ZeldaStates.SwitchRed:
+                    builder.Set(switchIdentifier, ZeldaStates.SwitchBlue);
+                    break;
+                case ZeldaStates.SwitchBlue:
+                    builder.Set(switchIdentifier, ZeldaStates.SwitchRed);
+                    break;
+                default:
+                    Debug.Fail();
+                    break;
+            }
 
-	@Override
-	public State execute(State state) {
+            return builder.ToState();
+        }
 
-		int switchState = state.getOrDefault(switchIdentifier, ZeldaStates.SWITCH_DEFAULT);
+        public void Express(DotTransitionBuilder builder)
+        {
+            builder.SetLabel("switch");
+        }
 
-		// colorSwitch color
-		StateBuilder mutable = state.mutable();
-		switch (switchState) {
-			case ZeldaStates.SWITCH_RED:
-				mutable.set(switchIdentifier, ZeldaStates.SWITCH_BLUE);
-				break;
-			case ZeldaStates.SWITCH_BLUE:
-				mutable.set(switchIdentifier, ZeldaStates.SWITCH_RED);
-				break;
-			default:
-				assert false;
-		}
-		return mutable.state();
-	}
-
-	@Override
-	public void express(DotTransitionBuilder builder) {
-		builder.setLabel("switch");
-	}
-
-	private final VariableIdentifier switchIdentifier;
+        private readonly VariableIdentifier switchIdentifier;
+    }
 }

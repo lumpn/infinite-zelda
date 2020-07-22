@@ -1,8 +1,7 @@
-package de.lumpn.zelda.puzzle.script;
-
-import de.lumpn.zelda.puzzle.State;
-
-public interface Script {
-
-	public State execute(State state);
+namespace Lumpn.ZeldaPuzzle
+{
+    public interface Script
+    {
+        State Execute(State state);
+    }
 }

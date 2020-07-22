@@ -1,24 +1,25 @@
-package de.lumpn.zelda.puzzle;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class DotTransitionBuilder
+    {
+        public void SetEdge(int start, int end)
+        {
+            this.start = start;
+            this.end = end;
+        }
 
-public class DotTransitionBuilder {
+        public void SetLabel(string label)
+        {
+            this.label = label;
+        }
 
-	public void setSource(int id) {
-		this.start = id;
-	}
+        public void Express(DotBuilder builder)
+        {
+            builder.AddEdge(start, end, label);
+        }
 
-	public void setDestination(int id) {
-		this.end = id;
-	}
+        private int start, end;
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
-	public void express(DotBuilder builder) {
-		builder.addEdge(start, end, label);
-	}
-
-	private int start, end;
-
-	private String label;
+        private string label;
+    }
 }

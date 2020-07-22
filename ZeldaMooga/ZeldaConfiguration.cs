@@ -1,3 +1,4 @@
+using Lumpn.Utils;
 using Lumpn.Mooga;
 
 public sealed class ZeldaConfiguration
@@ -17,27 +18,27 @@ public sealed class ZeldaConfiguration
     private const double deletionCoefficient = 0.05; // ~5% ([0%, 35%])
     private const double insertionCoefficient = 0.10; // ~10% ([0%, 75%])
 
-    public int RandomLocation(IRandom random)
+    public int RandomLocation(RandomNumberGenerator random)
     {
         return random.NextInt(numLocations);
     }
 
-    public int RandomItem(IRandom random)
+    public int RandomItem(RandomNumberGenerator random)
     {
         return random.NextInt(numItems);
     }
 
-    public int CalcNumInitialGenes(IRandom random)
+    public int CalcNumInitialGenes(RandomNumberGenerator random)
     {
         return (int)(initialGeneMedian * MathUtils.randomWeibull2(random));
     }
 
-    public int CalcNumMutations(int size, IRandom random)
+    public int CalcNumMutations(int size, RandomNumberGenerator random)
     {
         return (int)(size * mutationCoefficient * MathUtils.randomHalfGaussian(random));
     }
 
-    public int CalcNumDeletions(int size, IRandom random)
+    public int CalcNumDeletions(int size, RandomNumberGenerator random)
     {
         return (int)(size * deletionCoefficient * MathUtils.randomHalfGaussian(random));
     }

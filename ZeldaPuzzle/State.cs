@@ -1,39 +1,37 @@
-package de.lumpn.zelda.puzzle;
+using System.Collections.Generic;
+using Lumpn.Utils;
 
-import java.util.Map;
-import de.lumpn.util.CollectionUtils;
+namespace Lumpn.ZeldaPuzzle
+{
+    /// immutable state
+    public sealed class State
+    {
+        public State(Dictionary<VariableIdentifier, int> variables)
+        {
+            this.variables = variables;
+        }
 
-/**
- * Immutable state
- */
-public final class State {
+        public int Get(VariableIdentifier identifier, int fallbackValue)
+        {
+            return variables.GetOrFallback(identifier, fallbackValue);
+        }
 
-	public State(Map<VariableIdentifier, Integer> variables) {
-		this.variables = CollectionUtils.immutable(variables);
-	}
+        public StateBuilder ToStateBuilder()
+        {
+            return new StateBuilder(variables);
+        }
 
-	public int getOrDefault(VariableIdentifier identifier, int defaultValue) {
-		return StateUtils.getOrDefault(variables, identifier, defaultValue);
-	}
+        public bool Equals(State other)
+        {
+            if (variables.Count != other.variables.Count) return false;
+            foreach (var entry in variables)
+            {
+                if (!other.variables.TryGetValue(entry.Key, out int value)) return false;
+                if (value != entry.Value) return false;
+            }
+            return true;
+        }
 
-	public StateBuilder mutable() {
-		return new StateBuilder(variables);
-	}
-
-	@Override
-	public int hashCode() {
-		return variables.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof State)) return false;
-		State other = (State) obj;
-		if (!variables.equals(other.variables)) return false;
-		return true;
-	}
-
-	private final Map<VariableIdentifier, Integer> variables;
+        private readonly Dictionary<VariableIdentifier, int> variables;
+    }
 }

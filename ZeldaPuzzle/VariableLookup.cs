@@ -1,25 +1,27 @@
-package de.lumpn.zelda.puzzle;
+using System.Collections.Generic;
 
-import java.util.HashMap;
-import java.util.Map;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class VariableLookup
+    {
+        public VariableIdentifier Unique(string name)
+        {
+            int uniqueId = serial++;
+            return new VariableIdentifier(uniqueId, name);
+        }
 
-public final class VariableLookup {
+        public VariableIdentifier Resolve(string name)
+        {
+            if (!identifiers.TryGetValue(name, out VariableIdentifier identifier))
+            {
+                identifier = Unique(name);
+                identifiers[name] = identifier;
+            }
+            return identifier;
+        }
 
-	public VariableIdentifier unique(String name) {
-		int uniqueId = serial++;
-		return new VariableIdentifier(uniqueId, name);
-	}
+        private int serial = 0;
 
-	public VariableIdentifier resolve(String name) {
-		VariableIdentifier identifier = lookup.get(name);
-		if (identifier == null) {
-			identifier = unique(name);
-			lookup.put(name, identifier);
-		}
-		return identifier;
-	}
-
-	private int serial = 0;
-
-	private final Map<String, VariableIdentifier> lookup = new HashMap<String, VariableIdentifier>();
+        private readonly Dictionary<string, VariableIdentifier> identifiers = new Dictionary<string, VariableIdentifier>();
+    }
 }

@@ -1,11 +1,6 @@
-﻿package de.lumpn.zelda.mooga;
+﻿using Lumpn.Mooga;
 
-import de.lumpn.mooga.Genome;
-import de.lumpn.mooga.Individual;
-import de.lumpn.zelda.puzzle.Step;
-import de.lumpn.zelda.puzzle.ZeldaPuzzle;
-
-public sealed class ZeldaIndividual implements Individual {
+public sealed class ZeldaIndividual : Individual {
 
 	private static int minimize(int value) {
 		return -value;

@@ -1,32 +1,39 @@
-package de.lumpn.zelda.puzzle;
+using System.IO;
 
-import java.io.PrintStream;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class DotBuilder
+    {
+        public DotBuilder()
+        {
+            this.writer = System.Console.Out;
+        }
 
-public class DotBuilder {
+        public DotBuilder(TextWriter writer)
+        {
+            this.writer = writer;
+        }
 
-	public DotBuilder() {
-		this.out = System.out;
-	}
+        public void Begin()
+        {
+            writer.WriteLine("digraph {");
+        }
 
-	public DotBuilder(PrintStream out) {
-		this.out = out;
-	}
+        public void End()
+        {
+            writer.WriteLine("}");
+        }
 
-	public void begin() {
-		out.println("digraph {");
-	}
+        public void AddNode(int id)
+        {
+            writer.WriteLine("loc{0} [label=\"{1}\"];\n", id, id);
+        }
 
-	public void end() {
-		out.println("}");
-	}
+        public void AddEdge(int start, int end, string label)
+        {
+            writer.WriteLine("loc{0} -> loc{1} [label=\"{2}\"];\n", start, end, label);
+        }
 
-	public void addNode(int id) {
-		out.format("loc%d [label=\"%d\"];\n", id, id);
-	}
-
-	public void addEdge(int start, int end, String label) {
-		out.format("loc%d -> loc%d [label=\"%s\"];\n", start, end, label);
-	}
-
-	private final PrintStream out;
+        private readonly TextWriter writer;
+    }
 }

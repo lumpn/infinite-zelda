@@ -1,44 +1,44 @@
-package de.lumpn.zelda.puzzle.script;
+using Lumpn.Utils;
 
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.VariableIdentifier;
-import de.lumpn.zelda.puzzle.ZeldaStates;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class PistonScript : ZeldaScript
+    {
+        public PistonScript(VariableIdentifier switchIdentifier, int pistonColor)
+        {
+            this.switchIdentifier = switchIdentifier;
+            this.pistonColor = pistonColor;
+        }
 
-public final class PistonScript implements ZeldaScript {
+        public State Execute(State state)
+        {
+            // color correct?
+            int switchColor = state.Get(switchIdentifier, ZeldaStates.SwitchDefault);
+            if (switchColor == pistonColor)
+            {
+                return state; // pass
+            }
 
-	public PistonScript(VariableIdentifier switchIdentifier, int pistonColor) {
-		this.switchIdentifier = switchIdentifier;
-		this.pistonColor = pistonColor;
-	}
+            return null; // you shall not pass!
+        }
 
-	@Override
-	public State execute(State state) {
+        public void Express(DotTransitionBuilder builder)
+        {
+            switch (pistonColor)
+            {
+                case ZeldaStates.SwitchRed:
+                    builder.SetLabel("red\\npistons");
+                    break;
+                case ZeldaStates.SwitchBlue:
+                    builder.SetLabel("blue\\npistons");
+                    break;
+                default:
+                    Debug.Fail();
+                    break;
+            }
+        }
 
-		// color correct?
-		int switchColor = state.getOrDefault(switchIdentifier, ZeldaStates.SWITCH_DEFAULT);
-		if (switchColor == pistonColor) {
-			return state; // pass
-		}
-
-		return null; // you shall not pass!
-	}
-
-	@Override
-	public void express(DotTransitionBuilder builder) {
-		switch (pistonColor) {
-			case ZeldaStates.SWITCH_RED:
-				builder.setLabel("red\\npistons");
-				break;
-			case ZeldaStates.SWITCH_BLUE:
-				builder.setLabel("blue\\npistons");
-				break;
-			default:
-				assert false;
-		}
-	}
-
-	private final VariableIdentifier switchIdentifier;
-
-	private final int pistonColor;
+        private readonly VariableIdentifier switchIdentifier;
+        private readonly int pistonColor;
+    }
 }

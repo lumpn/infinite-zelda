@@ -1,19 +1,17 @@
-package de.lumpn.zelda.puzzle.script;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class IdentityScript : ZeldaScript
+    {
+        public static readonly IdentityScript instance = new IdentityScript();
 
-import de.lumpn.zelda.puzzle.DotTransitionBuilder;
-import de.lumpn.zelda.puzzle.State;
+        public State Execute(State state)
+        {
+            return state;
+        }
 
-public final class IdentityScript implements ZeldaScript {
-
-	public static final IdentityScript INSTANCE = new IdentityScript();
-
-	@Override
-	public State execute(State state) {
-		return state;
-	}
-
-	@Override
-	public void express(DotTransitionBuilder builder) {
-		builder.setLabel("");
-	}
+        public void Express(DotTransitionBuilder builder)
+        {
+            builder.SetLabel("");
+        }
+    }
 }

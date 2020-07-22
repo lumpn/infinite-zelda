@@ -1,34 +1,26 @@
-package de.lumpn.zelda.puzzle;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class Transition
+    {
+        public Transition(Location source, Location destination, ZeldaScript script)
+        {
+            this.source = source;
+            this.destination = destination;
+            this.script = script;
+        }
 
-import de.lumpn.zelda.puzzle.script.ZeldaScript;
+        public State Execute(State state)
+        {
+            return script.Execute(state);
+        }
 
-public final class Transition {
+        public void Express(DotTransitionBuilder builder)
+        {
+            builder.SetEdge(source.id, destination.id);
+            script.Express(builder);
+        }
 
-	public Transition(Location source, Location destination, ZeldaScript script) {
-		this.source = source;
-		this.destination = destination;
-		this.script = script;
-	}
-	
-	public Location source()
-	{
-		return source;
-	}
-
-	public Location destination() {
-		return destination;
-	}
-
-	public State execute(State state) {
-		return script.execute(state);
-	}
-
-	public void express(DotTransitionBuilder builder) {
-		builder.setSource(source.id());
-		builder.setDestination(destination.id());
-		script.express(builder);
-	}
-
-	private final Location source, destination;
-	private final ZeldaScript script;
+        public readonly Location source, destination;
+        private readonly ZeldaScript script;
+    }
 }

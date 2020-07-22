@@ -1,86 +1,67 @@
-package de.lumpn.zelda.puzzle;
+using System.Collections.Generic;
+using Lumpn.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+namespace Lumpn.ZeldaPuzzle
+{
+    public sealed class Location
+    {
+        public Location(int id)
+        {
+            this.id = id;
+        }
 
-/**
- * Mutable location
- */
-public class Location {
+        // TODO Jonas: change to AddTransition(Location destination, Script script)?
+        public void AddTransition(Transition transition)
+        {
+            Debug.Assert(transition.source == this);
+            transitions.Add(transition);
+        }
 
-	public Location(int id) {
-		this.id = id;
-	}
+        // TODO Jonas: remove
+        /// See if the location has been reached with the specified state
+        public Step GetStep(State state)
+        {
+            return steps.GetOrFallback(state, null);
+        }
 
-	public int id() {
-		return id;
-	}
+        // TODO Jonas: remove
+        public void GetSteps(List<Step> result)
+        {
+            result.AddRange(steps.Values);
+        }
 
-	public void addTransition(Transition transition) {
-		assert transition.source() == this;
-		transitions.add(transition);
-	}
+        // TODO Jonas: rename
+        /// Reach this location with the specified state
+        public Step CreateStep(State state)
+        {
+            Step step = new Step(this, state);
+            steps.Add(state, step);
+            return step;
+        }
 
-	public List<Transition> transitions() {
-		return transitions;
-	}
+        public void Express(DotBuilder builder)
+        {
+            builder.AddNode(id);
 
-	/**
-	 * See if the location has been reached with the specified state
-	 */
-	public Step getStep(State state) {
-		return steps.get(state);
-	}
+            var transitionBuilder = new DotTransitionBuilder();
+            foreach (Transition transition in transitions)
+            {
+                transition.Express(transitionBuilder);
+                transitionBuilder.Express(builder);
+            }
+        }
 
-	public void getSteps(List<Step> out) {
-		out.addAll(steps.values());
-	}
+        public bool Equals(Location other)
+        {
+            return id == other.id;
+        }
 
-	/**
-	 * Reach this location with the specified state
-	 */
-	public Step createStep(State state) {
-		Step step = new Step(this, state);
-		Step previous = steps.put(state, step);
-		assert previous == null;
-		return step;
-	}
+        public readonly int id;
 
-	public void express(DotBuilder builder) {
-		builder.addNode(id);
-		for (Transition transition : transitions) {
-			DotTransitionBuilder transitionBuilder = new DotTransitionBuilder();
-			transition.express(transitionBuilder);
-			transitionBuilder.express(builder);
-		}
-	}
+        /// outgoing transitions
+        private readonly List<Transition> transitions = new List<Transition>();
 
-	@Override
-	public int hashCode() {
-		return id;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof Location)) return false;
-		Location other = (Location) obj;
-		if (id != other.id) return false;
-		return true;
-	}
-
-	private final int id;
-
-	/**
-	 * outgoing transitions
-	 */
-	private final List<Transition> transitions = new ArrayList<Transition>();
-
-	/**
-	 * steps that reached this location
-	 */
-	private final Map<State, Step> steps = new HashMap<State, Step>();
+        /// steps that reached this location
+        private readonly Dictionary<State, Step> steps = new Dictionary<State, Step>();
+    }
 }

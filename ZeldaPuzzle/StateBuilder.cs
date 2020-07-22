@@ -1,24 +1,25 @@
-package de.lumpn.zelda.puzzle;
+using System.Collections.Generic;
 
-import java.util.HashMap;
-import java.util.Map;
+namespace Lumpn.ZeldaPuzzle
+{
+    /// Mutable state
+    public sealed class StateBuilder
+    {
+        public StateBuilder(IDictionary<VariableIdentifier, int> variables)
+        {
+            this.variables = new Dictionary<VariableIdentifier, int>(variables);
+        }
 
-/**
- * Mutable state
- */
-public final class StateBuilder {
+        public void Set(VariableIdentifier identifier, int value)
+        {
+            variables[identifier] = value;
+        }
 
-	public StateBuilder(Map<VariableIdentifier, Integer> variables) {
-		this.variables = new HashMap<VariableIdentifier, Integer>(variables);
-	}
+        public State ToState()
+        {
+            return new State(variables);
+        }
 
-	public void set(VariableIdentifier identifier, int value) {
-		variables.put(identifier, value);
-	}
-
-	public State state() {
-		return new State(variables);
-	}
-
-	private final Map<VariableIdentifier, Integer> variables;
+        private readonly Dictionary<VariableIdentifier, int> variables;
+    }
 }
