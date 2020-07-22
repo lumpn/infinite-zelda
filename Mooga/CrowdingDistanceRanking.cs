@@ -9,6 +9,8 @@ namespace Lumpn.Mooga
         {
             this.numAttributes = numAttributes;
             this.dominationComparer = new DominationComparer(numAttributes);
+            this.distanceComparer = new DistanceComparer(distances);
+            this.scoreComparer = new ScoreComparer(0);
         }
 
         public void Rank(List<Individual> individuals)
@@ -18,8 +20,11 @@ namespace Lumpn.Mooga
 
         private void Rank(List<Individual> individuals, int startIndex, int endIndex)
         {
+            System.Console.WriteLine("Rank {0} - {1} ({2})", startIndex, endIndex, endIndex - startIndex);
+
             // trivially sorted?
-            if (endIndex - startIndex < 2) return;
+            int count = endIndex - startIndex;
+            if (count < 2) return;
 
             // split into non-dominated and dominated
             int splitIndex = startIndex;
@@ -44,6 +49,7 @@ namespace Lumpn.Mooga
                 // put in respective list
                 if (!isDominated)
                 {
+                    System.Console.WriteLine("Non dominated {0}", individual);
                     individuals.Swap(splitIndex, i);
                     splitIndex++;
                 }
@@ -58,29 +64,36 @@ namespace Lumpn.Mooga
 
         private void SortByCrowdingDistance(List<Individual> individuals, int startIndex, int endIndex)
         {
+            System.Console.WriteLine("Sort {0} - {1} ({2})", startIndex, endIndex, endIndex - startIndex);
+
             // trivially sorted?
-            if (endIndex - startIndex < 2) return;
+            int count = endIndex - startIndex;
+            if (count < 2) return;
 
             // reset crowding distance
+            distances.Clear();
             for (int i = startIndex; i < endIndex; i++)
             {
-                individuals[i].SetScore(0, 0);
+                var individual = individuals[i];
+                distances[individual] = 0;
             }
 
             // calculate each crowding distance
-            for (int attributeIndex = 1; attributeIndex < numAttributes; attributeIndex++)
+            for (int attribute = 0; attribute < numAttributes; attribute++)
             {
-                individuals.Sort(startIndex, endIndex, new ScoreComparer(attributeIndex));
+                // sort by attribute
+                scoreComparer.attribute = attribute;
+                individuals.Sort(startIndex, count, scoreComparer);
 
                 var min = individuals[startIndex];
                 var max = individuals[endIndex - 1];
 
-                var minValue = min.GetScore(attributeIndex);
-                var maxValue = max.GetScore(attributeIndex);
+                var minValue = min.GetScore(attribute);
+                var maxValue = max.GetScore(attribute);
                 var totalRange = maxValue - minValue;
 
                 // no divergence?
-                if (minValue >= maxValue) continue;
+                if (totalRange <= 0) continue;
 
                 // calculate crowding distance
                 for (int i = startIndex + 1; i < endIndex - 1; i++)
@@ -90,30 +103,27 @@ namespace Lumpn.Mooga
                     var rightNeighbor = individuals[i + 1];
 
                     // calculate & accumulate normalized crowding distance
-                    var leftValue = leftNeighbor.GetScore(attributeIndex);
-                    var rightValue = rightNeighbor.GetScore(attributeIndex);
+                    var leftValue = leftNeighbor.GetScore(attribute);
+                    var rightValue = rightNeighbor.GetScore(attribute);
                     var range = rightValue - leftValue;
                     var distance = range / totalRange;
-                    AddScore(current, 0, distance);
+                    distances[current] += distance;
                 }
 
                 // update extremes
-                AddScore(min, 0, 2);
-                AddScore(max, 0, 2);
+                distances[min] += 2;
+                distances[max] += 2;
             }
 
             // sort by descending crowding distance
-            individuals.Sort(startIndex, endIndex, distanceComparer);
-        }
-
-        private static void AddScore(Individual individual, int attribute, double score)
-        {
-            individual.SetScore(attribute, individual.GetScore(attribute) + score);
+            individuals.Sort(startIndex, count, distanceComparer);
         }
 
         private readonly int numAttributes;
         private readonly DominationComparer dominationComparer;
+        private readonly DistanceComparer distanceComparer;
+        private readonly ScoreComparer scoreComparer;
 
-        private static readonly ScoreComparer distanceComparer = new ScoreComparer(0);
+        private readonly Dictionary<Individual, double> distances = new Dictionary<Individual, double>();
     }
 }

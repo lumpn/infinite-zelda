@@ -42,6 +42,7 @@
     <Compile Include="Ranking.cs" />
     <Compile Include="ScoreComparer.cs" />
     <Compile Include="Selection.cs" />
+    <Compile Include="DistanceComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utils.csproj">

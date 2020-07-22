@@ -40,6 +40,7 @@
     <Compile Include="Debug.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Pair.cs" />
+    <Compile Include="TopologicalSorting.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

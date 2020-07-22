@@ -17,28 +17,20 @@ namespace Lumpn.Mooga.Test
         {
             switch (attribute)
             {
-                case 0: return distance;
-                case 1: return score1;
-                case 2: return score2;
-                case 3: return score3;
+                case 0: return score1;
+                case 1: return score2;
+                case 2: return score3;
             }
 
             Debug.Fail();
             return 0.0;
         }
 
-        public void SetScore(int attribute, double value)
-        {
-            Debug.Assert(attribute == 0);
-            distance = value;
-        }
-
         public override string ToString()
         {
-            return string.Format("({0}, {1}, {2}, {3})", distance, score1, score2, score3);
+            return string.Format("({0}, {1}, {2})", score1, score2, score3);
         }
 
-        private double distance;
         private readonly double score1, score2, score3;
     }
 }

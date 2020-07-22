@@ -37,6 +37,8 @@
     <Compile Include="CrowdingDistanceRankingTest.cs" />
     <Compile Include="SimpleIndividual.cs" />
     <Compile Include="ParetoIndividual.cs" />
+    <Compile Include="ScoreComparerTest.cs" />
+    <Compile Include="DominationComparerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

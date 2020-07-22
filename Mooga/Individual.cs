@@ -5,6 +5,5 @@ namespace Lumpn.Mooga
         Genome Genome { get; }
 
         double GetScore(int attribute);
-        void SetScore(int attribute, double value);
     }
 }

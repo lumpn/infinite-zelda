@@ -25,7 +25,7 @@ namespace Lumpn.Mooga
             }
 
             // determine domination
-            return comparer.Compare(isBetterA, isBetterB);
+            return -comparer.Compare(isBetterA, isBetterB);
         }
 
         private readonly int numAttributes;
