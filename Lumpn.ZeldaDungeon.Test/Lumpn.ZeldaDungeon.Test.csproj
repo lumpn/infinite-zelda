@@ -35,10 +35,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocationTest.cs" />
     <Compile Include="StateTest.cs" />
-    <Compile Include="StepTest.cs" />
-    <Compile Include="ZeldaPuzzleTest.cs" />
+    <Compile Include="ZeldaDungeonTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -47,6 +45,10 @@
     <ProjectReference Include="..\ZeldaPuzzle\Lumpn.ZeldaPuzzle.csproj">
       <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
       <Name>Lumpn.ZeldaDungeon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
+      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
+      <Name>Lumpn.Dungeon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

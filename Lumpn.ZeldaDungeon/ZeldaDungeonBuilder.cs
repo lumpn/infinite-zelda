@@ -3,13 +3,15 @@ using Lumpn.Dungeon;
 
 namespace Lumpn.ZeldaDungeon
 {
-    using Locations = Dictionary<int,Location>;
+    using Locations = Dictionary<int, Location>;
 
     public sealed class ZeldaDungeonBuilder
     {
         private readonly Locations locations = new Locations();
 
         private readonly VariableLookup lookup = new VariableLookup();
+
+        public VariableLookup Lookup { get { return lookup; } }
 
         public void AddDirectedTransition(int start, int end, Script script)
         {

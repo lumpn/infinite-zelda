@@ -1,130 +1,105 @@
-﻿package de.lumpn.zelda.puzzle.test;
+﻿using System.Collections.Generic;
+using Lumpn.Dungeon;
+using NUnit.Framework;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.Assert;
-import org.junit.Test;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.VariableIdentifier;
+namespace Lumpn.ZeldaDungeon.Test
+{
+    using Variables = Dictionary<VariableIdentifier, int>;
 
-public class StateTest {
+    [TestFixture]
+    public sealed class StateTest
+    {
+        private static Variables CreateVariables1()
+        {
+            return new Variables();
+        }
 
-	private static Map<VariableIdentifier, Integer> createVariables1() {
-		return Collections.emptyMap();
-	}
+        private static Variables CreateVariables2()
+        {
+            var variables = new Variables();
+            variables.Add(new VariableIdentifier(42, "x"), 3);
+            return variables;
+        }
 
-	private static Map<VariableIdentifier, Integer> createVariables2() {
-		Map<VariableIdentifier, Integer> variables = new HashMap<VariableIdentifier, Integer>();
-		variables.put(new VariableIdentifier(42, "x"), 3);
-		return variables;
-	}
+        private static Variables CreateVariables3()
+        {
+            var variables = new Variables();
+            variables.Add(new VariableIdentifier(1, "a"), 1);
+            variables.Add(new VariableIdentifier(2, "b"), 1);
+            variables.Add(new VariableIdentifier(3, "c"), 1);
+            return variables;
+        }
 
-	private static Map<VariableIdentifier, Integer> createVariables3() {
-		Map<VariableIdentifier, Integer> variables = new HashMap<VariableIdentifier, Integer>();
-		variables.put(new VariableIdentifier(1, "a"), 1);
-		variables.put(new VariableIdentifier(2, "b"), 1);
-		variables.put(new VariableIdentifier(3, "c"), 1);
-		return variables;
-	}
+        [Test]
+        public void EqualsByContent()
+        {
+            var variables = CreateVariables3();
 
-	@Test
-	public void testEquality() {
+            State a = new State(CreateVariables1());
+            State b = new State(CreateVariables2());
+            State x = new State(variables);
+            State y = new State(variables);
+            State z = new State(CreateVariables3());
 
-		Map<VariableIdentifier, Integer> variables = createVariables3();
+            // self equality
+            Assert.AreNotSame(x, y);
+            Assert.AreNotSame(x, z);
+            Assert.AreNotSame(y, z);
+            Assert.AreEqual(x, x);
+            Assert.AreEqual(y, y);
+            Assert.AreEqual(z, z);
 
-		State a = new State(createVariables1());
-		State b = new State(createVariables2());
-		State x = new State(variables);
-		State y = new State(variables);
-		State z = new State(createVariables3());
+            // equality by content
+            Assert.AreEqual(x, y);
+            Assert.AreEqual(y, x);
+            Assert.AreEqual(x, z);
+            Assert.AreEqual(z, x);
+            Assert.AreEqual(y, z);
+            Assert.AreEqual(z, y);
 
-		Object o = z;
-		Integer i = 42;
+            // more equality by content
+            Assert.AreNotSame(x, a);
+            Assert.AreNotSame(x, b);
+            Assert.AreNotEqual(x, a);
+            Assert.AreNotEqual(a, x);
+            Assert.AreNotEqual(x, b);
+            Assert.AreNotEqual(b, x);
+        }
 
-		// self equality
-		Assert.assertNotSame(x, y);
-		Assert.assertNotSame(x, z);
-		Assert.assertNotSame(y, z);
-		Assert.AreEqual(x, x);
-		Assert.AreEqual(y, y);
-		Assert.AreEqual(z, z);
+        [Test]
+        public void HashCodeEqualsByContent()
+        {
+            var variables = CreateVariables3();
 
-		// equality by content
-		Assert.AreEqual(x, y);
-		Assert.AreEqual(y, x);
-		Assert.AreEqual(x, z);
-		Assert.AreEqual(z, x);
-		Assert.AreEqual(y, z);
-		Assert.AreEqual(z, y);
+            State a = new State(CreateVariables1());
+            State b = new State(CreateVariables2());
+            State x = new State(variables);
+            State y = new State(variables);
+            State z = new State(CreateVariables3());
 
-		// more equality by content
-		Assert.assertNotSame(x, a);
-		Assert.assertNotSame(x, b);
-		Assert.AreNotEqual(x, a);
-		Assert.AreNotEqual(a, x);
-		Assert.AreNotEqual(x, b);
-		Assert.AreNotEqual(b, x);
+            // self equality
+            Assert.AreNotSame(x, y);
+            Assert.AreNotSame(x, z);
+            Assert.AreNotSame(y, z);
+            Assert.AreEqual(x.GetHashCode(), x.GetHashCode());
+            Assert.AreEqual(y.GetHashCode(), y.GetHashCode());
+            Assert.AreEqual(z.GetHashCode(), z.GetHashCode());
 
-		// equality to other types
-		Assert.assertNotSame(x, o);
-		Assert.assertNotSame(x, i);
-		Assert.AreEqual(x, o);
-		Assert.AreEqual(o, x);
-		Assert.AreNotEqual(x, i);
-		Assert.AreNotEqual(i, x);
+            // hash equality by content
+            Assert.AreEqual(x.GetHashCode(), y.GetHashCode());
+            Assert.AreEqual(y.GetHashCode(), x.GetHashCode());
+            Assert.AreEqual(x.GetHashCode(), z.GetHashCode());
+            Assert.AreEqual(z.GetHashCode(), x.GetHashCode());
+            Assert.AreEqual(y.GetHashCode(), z.GetHashCode());
+            Assert.AreEqual(z.GetHashCode(), y.GetHashCode());
 
-		// equality to null
-		Assert.assertNotSame(x, null);
-		Assert.AreNotEqual(x, null);
-		Assert.AreNotEqual(null, x);
-	}
-
-	@Test
-	public void testHashCode() {
-
-		Map<VariableIdentifier, Integer> variables = createVariables3();
-
-		State a = new State(createVariables1());
-		State b = new State(createVariables2());
-		State x = new State(variables);
-		State y = new State(variables);
-		State z = new State(createVariables3());
-
-		Object o = z;
-		Integer i = 42;
-
-		// self equality
-		Assert.assertNotSame(x, y);
-		Assert.assertNotSame(x, z);
-		Assert.assertNotSame(y, z);
-		Assert.AreEqual(x.hashCode(), x.hashCode());
-		Assert.AreEqual(y.hashCode(), y.hashCode());
-		Assert.AreEqual(z.hashCode(), z.hashCode());
-
-		// hash equality by content
-		Assert.AreEqual(x.hashCode(), y.hashCode());
-		Assert.AreEqual(y.hashCode(), x.hashCode());
-		Assert.AreEqual(x.hashCode(), z.hashCode());
-		Assert.AreEqual(z.hashCode(), x.hashCode());
-		Assert.AreEqual(y.hashCode(), z.hashCode());
-		Assert.AreEqual(z.hashCode(), y.hashCode());
-
-		// more hash equality by content
-		Assert.assertNotSame(x, a);
-		Assert.assertNotSame(x, b);
-		Assert.AreNotEqual(x.hashCode(), a.hashCode());
-		Assert.AreNotEqual(a.hashCode(), x.hashCode());
-		Assert.AreNotEqual(x.hashCode(), b.hashCode());
-		Assert.AreNotEqual(b.hashCode(), x.hashCode());
-
-		// hash equality to other types
-		Assert.assertNotSame(x, o);
-		Assert.assertNotSame(x, i);
-		Assert.AreEqual(x.hashCode(), o.hashCode());
-		Assert.AreEqual(o.hashCode(), x.hashCode());
-		Assert.AreNotEqual(x.hashCode(), i.hashCode());
-		Assert.AreNotEqual(i.hashCode(), x.hashCode());
-	}
-
+            // more hash equality by content
+            Assert.AreNotSame(x, a);
+            Assert.AreNotSame(x, b);
+            Assert.AreNotEqual(x.GetHashCode(), a.GetHashCode());
+            Assert.AreNotEqual(a.GetHashCode(), x.GetHashCode());
+            Assert.AreNotEqual(x.GetHashCode(), b.GetHashCode());
+            Assert.AreNotEqual(b.GetHashCode(), x.GetHashCode());
+        }
+    }
 }
