@@ -4,9 +4,9 @@ namespace Lumpn.ZeldaDungeon
 {
     public static class ZeldaScripts
     {
-        private static readonly string switchName = "red/blue\nswitch";
+        private static readonly string switchName = "red/blue\\nswitch";
 
-        private static readonly string[] keys = { "small\nkey", "bomb" };
+        private static readonly string[] keys = { "small\\nkey", "bomb" };
         private static readonly string[] doors = { "door", "crack" };
         private static readonly string[] tools = { "sword", "shield", "boomerang", "bow", "flippers", "feather" };
         private static readonly string[] obstacles = { "bush", "trap", "orb", "statue", "water", "gap" };

@@ -32,11 +32,9 @@ namespace Lumpn.Dungeon
         /// Reach this location with the specified state
         public bool AddStep(State state, int distanceFromEntrance, out Step step)
         {
-            System.Console.WriteLine("searching loc {0} for state {1} ({2} existing steps)", id, state, steps.Count); 
             if (steps.TryGetValue(state, out step)) return false;
 
             step = new Step(this, state, distanceFromEntrance);
-            System.Console.WriteLine("reached loc {0} with new step {1}", id, step); 
             steps.Add(state, step);
             return true;
         }
