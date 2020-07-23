@@ -35,12 +35,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KeyDoorGene.cs" />
     <Compile Include="ZeldaMooga.cs" />
-    <Compile Include="ObstacleGene.cs" />
+    <Compile Include="ToolObstacleGene.cs" />
     <Compile Include="OneWayGene.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="PistonGene.cs" />
-    <Compile Include="SwitchGene.cs" />
     <Compile Include="TwoWayGene.cs" />
     <Compile Include="ZeldaConfiguration.cs" />
     <Compile Include="ZeldaEnvironment.cs" />
@@ -50,10 +49,11 @@
     <Compile Include="ZeldaGenomeFactory.cs" />
     <Compile Include="ZeldaIndividual.cs" />
     <Compile Include="ErrorCounter.cs" />
-    <Compile Include="IGene.cs" />
-    <Compile Include="IGeneFactory.cs" />
+    <Compile Include="Gene.cs" />
+    <Compile Include="GeneFactory.cs" />
     <Compile Include="GeneUtils.cs" />
     <Compile Include="ItemGene.cs" />
+    <Compile Include="Genes\ColorSwitchPistonGene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">
@@ -72,6 +72,13 @@
       <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
       <Name>Lumpn.ZeldaDungeon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
+      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
+      <Name>Lumpn.Dungeon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Genes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

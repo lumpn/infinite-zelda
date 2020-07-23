@@ -1,115 +1,98 @@
-﻿package de.lumpn.zelda.mooga;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
 
-import java.util.List;
-import java.util.Random;
-import de.lumpn.zelda.puzzle.VariableLookup;
-import de.lumpn.zelda.puzzle.ZeldaPuzzleBuilder;
-import de.lumpn.zelda.puzzle.script.IdentityScript;
-import de.lumpn.zelda.puzzle.script.ZeldaScript;
-import de.lumpn.zelda.puzzle.script.ZeldaScripts;
+namespace Lumpn.ZeldaMooga
+{
+    public sealed class PistonGene : ZeldaGene
+    {
+        private static enum Color
+        {
+            COLOR_RED, COLOR_BLUE,
+        }
 
-public sealed class PistonGene extends ZeldaGene {
+        private static String ColorToString(Color color)
+        {
+            switch (color)
+            {
+                case COLOR_RED:
+                    return "red";
+                case COLOR_BLUE:
+                    return "blue";
+                default:
+                    return "?";
+            }
+        }
 
-	private static enum Color {
-		COLOR_RED, COLOR_BLUE,
-	}
+        private static Color randomColor(RandomNumberGenerator random)
+        {
+            if (random.nextBoolean())
+            {
+                return Color.COLOR_RED;
+            }
+            return Color.COLOR_BLUE;
+        }
 
-	private static String ColorToString(Color color) {
-		switch (color) {
-			case COLOR_RED:
-				return "red";
-			case COLOR_BLUE:
-				return "blue";
-			default:
-				return "?";
-		}
-	}
+        public PistonGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+        {
+            super(configuration);
+            this.color = randomColor(random);
+            int a = randomLocation(random);
+            int b = differentLocation(a, random);
+            this.pistonStart = Math.min(a, b);
+            this.pistonEnd = Math.max(a, b);
+        }
 
-	private static Color randomColor(Random random) {
-		if (random.nextBoolean()) {
-			return Color.COLOR_RED;
-		}
-		return Color.COLOR_BLUE;
-	}
+        public PistonGene mutate(RandomNumberGenerator random)
+        {
+            return new PistonGene(getConfiguration(), random);
+        }
 
-	public PistonGene(ZeldaConfiguration configuration, Random random) {
-		super(configuration);
-		this.color = randomColor(random);
-		int a = randomLocation(random);
-		int b = differentLocation(a, random);
-		this.pistonStart = Math.min(a, b);
-		this.pistonEnd = Math.max(a, b);
-	}
+        public int countErrors(List<ZeldaGene> genes)
+        {
 
-	@Override
-	public PistonGene mutate(Random random) {
-		return new PistonGene(getConfiguration(), random);
-	}
+            // find a switch
+            for (ZeldaGene gene : genes)
+            {
+                if (gene is SwitchGene) return 0;
+            }
 
-	@Override
-	public int countErrors(List<ZeldaGene> genes) {
+            // no switch -> no good
+            return 1;
+        }
 
-		// find a switch
-		for (ZeldaGene gene : genes) {
-			if (gene instanceof SwitchGene) return 0;
-		}
+        public void express(ZeldaDungeonBuilder builder)
+        {
+            VariableLookup lookup = builder.lookup();
+            ZeldaScript script;
+            switch (color)
+            {
+                case COLOR_RED:
+                    script = ZeldaScripts.createRedPiston(lookup);
+                    break;
+                case COLOR_BLUE:
+                    script = ZeldaScripts.createBluePiston(lookup);
+                    break;
+                default:
+                    script = IdentityScript.INSTANCE;
+                    assert false;
+            }
+            builder.addUndirectedTransition(pistonStart, pistonEnd, script);
+        }
 
-		// no switch -> no good
-		return 1;
-	}
+        public String toString()
+        {
+            return String.format("%s piston %d--%d", ColorToString(color), pistonStart, pistonEnd);
+        }
 
-	@Override
-	public void express(ZeldaPuzzleBuilder builder) {
-		VariableLookup lookup = builder.lookup();
-		ZeldaScript script;
-		switch (color) {
-			case COLOR_RED:
-				script = ZeldaScripts.createRedPiston(lookup);
-				break;
-			case COLOR_BLUE:
-				script = ZeldaScripts.createBluePiston(lookup);
-				break;
-			default:
-				script = IdentityScript.INSTANCE;
-				assert false;
-		}
-		builder.addUndirectedTransition(pistonStart, pistonEnd, script);
-	}
+        /**
+         * Piston color
+         */
+        private readonly Color color;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + color.hashCode();
-		result = prime * result + pistonStart;
-		result = prime * result + pistonEnd;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof PistonGene)) return false;
-		PistonGene other = (PistonGene) obj;
-		if (color != other.color) return false;
-		if (pistonStart != other.pistonStart) return false;
-		if (pistonEnd != other.pistonEnd) return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s piston %d--%d", ColorToString(color), pistonStart, pistonEnd);
-	}
-
-	/**
-	 * Piston color
-	 */
-	private readonly Color color;
-
-	/**
-	 * Piston transition location
-	 */
-	private readonly int pistonStart, pistonEnd;
+        /**
+         * Piston transition location
+         */
+        private readonly int pistonStart, pistonEnd;
+    }
 }

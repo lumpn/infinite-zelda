@@ -1,77 +1,62 @@
-﻿package de.lumpn.zelda.mooga;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
+using System;
 
-import java.util.List;
-import java.util.Random;
-import de.lumpn.zelda.puzzle.ZeldaPuzzleBuilder;
-import de.lumpn.zelda.puzzle.script.IdentityScript;
+namespace Lumpn.ZeldaMooga
+{
+    public sealed class TwoWayGene : ZeldaGene
+    {
+        public TwoWayGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+            : base(configuration)
+        {
+            int a = RandomLocation(random);
+            int b = differentLocation(a, random);
+            this.wayStart = Math.Min(a, b);
+            this.wayEnd = Math.Max(a, b);
+        }
 
-public sealed class TwoWayGene : ZeldaGene {
+        public TwoWayGene(ZeldaConfiguration configuration, int wayStart, int wayEnd)
+            : base(configuration)
+        {
+            this.wayStart = wayStart;
+            this.wayEnd = wayEnd;
+        }
 
-	public TwoWayGene(ZeldaConfiguration configuration, Random random) {
-		super(configuration);
+        public TwoWayGene Mutate(RandomNumberGenerator random)
+        {
+            return new TwoWayGene(getConfiguration(), random);
+        }
 
-		int a = randomLocation(random);
-		int b = differentLocation(a, random);
-		this.wayStart = Math.min(a, b);
-		this.wayEnd = Math.max(a, b);
-	}
+        public int countErrors(List<ZeldaGene> genes)
+        {
 
-	public TwoWayGene(ZeldaConfiguration configuration, int wayStart, int wayEnd) {
-		super(configuration);
-		this.wayStart = wayStart;
-		this.wayEnd = wayEnd;
-	}
+            // find duplicates
+            int numErrors = 0;
+            for (ZeldaGene gene : genes)
+            {
+                if (gene is TwoWayGene)
+                {
+                    TwoWayGene other = (TwoWayGene)gene;
+                    if (other != this && other.equals(this)) numErrors++;
+                }
+            }
 
-	@Override
-	public TwoWayGene mutate(Random random) {
-		return new TwoWayGene(getConfiguration(), random);
-	}
+            return numErrors;
+        }
 
-	@Override
-	public int countErrors(List<ZeldaGene> genes) {
+        public void express(ZeldaDungeonBuilder builder)
+        {
+            builder.addUndirectedTransition(wayStart, wayEnd, IdentityScript.INSTANCE);
+        }
 
-		// find duplicates
-		int numErrors = 0;
-		for (ZeldaGene gene : genes) {
-			if (gene instanceof TwoWayGene) {
-				TwoWayGene other = (TwoWayGene) gene;
-				if (other != this && other.equals(this)) numErrors++;
-			}
-		}
 
-		return numErrors;
-	}
+        public String toString()
+        {
+            return String.format("%d--%d", wayStart, wayEnd);
+        }
 
-	@Override
-	public void express(ZeldaPuzzleBuilder builder) {
-		builder.addUndirectedTransition(wayStart, wayEnd, IdentityScript.INSTANCE);
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + wayStart;
-		result = prime * result + wayEnd;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (!(obj instanceof TwoWayGene)) return false;
-		TwoWayGene other = (TwoWayGene) obj;
-		if (wayStart != other.wayStart) return false;
-		if (wayEnd != other.wayEnd) return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%d--%d", wayStart, wayEnd);
-	}
-
-	// transition location of one-way
-	private readonly int wayStart, wayEnd;
+        // transition location of one-way
+        private readonly int wayStart, wayEnd;
+    }
 }

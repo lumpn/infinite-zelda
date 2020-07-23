@@ -1,97 +1,105 @@
-﻿package de.lumpn.zelda.mooga.evaluators;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import de.lumpn.zelda.puzzle.Location;
-import de.lumpn.zelda.puzzle.State;
-import de.lumpn.zelda.puzzle.Step;
-import de.lumpn.zelda.puzzle.ZeldaPuzzle;
+namespace Lumpn.ZeldaMooga
+{
+    public sealed class PathFinder
+    {
+        public static int shortestPathLength(ZeldaPuzzle puzzle, State initialState)
+        {
+            Step step = puzzle.getStep(ZeldaPuzzle.ENTRANCE, initialState);
+            if (step == null) return Step.UNREACHABLE;
+            return step.distanceFromExit();
+        }
 
-public sealed class PathFinder {
+        public static double revisitFactor(ZeldaPuzzle puzzle)
+        {
+            List<Location> locations = puzzle.getLocations();
+            if (locations.isEmpty()) return 0;
 
-	public static int shortestPathLength(ZeldaPuzzle puzzle, State initialState) {
-		Step step = puzzle.getStep(ZeldaPuzzle.ENTRANCE, initialState);
-		if (step == null) return Step.UNREACHABLE;
-		return step.distanceFromExit();
-	}
+            return puzzle.getSteps().size() / locations.size();
+        }
 
-	public static double revisitFactor(ZeldaPuzzle puzzle) {
-		List<Location> locations = puzzle.getLocations();
-		if (locations.isEmpty()) return 0;
+        public static double branchFactor(ZeldaPuzzle puzzle)
+        {
+            double branchFactor = 0;
 
-		return puzzle.getSteps().size() / locations.size();
-	}
+            List<Step> steps = puzzle.getSteps();
+            if (steps.isEmpty()) return 0;
 
-	public static double branchFactor(ZeldaPuzzle puzzle) {
-		double branchFactor = 0;
+            for (Step step : steps)
+            {
+                int numSuccessors = 0;
+                for (Step next : step.successors())
+                {
+                    numSuccessors++;
+                }
+                branchFactor += numSuccessors;
+            }
 
-		List<Step> steps = puzzle.getSteps();
-		if (steps.isEmpty()) return 0;
+            //average
+            return branchFactor / steps.size();
+        }
 
-		for (Step step : steps) {
-			int numSuccessors = 0;
-			for (Step next : step.successors()) {
-				numSuccessors++;
-			}
-			branchFactor += numSuccessors;
-		}
+        /**
+         * Finds the shortest path from source to destination given an initial state.
+         * @return Length of shortest path. -1 if no path exists.
+         */
+        public static int shortestPathLength(ZeldaPuzzle puzzle, State state, int source, int destination)
+        {
 
-		//average
-		return branchFactor / steps.size();
-	}
+            // find initial step
+            Step step = puzzle.getStep(source, state);
+            if (step == null)
+            {
+                return -1; // step not found
+            }
 
-	/**
-	 * Finds the shortest path from source to destination given an initial state.
-	 * @return Length of shortest path. -1 if no path exists.
-	 */
-	public static int shortestPathLength(ZeldaPuzzle puzzle, State state, int source, int destination) {
+            Path shortestPath = shortestPath(step, destination);
+            if (shortestPath == null)
+            {
+                return -1; // destination unreachable
+            }
 
-		// find initial step
-		Step step = puzzle.getStep(source, state);
-		if (step == null) {
-			return -1; // step not found
-		}
+            return shortestPath.length();
+        }
 
-		Path shortestPath = shortestPath(step, destination);
-		if (shortestPath == null) {
-			return -1; // destination unreachable
-		}
+        /**
+         * BFS shortest path search
+         */
+        public static Path shortestPath(Step initial, int destination)
+        {
 
-		return shortestPath.length();
-	}
+            Queue<Path> queue = new ArrayDeque<Path>();
+            Set<Step> visited = new HashSet<Step>();
 
-	/**
-	 * BFS shortest path search
-	 */
-	public static Path shortestPath(Step initial, int destination) {
+            // BFS
+            queue.add(new Path(null, initial));
+            while (!queue.isEmpty())
+            {
+                Path current = queue.remove();
 
-		Queue<Path> queue = new ArrayDeque<Path>();
-		Set<Step> visited = new HashSet<Step>();
+                // destination reached?
+                if (current.endsAtLocation(destination))
+                {
+                    return current;
+                }
 
-		// BFS
-		queue.add(new Path(null, initial));
-		while (!queue.isEmpty()) {
-			Path current = queue.remove();
+                // enqueue next steps
+                for (Step next : current.step().successors())
+                {
+                    if (visited.add(next))
+                    {
+                        // not yet visited -> enqueue
+                        queue.add(new Path(current, next));
+                    }
+                }
+            }
 
-			// destination reached?
-			if (current.endsAtLocation(destination)) {
-				return current;
-			}
+            // destination unreachable
+            return null;
+        }
 
-			// enqueue next steps
-			for (Step next : current.step().successors()) {
-				if (visited.add(next)) {
-					// not yet visited -> enqueue
-					queue.add(new Path(current, next));
-				}
-			}
-		}
-
-		// destination unreachable
-		return null;
-	}
-
+    }
 }

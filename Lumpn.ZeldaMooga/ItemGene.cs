@@ -1,93 +1,74 @@
-using Lumpn.Mooga;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
+using Lumpn.ZeldaDungeon;
 
-public sealed class ItemGene : ZeldaGene
+namespace Lumpn.ZeldaMooga
 {
-    public ItemGene(ZeldaConfiguration configuration, IRandom random)
-        : base(configuration)
+    public sealed class ItemGene : ZeldaGene
     {
-        this.item = configuration.randomItem(random);
-        this.itemLocation = randomLocation(random);
-    }
+        private readonly int item;
+        private readonly int itemLocation;
 
-    private ItemGene(ZeldaConfiguration configuration, int item, int itemLocation)
-        : base(configuration)
-    {
-        this.item = item;
-        this.itemLocation = itemLocation;
-    }
-
-    public int item()
-    {
-        return item;
-    }
-
-    public ItemGene mutate(Random random)
-    {
-        return new ItemGene(getConfiguration(), random);
-    }
-
-    public int countErrors(List<ZeldaGene> genes)
-    {
-
-        // find duplicates
-        int numErrors = 0;
-        for (ZeldaGene gene : genes)
+        public ItemGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+            : base(configuration)
         {
-            if (gene instanceof ItemGene) {
-            ItemGene other = (ItemGene)gene;
-            if (other != this && other.equals(this)) numErrors++;
+            this.item = configuration.RandomItem(random);
+            this.itemLocation = RandomLocation(random);
+        }
+
+        private ItemGene(ZeldaConfiguration configuration, int item, int itemLocation)
+            : base(configuration)
+        {
+            this.item = item;
+            this.itemLocation = itemLocation;
+        }
+
+        public override Gene Mutate(RandomNumberGenerator random)
+        {
+            return new ItemGene(Configuration, random);
+        }
+
+        public override int CountErrors(List<ZeldaGene> genes)
+        {
+            // find duplicates
+            int numErrors = 0;
+            foreach (ZeldaGene gene in genes)
+            {
+                if (gene is ItemGene)
+                {
+                    ItemGene other = (ItemGene)gene;
+                    if (other != this && other.equals(this)) numErrors++;
+                }
+            }
+
+            // find obstacle
+            foreach (ZeldaGene gene in genes)
+            {
+                if (gene is ObstacleGene)
+                {
+
+                    ObstacleGene other = (ObstacleGene)gene;
+                    if (other.requiredItem() == item) return numErrors;
+                }
+            }
+
+            // no obstacle -> useless item
+            return numErrors + 1;
+        }
+
+        public override void Express(ZeldaDungeonBuilder builder)
+        {
+            VariableLookup lookup = builder.lookup();
+
+            // spawn item
+            builder.addScript(itemLocation, ZeldaScripts.createItem(item, lookup));
+        }
+
+
+        public override string ToString()
+        {
+            return string.Format("item {0} at {1}", item, itemLocation);
         }
     }
-
-		// find obstacle
-		for (ZeldaGene gene : genes) {
-			if (gene instanceof ObstacleGene) {
-
-                ObstacleGene other = (ObstacleGene)gene;
-				if (other.requiredItem() == item) return numErrors;
-			}
-		}
-
-		// no obstacle -> useless item
-		return numErrors + 1;
-	}
-
-    public void express(ZeldaPuzzleBuilder builder)
-{
-    VariableLookup lookup = builder.lookup();
-
-    // spawn item
-    builder.addScript(itemLocation, ZeldaScripts.createItem(item, lookup));
-}
-
-public int hashCode()
-{
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + item;
-    result = prime * result + itemLocation;
-    return result;
-}
-
-public boolean equals(Object obj)
-{
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (!(obj instanceof ItemGene)) return false;
-    ItemGene other = (ItemGene)obj;
-    if (item != other.item) return false;
-    if (itemLocation != other.itemLocation) return false;
-    return true;
-}
-
-public String toString()
-{
-    return String.format("item %d %d", item, itemLocation);
-}
-
-// item
-private readonly int item;
-
-// location of item
-private readonly int itemLocation;
 }

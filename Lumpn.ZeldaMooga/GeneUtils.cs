@@ -1,46 +1,43 @@
-﻿package de.lumpn.zelda.mooga;
+﻿using System.Collections.Generic;
+using Lumpn.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import de.lumpn.util.CollectionUtils;
+namespace Lumpn.ZeldaMooga
+{
+    public sealed class GeneUtils
+    {
+        /// generate some genes
+        public static List<T> Generate<T>(int count, GeneFactory<T> factory, ZeldaConfiguration configuration, RandomNumberGenerator random) where T : Gene
+        {
+            var result = new List<T>();
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(factory.CreateGene(configuration, random));
+            }
+            return result;
+        }
 
-public sealed class GeneUtils {
+        public static void Mutate<T>(List<T> genes, GeneFactory<T> geneFactory, ZeldaConfiguration configuration, RandomNumberGenerator random) where T : Gene
+        {
+            // delete some genes
+            int numDeletions = configuration.CalcNumDeletions(genes.Count, random);
+            genes.Shuffle(random);
+            genes.RemoveRange(genes.Count - numDeletions, numDeletions);
 
-	public static <T extends Gene> List<T> generate(int count, GeneFactory<T> factory, ZeldaConfiguration configuration,
-			Random random) {
+            // mutate some genes
+            int numMutations = configuration.CalcNumMutations(genes.Count, random);
+            for (int i = 0; i < numMutations; i++)
+            {
+                var original = genes[i];
+                var mutation = original.Mutate(random);
+                genes[i] = (T)mutation;
+            }
 
-		// generate some genes
-		List<T> result = new ArrayList<T>();
-		for (int i = 0; i < count; i++) {
-			result.add(factory.createGene(configuration, random));
-		}
-		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Gene> List<T> mutate(List<T> genes, GeneFactory<T> geneFactory,
-			ZeldaConfiguration configuration, Random random) {
-
-		// delete some genes
-		List<T> result = CollectionUtils.shuffle(genes, random);
-		int numDeletions = Math.min(configuration.calcNumDeletions(genes.size(), random), genes.size());
-		result = result.subList(0, genes.size() - numDeletions);
-
-		// mutate some genes
-		int numMutations = Math.min(configuration.calcNumMutations(result.size(), random), result.size());
-		for (int i = 0; i < numMutations; i++) {
-			T original = result.get(i);
-			T mutation = (T) original.mutate(random);
-			result.set(i, mutation);
-		}
-
-		// insert some genes
-		int numInsertions = configuration.calcNumInsertions(genes.size(), random);
-		for (int i = 0; i < numInsertions; i++) {
-			result.add(geneFactory.createGene(configuration, random));
-		}
-
-		return result;
-	}
+            // insert some genes
+            int numInsertions = configuration.CalcNumInsertions(genes.Count, random);
+            for (int i = 0; i < numInsertions; i++)
+            {
+                genes.Add(geneFactory.CreateGene(configuration, random));
+            }
+        }
+    }
 }

@@ -1,97 +1,76 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Lumpn.Mooga;
+using Lumpn.ZeldaDungeon;
+using Lumpn.Utils;
 
-/// Immutable Zelda genome
-public sealed class ZeldaGenome : IGenome
+namespace Lumpn.ZeldaMooga
 {
-    public ZeldaGenome(ZeldaConfiguration configuration, IRandom random)
+    public sealed class ZeldaGenome : Genome
     {
-        this.configuration = configuration;
+        private static readonly ZeldaGeneFactory factory = new ZeldaGeneFactory();
 
-        // add some more genes
-        int count = configuration.calcNumInitialGenes(random);
-        this.genes = CollectionUtils.immutable(GeneUtils.generate(count, factory, configuration, random));
-    }
+        private readonly ZeldaConfiguration configuration;
 
-    private ZeldaGenome(ZeldaConfiguration configuration, List<ZeldaGene> genes)
-    {
-        this.configuration = configuration;
-        this.genes = CollectionUtils.immutable(genes);
-    }
+        private readonly List<ZeldaGene> genes;
 
-    public IEnumerable<Genome> Crossover(IGenome o, IRandom random)
-    {
-        ZeldaGenome other = (ZeldaGenome)o;
-
-        // randomly distribute genes
-        Pair<List<ZeldaGene>> distributedGenes = CollectionUtils.distribute(genes, other.genes, random);
-
-        // assemble offsprings
-        ZeldaGenome x = new ZeldaGenome(configuration, distributedGenes.first());
-        ZeldaGenome y = new ZeldaGenome(configuration, distributedGenes.second());
-        return new Pair<Genome>(x, y);
-    }
-
-    @Override
-    public Genome mutate(Random random)
-    {
-
-        // mutate genes
-        List<ZeldaGene> newGenes = GeneUtils.mutate(genes, factory, configuration, random);
-
-        // assemble offspring
-        return new ZeldaGenome(configuration, newGenes);
-    }
-
-    public int size()
-    {
-        return genes.size();
-    }
-
-    public int countErrors()
-    {
-        int numErrors = 0;
-        for (ZeldaGene gene : genes)
+        public ZeldaGenome(ZeldaConfiguration configuration, RandomNumberGenerator random)
         {
-            numErrors += gene.countErrors(genes);
-        }
-        return numErrors;
-    }
+            this.configuration = configuration;
 
-    public void express(ZeldaPuzzleBuilder builder)
-    {
-        for (ZeldaGene gene : genes)
+            // add some more genes
+            int count = configuration.CalcNumInitialGenes(random);
+            this.genes = GeneUtils.Generate(count, factory, configuration, random);
+        }
+
+        private ZeldaGenome(ZeldaConfiguration configuration, List<ZeldaGene> genes)
         {
-            gene.express(builder);
+            this.configuration = configuration;
+            this.genes = genes;
+        }
+
+        public Pair<Genome> Crossover(Genome o, RandomNumberGenerator random)
+        {
+            ZeldaGenome other = (ZeldaGenome)o;
+
+            // randomly distribute genes
+            Pair<List<ZeldaGene>> distributedGenes = CollectionUtils.distribute(genes, other.genes, random);
+
+            // assemble offsprings
+            var a = new ZeldaGenome(configuration, distributedGenes.First);
+            var b = new ZeldaGenome(configuration, distributedGenes.Second);
+            return new Pair<Genome>(a, b);
+        }
+
+        public Genome Mutate(RandomNumberGenerator random)
+        {
+            // mutate genes
+            List<ZeldaGene> newGenes = GeneUtils.Mutate(genes, factory, configuration, random);
+
+            // assemble offspring
+            return new ZeldaGenome(configuration, newGenes);
+        }
+
+        public int CountErrors()
+        {
+            int numErrors = 0;
+            foreach (ZeldaGene gene in genes)
+            {
+                numErrors += gene.CountErrors(genes);
+            }
+            return numErrors;
+        }
+
+        public void Express(ZeldaDungeonBuilder builder)
+        {
+            foreach (ZeldaGene gene in genes)
+            {
+                gene.Express(builder);
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Join(", ", genes);
         }
     }
-
-    @Override
-    public int hashCode()
-    {
-        return genes.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof ZeldaGenome)) return false;
-        ZeldaGenome other = (ZeldaGenome)obj;
-        if (!genes.equals(other.genes)) return false;
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("%s", genes);
-    }
-
-    private readonly ZeldaConfiguration configuration;
-
-	private readonly List<ZeldaGene> genes;
-
-    private static readonly ZeldaGeneFactory factory = new ZeldaGeneFactory();
 }

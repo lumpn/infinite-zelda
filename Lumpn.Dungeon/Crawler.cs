@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Lumpn.Utils;
 
 namespace Lumpn.Dungeon
@@ -133,6 +134,11 @@ namespace Lumpn.Dungeon
         {
             var location = locations.GetOrFallback(locationId, null);
             return location?.DebugGetStep(state);
+        }
+
+        public IEnumerable<Step> DebugGetSteps()
+        {
+            return locations.SelectMany(p => p.Value.DebugGetSteps());
         }
     }
 }

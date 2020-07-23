@@ -1,35 +1,41 @@
-using Lumpn.Mooga;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
+using Lumpn.ZeldaDungeon;
 
-public abstract class ZeldaGene : Gene
+namespace Lumpn.ZeldaMooga
 {
-    public ZeldaGene(ZeldaConfiguration configuration)
+    public abstract class ZeldaGene : Gene
     {
-        this.configuration = configuration;
-    }
+        private readonly ZeldaConfiguration configuration;
 
-    public ZeldaConfiguration getConfiguration()
-    {
-        return configuration;
-    }
+        public ZeldaConfiguration Configuration { get { return configuration; } }
 
-    public int randomLocation(IRandom random)
-    {
-        return configuration.randomLocation(random);
-    }
-
-    public int differentLocation(int forbidden, IRandom random)
-    {
-        int location;
-        do
+        public ZeldaGene(ZeldaConfiguration configuration)
         {
-            location = configuration.randomLocation(random);
-        } while (location == forbidden);
-        return location;
+            this.configuration = configuration;
+        }
+
+        public int RandomLocation(RandomNumberGenerator random)
+        {
+            return configuration.RandomLocation(random);
+        }
+
+        public int DifferentLocation(int otherLocation, RandomNumberGenerator random)
+        {
+            int location;
+            do
+            {
+                location = configuration.RandomLocation(random);
+            }
+            while (location == otherLocation);
+            return location;
+        }
+
+        public abstract Gene Mutate(RandomNumberGenerator random);
+
+        public abstract int CountErrors(List<ZeldaGene> genes);
+
+        public abstract void Express(ZeldaDungeonBuilder builder);
     }
-
-    public abstract int countErrors(List<ZeldaGene> genes);
-
-    public abstract void express(ZeldaPuzzleBuilder builder);
-
-    private readonly ZeldaConfiguration configuration;
 }

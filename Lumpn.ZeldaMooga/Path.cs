@@ -1,27 +1,36 @@
-﻿package de.lumpn.zelda.mooga.evaluators;
+﻿using Lumpn.Mooga;
+using Lumpn.Utils;
+using System.Collections.Generic;
 
-import de.lumpn.zelda.puzzle.Step;
+namespace Lumpn.ZeldaMooga
+{
 
-public sealed class Path {
+    public sealed class Path
+    {
 
-	public Path(Path prefix, Step step) {
-		this.prefix = prefix;
-		this.step = step;
-	}
+        public Path(Path prefix, Step step)
+        {
+            this.prefix = prefix;
+            this.step = step;
+        }
 
-	public Step step() {
-		return step;
-	}
+        public Step step()
+        {
+            return step;
+        }
 
-	public boolean endsAtLocation(int location) {
-		return step.location().id() == location;
-	}
+        public boolean endsAtLocation(int location)
+        {
+            return step.location().id() == location;
+        }
 
-	public int length() {
-		if (prefix == null) return 0;
-		return prefix.length() + 1;
-	}
+        public int length()
+        {
+            if (prefix == null) return 0;
+            return prefix.length() + 1;
+        }
 
-	private readonly Path prefix;
-	private readonly Step step;
+        private readonly Path prefix;
+        private readonly Step step;
+    }
 }

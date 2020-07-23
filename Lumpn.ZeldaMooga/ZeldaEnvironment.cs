@@ -1,16 +1,24 @@
+﻿using Lumpn.Mooga;
 using Lumpn.Mooga;
+using Lumpn.Dungeon;
+using Lumpn.ZeldaDungeon;
+using Lumpn.Utils;
+using System.Collections.Generic;
 
 namespace Lumpn.ZeldaMooga
 {
-    public sealed class ZeldaEnvironment : IEnvironment
+    public sealed class ZeldaEnvironment : Environment
     {
+        private readonly State initialState;
+        private readonly int maxSteps;
+
         public ZeldaEnvironment(State initialState, int maxSteps)
         {
             this.initialState = initialState;
             this.maxSteps = maxSteps;
         }
 
-        public ZeldaIndividual Evaluate(IGenome g)
+        public ZeldaIndividual Evaluate(Genome g)
         {
             ZeldaGenome genome = (ZeldaGenome)g;
 
@@ -18,9 +26,9 @@ namespace Lumpn.ZeldaMooga
             int genomeErrors = genome.countErrors();
 
             // build puzzle
-            ZeldaPuzzleBuilder builder = new ZeldaPuzzleBuilder();
+            var builder = new ZeldaDungeonBuilder();
             genome.express(builder);
-            ZeldaPuzzle puzzle = builder.puzzle();
+            var puzzle = builder.puzzle();
 
             // crawl puzzle
             if (genomeErrors < 10)
@@ -37,9 +45,5 @@ namespace Lumpn.ZeldaMooga
             // create individual
             return new ZeldaIndividual(genome, puzzle, genomeErrors + numErrors, shortestPathLength, revisitFactor, branchFactor);
         }
-
-        private readonly State initialState;
-        private readonly int maxSteps;
-        private static readonly ProgressConsumer progress = new MockProgressBar();
     }
 }

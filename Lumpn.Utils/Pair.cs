@@ -2,7 +2,10 @@
 {
     public struct Pair<T>
     {
-        public readonly T first, second;
+        private readonly T first, second;
+
+        public T First { get { return first; } }
+        public T Second { get { return second; } }
 
         public Pair(T first, T second)
         {

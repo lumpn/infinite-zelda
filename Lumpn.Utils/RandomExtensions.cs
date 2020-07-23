@@ -4,6 +4,12 @@ namespace Lumpn.Utils
 {
     public static class RandomExtensions
     {
+        /// min inclusive, max exclusive
+        public static int Range(this RandomNumberGenerator random, int min, int max)
+        {
+            return min + random.NextInt(max - min);
+        }
+
         public static double Range(this RandomNumberGenerator random, double min, double max)
         {
             var value = random.NextDouble();
