@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Lumpn.Mooga;
 using Lumpn.Utils;
+using Lumpn.Dungeon;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -17,13 +18,17 @@ namespace Lumpn.ZeldaMooga
         private readonly double branchFactor;
 
         private readonly ZeldaGenome genome;
+        private readonly Crawler crawler;
 
         public Genome Genome { get { return genome; } }
+        public Crawler Crawler {  get { return crawler; } }
 
-        public ZeldaIndividual(ZeldaGenome genome, int numSteps, int numDeadEnds, int shortestPathLength, double revisitFactor, double branchFactor)
+        public ZeldaIndividual(ZeldaGenome genome, Crawler crawler, int numSteps, int numDeadEnds, int shortestPathLength, double revisitFactor, double branchFactor)
         {
             Debug.Assert(genome != null);
             this.genome = genome;
+            this.crawler = crawler;
+            this.numSteps = numSteps;
             this.numDeadEnds = numDeadEnds;
             this.shortestPathLength = shortestPathLength;
             this.revisitFactor = revisitFactor;

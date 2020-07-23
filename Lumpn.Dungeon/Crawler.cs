@@ -21,8 +21,9 @@ namespace Lumpn.Dungeon
         public List<Step> Crawl(IEnumerable<State> initialStates, int maxSteps)
         {
             // find entrance & exit
-            var entrance = locations[entranceId];
-            var exit = locations[exitId];
+            var entrance = locations.GetOrFallback(entranceId, null);
+            var exit = locations.GetOrFallback(exitId, null);
+            if (entrance == null) return new List<Step>();
 
             // initialize initial steps
             var initialSteps = new List<Step>();

@@ -29,7 +29,7 @@ namespace Lumpn.ZeldaMooga.Test
         }
 
         [Test]
-        public void TestCase()
+        public void TestEvolution()
         {
             var random = new SystemRandom(42);
             var configuration = new ZeldaConfiguration(random);
@@ -46,7 +46,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Console.WriteLine("gen " + i);
                 genomes = evolution.Evolve(genomes, random);
@@ -55,9 +55,9 @@ namespace Lumpn.ZeldaMooga.Test
             var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
             Console.WriteLine(best);
 
-            //var puzzle = best.puzzle();
-            //var builder = new DotBuilder();
-            //puzzle.express(builder);
+            var crawler = best.Crawler;
+            var builder = new DotBuilder();
+            crawler.Express(builder);
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
         }

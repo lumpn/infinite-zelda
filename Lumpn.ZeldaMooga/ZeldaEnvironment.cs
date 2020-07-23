@@ -36,7 +36,7 @@ namespace Lumpn.ZeldaMooga
             double branchFactor = PathFinder.CalcBranchFactor(crawler);
 
             // create individual
-            return new ZeldaIndividual(genome, numSteps, numDeadEnds, shortestPathLength, revisitFactor, branchFactor);
+            return new ZeldaIndividual(genome, crawler, numSteps, numDeadEnds, shortestPathLength, revisitFactor, branchFactor);
         }
     }
 }

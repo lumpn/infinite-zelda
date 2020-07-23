@@ -93,7 +93,7 @@ namespace Lumpn.Mooga
             // print stats
             for (int i = 0; i < numAttributes; i++)
             {
-                Console.WriteLine("{0}: min {1}, max {2}, mid {3}, avg {4}\n", i, mins[i], maxs[i], (mins[i] + maxs[i]) / 2, sums[i] / count);
+                Console.WriteLine("{0}: min {1}, max {2}, mid {3}, avg {4}", i, mins[i], maxs[i], (mins[i] + maxs[i]) / 2, sums[i] / count);
             }
         }
 
