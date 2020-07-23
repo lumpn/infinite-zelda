@@ -32,15 +32,9 @@
     <IntermediateOutputPath>obj\x86\Release</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="KeyDoorGene.cs" />
     <Compile Include="ZeldaMooga.cs" />
-    <Compile Include="ToolObstacleGene.cs" />
-    <Compile Include="OneWayGene.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="PathFinder.cs" />
-    <Compile Include="PistonGene.cs" />
-    <Compile Include="TwoWayGene.cs" />
     <Compile Include="ZeldaConfiguration.cs" />
     <Compile Include="ZeldaEnvironment.cs" />
     <Compile Include="ZeldaGene.cs" />
@@ -52,8 +46,10 @@
     <Compile Include="Gene.cs" />
     <Compile Include="GeneFactory.cs" />
     <Compile Include="GeneUtils.cs" />
-    <Compile Include="ItemGene.cs" />
     <Compile Include="Genes\ColorSwitchPistonGene.cs" />
+    <Compile Include="Genes\KeyDoorGene.cs" />
+    <Compile Include="Genes\OneWayGene.cs" />
+    <Compile Include="Genes\ToolObstacleGene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">

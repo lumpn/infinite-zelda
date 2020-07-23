@@ -1,6 +1,4 @@
-﻿using Lumpn.Mooga;
-using Lumpn.Utils;
-using System.Collections.Generic;
+﻿using Lumpn.Utils;
 using Lumpn.ZeldaDungeon;
 
 namespace Lumpn.ZeldaMooga
@@ -21,7 +19,7 @@ namespace Lumpn.ZeldaMooga
             return configuration.RandomLocation(random);
         }
 
-        public int DifferentLocation(int otherLocation, RandomNumberGenerator random)
+        public int DifferentLocation(RandomNumberGenerator random, int otherLocation)
         {
             int location;
             do
@@ -29,12 +27,11 @@ namespace Lumpn.ZeldaMooga
                 location = configuration.RandomLocation(random);
             }
             while (location == otherLocation);
+
             return location;
         }
 
         public abstract Gene Mutate(RandomNumberGenerator random);
-
-        public abstract int CountErrors(List<ZeldaGene> genes);
 
         public abstract void Express(ZeldaDungeonBuilder builder);
     }

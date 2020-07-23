@@ -1,7 +1,4 @@
-﻿using Lumpn.Mooga;
-using Lumpn.Mooga;
-using Lumpn.Utils;
-using System.Collections.Generic;
+﻿using Lumpn.Utils;
 
 namespace Lumpn.ZeldaMooga
 {

@@ -6,6 +6,12 @@ namespace Lumpn.ZeldaMooga
 {
     public sealed class ObstacleGene : ZeldaGene
     {
+        /// tool to overcome obstacle
+        private readonly int requiredItem;
+
+        /// obstacle transition location
+        private readonly int obstacleStart, obstacleEnd;
+
         public ObstacleGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
         {
             super(configuration);
@@ -52,15 +58,5 @@ namespace Lumpn.ZeldaMooga
         {
             return String.format("obstacle %s %d--%d", requiredItem, obstacleStart, obstacleEnd);
         }
-
-        /**
-         * item to overcome obstacle
-         */
-        private readonly int requiredItem;
-
-        /**
-         * obstacle transition location
-         */
-        private readonly int obstacleStart, obstacleEnd;
     }
 }
