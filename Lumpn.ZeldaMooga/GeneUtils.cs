@@ -19,21 +19,21 @@ namespace Lumpn.ZeldaMooga
         public static void Mutate<T>(List<T> genes, GeneFactory<T> geneFactory, ZeldaConfiguration configuration, RandomNumberGenerator random) where T : Gene
         {
             // delete some genes
-            int numDeletions = configuration.CalcNumDeletions(genes.Count, random);
+            int numDeletions = configuration.CalcNumDeletions(genes.Count);
             genes.Shuffle(random);
             genes.RemoveRange(genes.Count - numDeletions, numDeletions);
 
             // mutate some genes
-            int numMutations = configuration.CalcNumMutations(genes.Count, random);
+            int numMutations = configuration.CalcNumMutations(genes.Count);
             for (int i = 0; i < numMutations; i++)
             {
                 var original = genes[i];
-                var mutation = original.Mutate(random);
+                var mutation = original.Mutate();
                 genes[i] = (T)mutation;
             }
 
             // insert some genes
-            int numInsertions = configuration.CalcNumInsertions(genes.Count, random);
+            int numInsertions = configuration.CalcNumInsertions(genes.Count);
             for (int i = 0; i < numInsertions; i++)
             {
                 genes.Add(geneFactory.CreateGene(configuration, random));

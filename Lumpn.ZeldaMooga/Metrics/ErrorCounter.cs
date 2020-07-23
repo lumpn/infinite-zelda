@@ -4,17 +4,10 @@ namespace Lumpn.ZeldaMooga
 {
     public static class ErrorCounter
     {
-        public static int CountErrors(Crawler puzzle)
-        {
-            int errors = 0;
-            errors += CountDeadEnds(puzzle);
-            return errors;
-        }
-
-        private static int CountDeadEnds(Crawler puzzle)
+        public static int CountDeadEnds(Crawler crawler)
         {
             int deadEnds = 0;
-            var steps = puzzle.DebugGetSteps();
+            var steps = crawler.DebugGetSteps();
             foreach (Step step in steps)
             {
                 if (!step.HasDistanceFromExit) deadEnds++;

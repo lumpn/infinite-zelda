@@ -36,8 +36,8 @@ namespace Lumpn.Mooga
                 var b = selection.Select(rankedPopulation);
 
                 var children = a.Genome.Crossover(b.Genome, random);
-                generation.Add(children.first);
-                generation.Add(children.second);
+                generation.Add(children.First);
+                generation.Add(children.Second);
             }
 
             // mutation

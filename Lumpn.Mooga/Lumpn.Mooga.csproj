@@ -45,7 +45,7 @@
     <Compile Include="DistanceComparer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.csproj">
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
       <Name>Lumpn.Utils</Name>
     </ProjectReference>

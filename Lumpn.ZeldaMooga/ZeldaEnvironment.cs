@@ -1,49 +1,42 @@
-﻿using Lumpn.Mooga;
-using Lumpn.Mooga;
+﻿using System.Linq;
 using Lumpn.Dungeon;
+using Lumpn.Mooga;
 using Lumpn.ZeldaDungeon;
-using Lumpn.Utils;
-using System.Collections.Generic;
 
 namespace Lumpn.ZeldaMooga
 {
     public sealed class ZeldaEnvironment : Environment
     {
-        private readonly State initialState;
+        private readonly State[] initialStates;
         private readonly int maxSteps;
 
-        public ZeldaEnvironment(State initialState, int maxSteps)
+        public ZeldaEnvironment(State[] initialStates, int maxSteps)
         {
-            this.initialState = initialState;
+            this.initialStates = initialStates;
             this.maxSteps = maxSteps;
         }
 
-        public ZeldaIndividual Evaluate(Genome g)
+        public Individual Evaluate(Genome g)
         {
             ZeldaGenome genome = (ZeldaGenome)g;
 
-            // evaluate genome first
-            int genomeErrors = genome.countErrors();
-
             // build puzzle
             var builder = new ZeldaDungeonBuilder();
-            genome.express(builder);
-            var puzzle = builder.puzzle();
+            genome.Express(builder);
+            var crawler = builder.Build();
 
             // crawl puzzle
-            if (genomeErrors < 10)
-            { // allow some genetic errors
-                puzzle.crawl(Arrays.asList(initialState), maxSteps, progress);
-            }
+            var terminalSteps = crawler.Crawl(initialStates, maxSteps);
 
             // evaluate puzzle
-            int numErrors = ErrorCounter.countErrors(puzzle);
-            int shortestPathLength = PathFinder.shortestPathLength(puzzle, initialState);
-            double revisitFactor = PathFinder.revisitFactor(puzzle);
-            double branchFactor = PathFinder.branchFactor(puzzle);
+            int numSteps = crawler.DebugGetSteps().Count();
+            int numDeadEnds = ErrorCounter.CountDeadEnds(crawler);
+            int shortestPathLength = PathFinder.CalcShortestPathLength(terminalSteps);
+            double revisitFactor = PathFinder.CalcRevisitFactor(crawler);
+            double branchFactor = PathFinder.CalcBranchFactor(crawler);
 
             // create individual
-            return new ZeldaIndividual(genome, puzzle, genomeErrors + numErrors, shortestPathLength, revisitFactor, branchFactor);
+            return new ZeldaIndividual(genome, numSteps, numDeadEnds, shortestPathLength, revisitFactor, branchFactor);
         }
     }
 }

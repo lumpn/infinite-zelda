@@ -140,5 +140,10 @@ namespace Lumpn.Dungeon
         {
             return locations.SelectMany(p => p.Value.DebugGetSteps());
         }
+
+        public IEnumerable<Location> DebugGetLocations()
+        {
+            return locations.Select(p => p.Value);
+        }
     }
 }

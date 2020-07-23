@@ -4,12 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6CB833C7-351F-4DF7-AAC8-384157C9690B}</ProjectGuid>
+    <ProjectGuid>{FF79A23E-5937-4A82-91DB-0BF96512DE6F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Mooga.Test</RootNamespace>
-    <AssemblyName>Mooga.Test</AssemblyName>
+    <RootNamespace>Lumpn.ZeldaMooga.Test</RootNamespace>
+    <AssemblyName>Lumpn.ZeldaMooga.Test</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <BaseIntermediateOutputPath>C:\Work\MonoDevelop\bin</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,44 +18,46 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>obj\Debug</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>obj\Release</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrowdingDistanceRankingTest.cs" />
-    <Compile Include="SimpleIndividual.cs" />
-    <Compile Include="ParetoIndividual.cs" />
-    <Compile Include="ScoreComparerTest.cs" />
-    <Compile Include="DominationComparerTest.cs" />
     <Compile Include="EvolutionTest.cs" />
-    <Compile Include="SimpleGenome.cs" />
-    <Compile Include="ParetoGenome.cs" />
-    <Compile Include="SimpleGenomeFactory.cs" />
-    <Compile Include="SimpleEnvironment.cs" />
-    <Compile Include="ElitistEvolutionTest.cs" />
+    <Compile Include="ZeldaMooga.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
+      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
+      <Name>Lumpn.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj">
       <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
       <Name>Lumpn.Mooga</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
-      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Lumpn.Utils</Name>
+    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj">
+      <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
+      <Name>Lumpn.ZeldaDungeon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
+      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
+      <Name>Lumpn.Dungeon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lumpn.ZeldaMooga\Lumpn.ZeldaMooga.csproj">
+      <Project>{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}</Project>
+      <Name>Lumpn.ZeldaMooga</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

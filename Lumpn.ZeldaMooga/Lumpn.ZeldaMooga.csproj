@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>ZeldaMooga</RootNamespace>
     <AssemblyName>ZeldaMooga</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -32,9 +32,6 @@
     <IntermediateOutputPath>obj\x86\Release</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ZeldaMooga.cs" />
-    <Compile Include="Path.cs" />
-    <Compile Include="PathFinder.cs" />
     <Compile Include="ZeldaConfiguration.cs" />
     <Compile Include="ZeldaEnvironment.cs" />
     <Compile Include="ZeldaGene.cs" />
@@ -42,7 +39,6 @@
     <Compile Include="ZeldaGenome.cs" />
     <Compile Include="ZeldaGenomeFactory.cs" />
     <Compile Include="ZeldaIndividual.cs" />
-    <Compile Include="ErrorCounter.cs" />
     <Compile Include="Gene.cs" />
     <Compile Include="GeneFactory.cs" />
     <Compile Include="GeneUtils.cs" />
@@ -52,15 +48,14 @@
     <Compile Include="Genes\ToolGene.cs" />
     <Compile Include="Genes\ObstacleGene.cs" />
     <Compile Include="Genes\ColorPistonGene.cs" />
+    <Compile Include="Metrics\ErrorCounter.cs" />
+    <Compile Include="Metrics\PathFinder.cs" />
+    <Compile Include="Metrics\OptimizationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">
       <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
       <Name>Lumpn.Mooga</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZeldaLayout\ZeldaLayout.csproj">
-      <Project>{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}</Project>
-      <Name>Lumpn.ZeldaLayout</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
@@ -77,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Genes\" />
+    <Folder Include="Metrics\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

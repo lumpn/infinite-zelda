@@ -1,6 +1,4 @@
-﻿using Lumpn.Utils;
-
-namespace Lumpn.ZeldaMooga
+﻿namespace Lumpn.ZeldaMooga
 {
     public interface Gene
     {

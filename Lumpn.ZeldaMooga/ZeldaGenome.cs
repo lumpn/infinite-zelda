@@ -18,7 +18,7 @@ namespace Lumpn.ZeldaMooga
             this.configuration = configuration;
 
             // add some more genes
-            int count = configuration.CalcNumInitialGenes(random);
+            int count = configuration.CalcNumInitialGenes();
             this.genes = GeneUtils.Generate(count, factory, configuration, random);
         }
 
@@ -44,20 +44,10 @@ namespace Lumpn.ZeldaMooga
         public Genome Mutate(RandomNumberGenerator random)
         {
             // mutate genes
-            List<ZeldaGene> newGenes = GeneUtils.Mutate(genes, factory, configuration, random);
+            GeneUtils.Mutate(genes, factory, configuration, random);
 
             // assemble offspring
             return new ZeldaGenome(configuration, newGenes);
-        }
-
-        public int CountErrors()
-        {
-            int numErrors = 0;
-            foreach (ZeldaGene gene in genes)
-            {
-                numErrors += gene.CountErrors(genes);
-            }
-            return numErrors;
         }
 
         public void Express(ZeldaDungeonBuilder builder)

@@ -1,16 +1,25 @@
 using System;
+using System.Collections.Generic;
 using Lumpn.Mooga;
 using Lumpn.Utils;
+using Lumpn.Dungeon;
+using NUnit.Framework;
 
-namespace Lumpn.ZeldaMooga
+namespace Lumpn.ZeldaMooga.Test
 {
-    public sealed class ZeldaMooga
+    using Variables = Dictionary<int, int>;
+
+    [TestFixture]
+    public sealed class EvolutionTest
     {
+        [Test]
+        public void TestCase()
+
         public static void Main(string[] args)
         {
             var random = new SystemRandom(42);
 
-            var configuration = new ZeldaConfiguration();
+            var configuration = new ZeldaConfiguration(random);
 
             var factory = new ZeldaGenomeFactory(configuration, random);
 
