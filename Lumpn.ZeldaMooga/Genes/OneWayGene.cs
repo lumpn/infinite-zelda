@@ -1,5 +1,4 @@
-﻿using Lumpn.Utils;
-using Lumpn.ZeldaDungeon;
+﻿using Lumpn.ZeldaDungeon;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -7,23 +6,16 @@ namespace Lumpn.ZeldaMooga
     {
         private readonly int wayStart, wayEnd;
 
-        public OneWayGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+        public OneWayGene(ZeldaConfiguration configuration)
             : base(configuration)
         {
-            this.wayStart = RandomLocation(random);
-            this.wayEnd = DifferentLocation(random, wayStart);
+            this.wayStart = RandomLocation();
+            this.wayEnd = RandomLocation(wayStart);
         }
 
-        public OneWayGene(ZeldaConfiguration configuration, int wayStart, int wayEnd)
-            : base(configuration)
+        public override Gene Mutate()
         {
-            this.wayStart = wayStart;
-            this.wayEnd = wayEnd;
-        }
-
-        public override Gene Mutate(RandomNumberGenerator random)
-        {
-            return new OneWayGene(Configuration, random);
+            return new OneWayGene(Configuration);
         }
 
         public override void Express(ZeldaDungeonBuilder builder)

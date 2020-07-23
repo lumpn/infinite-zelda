@@ -1,8 +1,5 @@
-﻿using Lumpn.Mooga;
-using Lumpn.Utils;
+﻿using System;
 using Lumpn.ZeldaDungeon;
-using System.Collections.Generic;
-using System;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -12,27 +9,20 @@ namespace Lumpn.ZeldaMooga
         private readonly int keyLocation;
         private readonly int doorStart, doorEnd;
 
-        public KeyDoorGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+        public KeyDoorGene(ZeldaConfiguration configuration)
             : base(configuration)
         {
-            this.keyType = configuration.RandomKeyType(random);
-            this.keyLocation = RandomLocation(random);
-            this.doorStart = RandomLocation(random);
-            this.doorEnd = DifferentLocation(random, doorStart);
+            this.keyType = configuration.RandomKeyType();
+            this.keyLocation = RandomLocation();
+            int a = RandomLocation();
+            int b = RandomLocation(a);
+            this.doorStart = Math.Min(a, b);
+            this.doorEnd = Math.Max(a, b);
         }
 
-        private KeyDoorGene(ZeldaConfiguration configuration, int keyType, int keyLocation, int doorStart, int doorEnd)
-            : base(configuration)
+        public override Gene Mutate()
         {
-            this.keyType = keyType;
-            this.keyLocation = keyLocation;
-            this.doorStart = doorStart;
-            this.doorEnd = doorEnd;
-        }
-
-        public override Gene Mutate(RandomNumberGenerator random)
-        {
-            return new KeyDoorGene(Configuration, random);
+            return new KeyDoorGene(Configuration);
         }
 
         public override void Express(ZeldaDungeonBuilder builder)

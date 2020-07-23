@@ -14,24 +14,25 @@ namespace Lumpn.ZeldaMooga
             this.configuration = configuration;
         }
 
-        public int RandomLocation(RandomNumberGenerator random)
+        public int RandomLocation()
         {
-            return configuration.RandomLocation(random);
+            return configuration.RandomLocation();
         }
 
-        public int DifferentLocation(RandomNumberGenerator random, int otherLocation)
+        /// random location different from the other location
+        public int RandomLocation(int otherLocation)
         {
             int location;
             do
             {
-                location = configuration.RandomLocation(random);
+                location = configuration.RandomLocation();
             }
             while (location == otherLocation);
 
             return location;
         }
 
-        public abstract Gene Mutate(RandomNumberGenerator random);
+        public abstract Gene Mutate();
 
         public abstract void Express(ZeldaDungeonBuilder builder);
     }

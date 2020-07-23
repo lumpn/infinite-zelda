@@ -9,6 +9,8 @@ namespace Lumpn.ZeldaMooga
         private const int numLocations = 10;
         private const int numKeyTypes = 2;
         private const int numToolTypes = 4;
+        private const int numSwitchTypes = 2;
+        private const int numSwitchColors = 2;
 
         // initialization
         private const double initialGeneMedian = 2;
@@ -18,39 +20,56 @@ namespace Lumpn.ZeldaMooga
         private const double deletionCoefficient = 0.05; // ~5% ([0%, 35%])
         private const double insertionCoefficient = 0.10; // ~10% ([0%, 75%])
 
-        public int RandomKeyType(RandomNumberGenerator random)
+        private readonly RandomNumberGenerator random;
+
+        public ZeldaConfiguration(RandomNumberGenerator random)
+        {
+            this.random = random;
+        }
+
+        public int RandomKeyType()
         {
             return random.NextInt(numKeyTypes);
         }
 
-        public int RandomToolType(RandomNumberGenerator random)
+        public int RandomToolType()
         {
             return random.NextInt(numToolTypes);
         }
 
-        public int RandomLocation(RandomNumberGenerator random)
+        public int RandomSwitchType()
+        {
+            return random.NextInt(numSwitchTypes);
+        }
+
+        public int RandomSwitchColor()
+        {
+            return random.NextInt(numSwitchColors);
+        }
+
+        public int RandomLocation()
         {
             return random.NextInt(numLocations);
         }
 
-        public int CalcNumInitialGenes(RandomNumberGenerator random)
+        public int CalcNumInitialGenes()
         {
             return (int)(initialGeneMedian * random.Weibull2());
         }
 
-        public int CalcNumMutations(int size, RandomNumberGenerator random)
+        public int CalcNumMutations(int numGenes)
         {
-            return Math.Min((int)(size * mutationCoefficient * random.HalfGaussian()), size);
+            return Math.Min((int)(numGenes * mutationCoefficient * random.HalfGaussian()), numGenes);
         }
 
-        public int CalcNumDeletions(int size, RandomNumberGenerator random)
+        public int CalcNumDeletions(int numGenes)
         {
-            return Math.Min((int)(size * deletionCoefficient * random.HalfGaussian()), size);
+            return Math.Min((int)(numGenes * deletionCoefficient * random.HalfGaussian()), numGenes);
         }
 
-        public int CalcNumInsertions(int size, RandomNumberGenerator random)
+        public int CalcNumInsertions(int numGenes)
         {
-            return (int)(size * insertionCoefficient * random.HalfGaussian());
+            return (int)(numGenes * insertionCoefficient * random.HalfGaussian());
         }
     }
 }

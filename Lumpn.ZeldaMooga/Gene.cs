@@ -4,6 +4,6 @@ namespace Lumpn.ZeldaMooga
 {
     public interface Gene
     {
-        Gene Mutate(RandomNumberGenerator random);
+        Gene Mutate();
     }
 }

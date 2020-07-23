@@ -1,5 +1,4 @@
 using Lumpn.Dungeon;
-using Lumpn.Utils;
 
 namespace Lumpn.ZeldaDungeon
 {
@@ -7,13 +6,15 @@ namespace Lumpn.ZeldaDungeon
     {
         private readonly VariableIdentifier switchIdentifier;
         private readonly int pistonColor;
+        private readonly string name;
 
-        public string Name { get { return GetName(pistonColor); } }
+        public string Name { get { return name; } }
 
-        public ColorPistonScript(VariableIdentifier switchIdentifier, int pistonColor)
+        public ColorPistonScript(VariableIdentifier switchIdentifier, int pistonColor, string name)
         {
             this.switchIdentifier = switchIdentifier;
             this.pistonColor = pistonColor;
+            this.name = name;
         }
 
         public State Execute(State state)
@@ -26,18 +27,6 @@ namespace Lumpn.ZeldaDungeon
             }
 
             return null; // you shall not pass!
-        }
-
-        private static string GetName(int pistonColor)
-        {
-            switch (pistonColor)
-            {
-                case ZeldaStates.SwitchRed: return "red\\npistons";
-                case ZeldaStates.SwitchBlue: return "blue\\npistons";
-            }
-
-            Debug.Fail();
-            return string.Empty;
         }
     }
 }

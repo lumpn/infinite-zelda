@@ -46,10 +46,12 @@
     <Compile Include="Gene.cs" />
     <Compile Include="GeneFactory.cs" />
     <Compile Include="GeneUtils.cs" />
-    <Compile Include="Genes\ColorSwitchPistonGene.cs" />
+    <Compile Include="Genes\ColorSwitchGene.cs" />
     <Compile Include="Genes\KeyDoorGene.cs" />
     <Compile Include="Genes\OneWayGene.cs" />
-    <Compile Include="Genes\ToolObstacleGene.cs" />
+    <Compile Include="Genes\ToolGene.cs" />
+    <Compile Include="Genes\ObstacleGene.cs" />
+    <Compile Include="Genes\ColorPistonGene.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mooga\Mooga.csproj">
