@@ -7,6 +7,7 @@ namespace Lumpn.ZeldaMooga
     {
         // environment
         private const int numLocations = 5;
+        private const int numGeneTypes = 6;
         private const int numKeyTypes = 2;
         private const int numToolTypes = 4;
         private const int numSwitchTypes = 2;
@@ -22,9 +23,17 @@ namespace Lumpn.ZeldaMooga
 
         private readonly RandomNumberGenerator random;
 
+        public RandomNumberGenerator Random { get { return random; } }
+
         public ZeldaConfiguration(RandomNumberGenerator random)
         {
             this.random = random;
+        }
+
+        public int RandomGeneType()
+        {
+            // TODO: support weighted probability
+            return random.NextInt(numGeneTypes);
         }
 
         public int RandomKeyType()

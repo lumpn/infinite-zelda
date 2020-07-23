@@ -53,26 +53,26 @@
     <Compile Include="Metrics\OptimizationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mooga\Mooga.csproj">
-      <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
-      <Name>Lumpn.Mooga</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utils\Utils.csproj">
+    <Folder Include="Genes\" />
+    <Folder Include="Metrics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
       <Name>Lumpn.Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZeldaPuzzle\ZeldaPuzzle.csproj">
-      <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
-      <Name>Lumpn.ZeldaDungeon</Name>
+    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj">
+      <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
+      <Name>Lumpn.Mooga</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
       <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
       <Name>Lumpn.Dungeon</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Genes\" />
-    <Folder Include="Metrics\" />
+    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj">
+      <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
+      <Name>Lumpn.ZeldaDungeon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

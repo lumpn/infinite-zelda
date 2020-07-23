@@ -1,5 +1,4 @@
 using Lumpn.Mooga;
-using Lumpn.Utils;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -7,17 +6,14 @@ namespace Lumpn.ZeldaMooga
     {
         private readonly ZeldaConfiguration configuration;
 
-        private readonly RandomNumberGenerator random;
-
-        public ZeldaGenomeFactory(ZeldaConfiguration configuration, RandomNumberGenerator random)
+        public ZeldaGenomeFactory(ZeldaConfiguration configuration)
         {
             this.configuration = configuration;
-            this.random = random;
         }
 
         public Genome CreateGenome()
         {
-            return new ZeldaGenome(configuration, random);
+            return new ZeldaGenome(configuration);
         }
     }
 }

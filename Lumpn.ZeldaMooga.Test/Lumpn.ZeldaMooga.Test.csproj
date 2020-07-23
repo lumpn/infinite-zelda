@@ -33,7 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EvolutionTest.cs" />
-    <Compile Include="ZeldaMooga.cs" />
+    <Compile Include="TestComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

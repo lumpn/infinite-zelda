@@ -7,7 +7,7 @@ namespace Lumpn.ZeldaMooga
     public sealed class ZeldaIndividual : Individual
     {
         // configuration
-        private const int numAttributes = 5;
+        public const int NumAttributes = 5;
 
         // statistics
         private readonly int numSteps;
@@ -30,6 +30,15 @@ namespace Lumpn.ZeldaMooga
             this.branchFactor = branchFactor;
         }
 
+        public double GetScore()
+        {
+            return GetScore(0)
+                 + GetScore(1)
+                 + GetScore(2)
+                 + GetScore(3)
+                 + GetScore(4);
+        }
+
         public double GetScore(int attribute)
         {
             switch (attribute)
@@ -48,7 +57,7 @@ namespace Lumpn.ZeldaMooga
         public override string ToString()
         {
             var builder = new StringBuilder();
-            for (int i = 0; i < numAttributes; i++)
+            for (int i = 0; i < NumAttributes; i++)
             {
                 builder.Append(GetScore(i));
                 builder.Append(", ");

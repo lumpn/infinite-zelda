@@ -4,20 +4,20 @@ namespace Lumpn.ZeldaMooga
 {
     public sealed class ZeldaGeneFactory : GeneFactory<ZeldaGene>
     {
-        public ZeldaGene CreateGene(ZeldaConfiguration configuration, RandomNumberGenerator random)
+        public ZeldaGene CreateGene(ZeldaConfiguration configuration)
         {
-            // TODO: support weighted probability
-            switch (random.NextInt(7))
+            switch (configuration.RandomGeneType())
             {
-                case 0: return new TwoWayGene(configuration, random);
-                case 1: return new OneWayGene(configuration, random);
-                case 2: return new KeyDoorGene(configuration, random);
-                case 3: return new SwitchGene(configuration, random);
-                case 4: return new PistonGene(configuration, random);
-                case 5: return new ItemGene(configuration, random);
-                case 6: return new ObstacleGene(configuration, random);
-                default: return new TwoWayGene(configuration, random);
+                case 0: return new ColorPistonGene(configuration );
+                case 1: return new ColorSwitchGene(configuration);
+                case 2: return new KeyDoorGene(configuration);
+                case 3: return new ObstacleGene(configuration);
+                case 4: return new OneWayGene(configuration);
+                case 5: return new ToolGene(configuration);
             }
+
+            Debug.Fail();
+            return null;
         }
     }
 }

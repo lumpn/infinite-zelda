@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lumpn.Dungeon;
 using Lumpn.Mooga;
 using Lumpn.Utils;
-using Lumpn.Dungeon;
-using Lumpn.ZeldaDungeon;
-using Lumpn.ZeldaMooga;
 using NUnit.Framework;
 
 namespace Lumpn.ZeldaMooga.Test
@@ -19,11 +17,11 @@ namespace Lumpn.ZeldaMooga.Test
         {
             var random = new SystemRandom(42);
             var configuration = new ZeldaConfiguration(random);
-            var factory = new ZeldaGenomeFactory(configuration, random);
+            var factory = new ZeldaGenomeFactory(configuration);
 
             var initialVariables = new Variables();
             var initialState = new State(initialVariables);
-            var environment = new ZeldaEnvironment(initialState, 10000);
+            var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
 
             var example = factory.CreateGenome();
             var individual = environment.Evaluate(example);
@@ -35,26 +33,26 @@ namespace Lumpn.ZeldaMooga.Test
         {
             var random = new SystemRandom(42);
             var configuration = new ZeldaConfiguration(random);
-            var factory = new ZeldaGenomeFactory(configuration, random);
+            var factory = new ZeldaGenomeFactory(configuration);
 
             var initialVariables = new Variables();
             var initialState = new State(initialVariables);
-            var environment = new ZeldaEnvironment(initialState, 10000);
+            var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
 
-            var evolution = new ElitistEvolution(100, 1000, factory, environment, numAttributes);
+            var evolution = new ElitistEvolution(100, 1000, factory, environment, ZeldaIndividual.NumAttributes);
             var genomes = evolution.Initialize();
 
             // TODO Jonas: replace fixed weight multirank optimization by dynamic randomized weighting
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("gen " + i);
                 genomes = evolution.Evolve(genomes, random);
             }
 
-            var best = (ZeldaIndividual)evolution.GetBest(comparer);
+            var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
             Console.WriteLine(best);
 
             //var puzzle = best.puzzle();
