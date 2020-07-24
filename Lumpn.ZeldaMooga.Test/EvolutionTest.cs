@@ -46,7 +46,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Console.WriteLine("gen " + i);
                 genomes = evolution.Evolve(genomes, random);

@@ -15,13 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaDungeon", "Lumpn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaDungeon.Test", "Lumpn.ZeldaDungeon.Test\Lumpn.ZeldaDungeon.Test.csproj", "{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{2861AB03-2D65-42D0-B410-C59CCA76C21A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaMooga", "Lumpn.ZeldaMooga\Lumpn.ZeldaMooga.csproj", "{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaMooga.Test", "Lumpn.ZeldaMooga.Test\Lumpn.ZeldaMooga.Test.csproj", "{FF79A23E-5937-4A82-91DB-0BF96512DE6F}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{C1797424-A314-4839-B0C1-0FA0A0BB3D90}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{4ADF4B25-C33F-43AB-AC17-ADA54443EF1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,14 +57,6 @@ Global
 		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Debug|x86.Build.0 = Debug|Any CPU
 		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{109B1065-E0A5-4D94-A2E8-2CEFD97C69D1}.Release|x86.Build.0 = Release|Any CPU
-		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Debug|x86.Build.0 = Debug|Any CPU
-		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Release|x86.ActiveCfg = Release|Any CPU
-		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Release|x86.Build.0 = Release|Any CPU
-		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.Build.0 = Debug|Any CPU
-		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.ActiveCfg = Release|Any CPU
-		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.Build.0 = Release|Any CPU
 		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Debug|x86.ActiveCfg = Debug|x86
 		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Debug|x86.Build.0 = Debug|x86
 		{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}.Release|x86.ActiveCfg = Release|x86
@@ -73,6 +65,14 @@ Global
 		{FF79A23E-5937-4A82-91DB-0BF96512DE6F}.Debug|x86.Build.0 = Debug|Any CPU
 		{FF79A23E-5937-4A82-91DB-0BF96512DE6F}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF79A23E-5937-4A82-91DB-0BF96512DE6F}.Release|x86.Build.0 = Release|Any CPU
+		{C1797424-A314-4839-B0C1-0FA0A0BB3D90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1797424-A314-4839-B0C1-0FA0A0BB3D90}.Debug|x86.Build.0 = Debug|Any CPU
+		{C1797424-A314-4839-B0C1-0FA0A0BB3D90}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1797424-A314-4839-B0C1-0FA0A0BB3D90}.Release|x86.Build.0 = Release|Any CPU
+		{4ADF4B25-C33F-43AB-AC17-ADA54443EF1B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4ADF4B25-C33F-43AB-AC17-ADA54443EF1B}.Debug|x86.Build.0 = Debug|Any CPU
+		{4ADF4B25-C33F-43AB-AC17-ADA54443EF1B}.Release|x86.ActiveCfg = Release|Any CPU
+		{4ADF4B25-C33F-43AB-AC17-ADA54443EF1B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

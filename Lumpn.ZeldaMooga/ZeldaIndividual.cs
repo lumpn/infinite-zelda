@@ -37,11 +37,7 @@ namespace Lumpn.ZeldaMooga
 
         public double GetScore()
         {
-            return GetScore(0)
-                 + GetScore(1)
-                 + GetScore(2)
-                 + GetScore(3)
-                 + GetScore(4);
+            return GetScore(4);
         }
 
         public double GetScore(int attribute)
