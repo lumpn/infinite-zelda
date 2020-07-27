@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Lumpn.Profiling
+﻿namespace Lumpn.Profiling
 {
     public sealed class Frame
     {
         private readonly int index;
         private readonly long timestamp;
 
-        private readonly Sample root = new Sample(null, "root");
+        private readonly Sample root = new Sample(null, "Root");
 
         public Sample Root { get { return root; } }
 

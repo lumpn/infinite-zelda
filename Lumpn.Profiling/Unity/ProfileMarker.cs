@@ -1,6 +1,5 @@
 ﻿using System.IO;
 
-
 namespace Lumpn.Profiling.Unity
 {
     public sealed class ProfileMarker
@@ -14,6 +13,13 @@ namespace Lumpn.Profiling.Unity
             this.nameIndex = nameIndex;
             this.msMarkerTotal = msMarkerTotal;
             this.depth = depth;
+        }
+
+        public ProfileMarker(BinaryReader reader)
+        {
+            nameIndex = reader.ReadInt32();
+            msMarkerTotal = reader.ReadSingle();
+            depth = reader.ReadInt32();
         }
 
         public void Write(BinaryWriter writer)

@@ -7,25 +7,28 @@ namespace Lumpn.Profiling.Test
     public sealed class ProfilerTest
     {
         [Test]
-        public void TestCase()
+        public void ExportToUnity()
         {
-            Profiler.BeginFrame();
+            for (int i = 0; i < 20; i++)
             {
-                Profiler.BeginSample("Foo");
-                Thread.Sleep(5);
+                Profiler.BeginFrame();
                 {
-                    Profiler.BeginSample("Bar");
+                    Profiler.BeginSample("Foo");
                     Thread.Sleep(5);
                     {
-                        Profiler.BeginSample("Baz");
-                        Thread.Sleep(10);
+                        Profiler.BeginSample("Bar");
+                        Thread.Sleep(5);
+                        {
+                            Profiler.BeginSample("Baz");
+                            Thread.Sleep(10);
+                            Profiler.EndSample();
+                        }
                         Profiler.EndSample();
                     }
                     Profiler.EndSample();
                 }
-                Profiler.EndSample();
+                Profiler.EndFrame();
             }
-            Profiler.EndFrame();
 
             Profiler.ExportToUnity("samples.pdata");
         }

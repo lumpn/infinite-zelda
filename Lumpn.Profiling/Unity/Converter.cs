@@ -10,7 +10,7 @@ namespace Lumpn.Profiling.Unity
 
         public Converter()
         {
-            data.AddThreadName("Main Thread");
+            data.AddThreadName("1:Main Thread");
         }
 
         public void Convert(IEnumerable<Frame> frames, long frequency)
@@ -25,28 +25,31 @@ namespace Lumpn.Profiling.Unity
                 var thread = new ProfileThread(0);
                 profileFrame.Add(thread);
 
-                AddMarkers(thread, frame.Root, 0, frequency);
+                foreach (var child in frame.Root.Children)
+                {
+                    AddMarkers(thread, child, 1, frequency);
+                }
             }
         }
 
         private void AddMarkers(ProfileThread thread, Sample sample, int depth, long frequency)
         {
-            foreach(var child in sample.Children)
-            {
-                AddMarkers(thread, child, depth + 1, frequency);
-            }
-
             var nameIndex = GetOrCreateMarker(sample.Name);
             var msMarkerTotal = sample.CalcElapsedMilliseconds(frequency);
             var marker = new ProfileMarker(nameIndex, msMarkerTotal, depth);
             thread.Add(marker);
+
+            foreach (var child in sample.Children)
+            {
+                AddMarkers(thread, child, depth + 1, frequency);
+            }
         }
 
         private int GetOrCreateMarker(string name)
         {
             if (!markers.TryGetValue(name, out int index))
             {
-                index = data.AddThreadName(name);
+                index = data.AddMarkerName(name);
                 markers.Add(name, index);
             }
             return index;

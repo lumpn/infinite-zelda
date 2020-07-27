@@ -17,6 +17,30 @@ namespace Lumpn.Profiling.Unity
             this.frameIndexOffset = frameIndexOffset;
         }
 
+        public ProfileData(BinaryReader reader)
+        {
+            var version = reader.ReadInt32();
+            frameIndexOffset = reader.ReadInt32();
+
+            int numFrames = reader.ReadInt32();
+            for(int i = 0; i < numFrames;i++)
+            {
+                frames.Add(new ProfileFrame(reader));
+            }
+
+            int numMarkers = reader.ReadInt32();
+            for (int i = 0; i < numMarkers; i++)
+            {
+                markerNames.Add(reader.ReadString());
+            }
+
+            int numThreads = reader.ReadInt32();
+            for (int i = 0; i < numThreads; i++)
+            {
+                threadNames.Add(reader.ReadString());
+            }
+        }
+
         public void Add(ProfileFrame frame)
         {
             frames.Add(frame);

@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Lumpn.Profiling.Unity
 {
@@ -11,6 +11,17 @@ namespace Lumpn.Profiling.Unity
         public ProfileThread(int threadIndex)
         {
             this.threadIndex = threadIndex;
+        }
+
+        public ProfileThread(BinaryReader reader)
+        {
+            threadIndex = reader.ReadInt32();
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                markers.Add(new ProfileMarker(reader));
+            }
         }
 
         public void Add(ProfileMarker marker)

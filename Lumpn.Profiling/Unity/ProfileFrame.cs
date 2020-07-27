@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Lumpn.Profiling.Unity
 {
@@ -13,6 +13,18 @@ namespace Lumpn.Profiling.Unity
         {
             this.msStartTime = msStartTime;
             this.msFrame = msFrame;
+        }
+
+        public ProfileFrame(BinaryReader reader)
+        {
+            msStartTime = reader.ReadDouble();
+            msFrame = reader.ReadSingle();
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                threads.Add(new ProfileThread(reader));
+            }
         }
 
         public void Add(ProfileThread thread)
