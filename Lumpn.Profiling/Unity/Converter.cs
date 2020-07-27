@@ -31,16 +31,15 @@ namespace Lumpn.Profiling.Unity
 
         private void AddMarkers(ProfileThread thread, Sample sample, int depth, long frequency)
         {
-            var nameIndex = GetOrCreateMarker(sample.Name);
-            var msMarkerTotal = sample.CalcElapsedMilliseconds(frequency);
-
-            var marker = new ProfileMarker(nameIndex, msMarkerTotal, depth);
-            thread.Add(marker);
-
             foreach(var child in sample.Children)
             {
                 AddMarkers(thread, child, depth + 1, frequency);
             }
+
+            var nameIndex = GetOrCreateMarker(sample.Name);
+            var msMarkerTotal = sample.CalcElapsedMilliseconds(frequency);
+            var marker = new ProfileMarker(nameIndex, msMarkerTotal, depth);
+            thread.Add(marker);
         }
 
         private int GetOrCreateMarker(string name)

@@ -51,6 +51,7 @@ namespace Lumpn.Profiling.Unity
             writer.Write(markerNames.Count);
             foreach (var markerName in markerNames)
             {
+                System.Console.WriteLine(markerName);
                 writer.Write(markerName);
             };
 
@@ -58,6 +59,7 @@ namespace Lumpn.Profiling.Unity
             writer.Write(threadNames.Count);
             foreach (var threadName in threadNames)
             {
+                System.Console.WriteLine(threadName);
                 writer.Write(threadName);
             };
         }

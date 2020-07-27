@@ -22,8 +22,11 @@ namespace Lumpn.Profiling.Unity
 
         public void Write(BinaryWriter writer)
         {
+            System.Console.WriteLine("start {0}, ms {1}", msStartTime, msFrame);
             writer.Write(msStartTime);
             writer.Write(msFrame);
+
+            System.Console.WriteLine("threads {0}", threads.Count);
             writer.Write(threads.Count);
             foreach (var thread in threads)
             {
