@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Lumpn.Profiling.Unity
+namespace Lumpn.Profiling.UnityProfileAnalyzer
 {
     public sealed class Converter
     {

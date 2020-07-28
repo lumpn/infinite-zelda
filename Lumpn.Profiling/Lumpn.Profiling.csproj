@@ -28,18 +28,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Profiler.cs" />
-    <Compile Include="Unity\ProfileData.cs" />
-    <Compile Include="Unity\ProfileFrame.cs" />
-    <Compile Include="Unity\ProfileMarker.cs" />
-    <Compile Include="Unity\ProfileThread.cs" />
-    <Compile Include="Unity\Converter.cs" />
     <Compile Include="Sample.cs" />
     <Compile Include="ProfilerImpl.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="TimeUtils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unity\" />
+    <Compile Include="UnityProfileAnalyzer\Converter.cs" />
+    <Compile Include="UnityProfileAnalyzer\ProfileData.cs" />
+    <Compile Include="UnityProfileAnalyzer\ProfileFrame.cs" />
+    <Compile Include="UnityProfileAnalyzer\ProfileMarker.cs" />
+    <Compile Include="UnityProfileAnalyzer\ProfileThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

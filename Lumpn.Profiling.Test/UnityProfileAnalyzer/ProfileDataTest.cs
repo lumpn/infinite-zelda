@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 
-namespace Lumpn.Profiling.Unity.Test
+namespace Lumpn.Profiling.UnityProfileAnalyzer.Test
 {
     [TestFixture]
     public sealed class ProfileDataTest

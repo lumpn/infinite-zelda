@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProfilerTest.cs" />
-    <Compile Include="Unity\ProfileDataTest.cs" />
+    <Compile Include="UnityProfileAnalyzer\ProfileDataTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -42,9 +42,6 @@
       <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
       <Name>Lumpn.Profiling</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unity\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
