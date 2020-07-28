@@ -32,11 +32,11 @@
     <Compile Include="ProfilerImpl.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="TimeUtils.cs" />
-    <Compile Include="UnityProfileAnalyzer\Converter.cs" />
     <Compile Include="UnityProfileAnalyzer\ProfileData.cs" />
     <Compile Include="UnityProfileAnalyzer\ProfileFrame.cs" />
     <Compile Include="UnityProfileAnalyzer\ProfileMarker.cs" />
     <Compile Include="UnityProfileAnalyzer\ProfileThread.cs" />
+    <Compile Include="UnityProfileAnalyzer\Exporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

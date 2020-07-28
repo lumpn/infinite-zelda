@@ -31,10 +31,8 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
 
         public void Write(BinaryWriter writer)
         {
-            System.Console.WriteLine("threadIndex {0}", threadIndex);
             writer.Write(threadIndex);
 
-            System.Console.WriteLine("markers {0}", markers.Count);
             writer.Write(markers.Count);
             foreach (var marker in markers)
             {

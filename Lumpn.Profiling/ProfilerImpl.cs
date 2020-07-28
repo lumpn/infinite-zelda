@@ -11,6 +11,13 @@ namespace Lumpn.Profiling
 
         public IEnumerable<Frame> Frames { get { return frames; } }
 
+        public void Reset()
+        {
+            frames.Clear();
+            lastFrame = null;
+            topSample = null;
+        }
+
         public void BeginFrame()
         {
             lastFrame = new Frame(frames.Count, Stopwatch.GetTimestamp());

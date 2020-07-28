@@ -3,12 +3,12 @@ using System.IO;
 
 namespace Lumpn.Profiling.UnityProfileAnalyzer
 {
-    public sealed class Converter
+    public sealed class Exporter
     {
         private readonly Dictionary<string, int> markers = new Dictionary<string, int>();
         private readonly ProfileData data = new ProfileData(0);
 
-        public Converter()
+        public Exporter()
         {
             data.AddThreadName("1:Main Thread");
         }

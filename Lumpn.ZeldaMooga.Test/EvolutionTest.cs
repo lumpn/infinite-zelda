@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lumpn.Dungeon;
 using Lumpn.Mooga;
+using Lumpn.Profiling;
 using Lumpn.Utils;
 using NUnit.Framework;
 
@@ -31,6 +32,8 @@ namespace Lumpn.ZeldaMooga.Test
         [Test]
         public void TestEvolution()
         {
+            Profiler.Reset();
+
             var random = new SystemRandom(42);
             var configuration = new ZeldaConfiguration(random);
             var factory = new ZeldaGenomeFactory(configuration);
@@ -48,8 +51,10 @@ namespace Lumpn.ZeldaMooga.Test
             // evolve
             for (int i = 0; i < 100; i++)
             {
+                Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);
                 genomes = evolution.Evolve(genomes, random);
+                Profiler.EndFrame();
             }
 
             var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
@@ -59,6 +64,7 @@ namespace Lumpn.ZeldaMooga.Test
             var builder = new DotBuilder();
             crawler.Express(builder);
 
+            Profiler.ExportToUnityProfileAnalyzer("EvolutionTest.pdata");
             // TODO: output genome to puzzle unit test (puzzle building statements)
         }
     }

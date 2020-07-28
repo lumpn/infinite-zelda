@@ -1,10 +1,16 @@
 ﻿using System.Diagnostics;
+using UnityProfileAnalzerExporter = Lumpn.Profiling.UnityProfileAnalyzer.Exporter;
 
 namespace Lumpn.Profiling
 {
     public static class Profiler
     {
         private static readonly ProfilerImpl impl = new ProfilerImpl();
+
+        public static void Reset()
+        {
+            impl.Reset();
+        }
 
         public static void BeginFrame()
         {
@@ -26,9 +32,9 @@ namespace Lumpn.Profiling
             impl.EndSample();
         }
 
-        public static void ExportToUnity(string filename)
+        public static void ExportToUnityProfileAnalyzer(string filename)
         {
-            var converter = new Lumpn.Profiling.Unity.Converter();
+            var converter = new UnityProfileAnalzerExporter();
             converter.Convert(impl.Frames, Stopwatch.Frequency);
             converter.Export(filename);
         }

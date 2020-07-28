@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Lumpn.Utils;
+using Lumpn.Profiling;
 
 namespace Lumpn.Mooga
 {
@@ -15,7 +16,9 @@ namespace Lumpn.Mooga
 
         public void Rank(List<Individual> individuals)
         {
+            Profiler.BeginSample("CrowdingDistanceRanking.Rank");
             Rank(individuals, 0, individuals.Count);
+            Profiler.EndSample();
         }
 
         private void Rank(List<Individual> individuals, int start, int end)
@@ -25,6 +28,7 @@ namespace Lumpn.Mooga
             if (count < 2) return;
 
             // split into non-dominated and dominated
+            Profiler.BeginSample("Domination");
             int splitIndex = start;
             for (int i = start; i < end; i++)
             {
@@ -37,7 +41,12 @@ namespace Lumpn.Mooga
                     if (j == i) continue;
 
                     var other = individuals[j];
-                    if (dominationComparer.Compare(individual, other) < 0)
+
+                    Profiler.BeginSample("Compare");
+                    var result = dominationComparer.Compare(individual, other);
+                    Profiler.EndSample();
+
+                    if (result < 0)
                     {
                         isDominated = true;
                         break;
@@ -51,9 +60,12 @@ namespace Lumpn.Mooga
                     splitIndex++;
                 }
             }
+            Profiler.EndSample();
 
             // sort non-dominated by crowding distance
+            Profiler.BeginSample("Sort");
             SortByCrowdingDistanceDescending(individuals, start, splitIndex);
+            Profiler.EndSample();
 
             // recursively rank the dominated individuals
             Rank(individuals, splitIndex, end);

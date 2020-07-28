@@ -60,30 +60,24 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
 
         public void Write(BinaryWriter writer)
         {
-            System.Console.WriteLine("version {0}, offset {1}", currentVersion, frameIndexOffset);
             writer.Write(currentVersion);
             writer.Write(frameIndexOffset);
 
-            System.Console.WriteLine("frames {0}", frames.Count);
             writer.Write(frames.Count);
             foreach (var frame in frames)
             {
                 frame.Write(writer);
             };
 
-            System.Console.WriteLine("markerNames {0}", markerNames.Count);
             writer.Write(markerNames.Count);
             foreach (var markerName in markerNames)
             {
-                System.Console.WriteLine(markerName);
                 writer.Write(markerName);
             };
 
-            System.Console.WriteLine("threadNames {0}", threadNames.Count);
             writer.Write(threadNames.Count);
             foreach (var threadName in threadNames)
             {
-                System.Console.WriteLine(threadName);
                 writer.Write(threadName);
             };
         }

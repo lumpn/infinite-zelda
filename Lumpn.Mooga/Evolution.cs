@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Lumpn.Utils;
+using Lumpn.Profiling;
 
 namespace Lumpn.Mooga
 {
@@ -27,6 +28,7 @@ namespace Lumpn.Mooga
 
         public List<Genome> Evolve(List<Individual> rankedPopulation, RandomNumberGenerator random)
         {
+            Profiler.BeginSample("Evolution.Evolve");
             List<Genome> generation = new List<Genome>();
 
             // crossover
@@ -35,7 +37,10 @@ namespace Lumpn.Mooga
                 var a = selection.Select(rankedPopulation);
                 var b = selection.Select(rankedPopulation);
 
+                Profiler.BeginSample("Crossover");
                 var children = a.Genome.Crossover(b.Genome, random);
+                Profiler.EndSample();
+
                 generation.Add(children.First);
                 generation.Add(children.Second);
             }
@@ -44,17 +49,25 @@ namespace Lumpn.Mooga
             for (int i = 0; i < mutationQuota; i++)
             {
                 var parent = selection.Select(rankedPopulation);
+
+                Profiler.BeginSample("Mutate");
                 var child = parent.Genome.Mutate(random);
+                Profiler.EndSample();
+
                 generation.Add(child);
             }
 
             // fill up
             for (int i = generation.Count; i < populationSize; i++)
             {
+                Profiler.BeginSample("Create");
                 var genome = factory.CreateGenome();
+                Profiler.EndSample();
+
                 generation.Add(genome);
             }
 
+            Profiler.EndSample();
             return generation;
         }
 

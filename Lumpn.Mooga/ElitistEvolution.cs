@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lumpn.Utils;
+using Lumpn.Profiling;
 
 namespace Lumpn.Mooga
 {
@@ -26,11 +27,16 @@ namespace Lumpn.Mooga
 
         public List<Genome> Evolve(List<Genome> genomes, RandomNumberGenerator random)
         {
+            Profiler.BeginSample("ElitistEvolution.Evolve");
+
             // spawn individuals
             var population = new List<Individual>();
             foreach (Genome genome in genomes)
             {
+                Profiler.BeginSample("Evaluate");
                 var individual = environment.Evaluate(genome);
+                Profiler.EndSample();
+
                 population.Add(individual);
             }
 
@@ -38,7 +44,9 @@ namespace Lumpn.Mooga
             population.AddRange(archive);
 
             // rank population
+            Profiler.BeginSample("Rank");
             ranking.Rank(population);
+            Profiler.EndSample();
 
             // update archive
             archive.Clear();
@@ -48,7 +56,12 @@ namespace Lumpn.Mooga
             PrintStats(population, numAttributes);
 
             // evolve population
-            return evolution.Evolve(population, random);
+            Profiler.BeginSample("Evolve");
+            var result = evolution.Evolve(population, random);
+            Profiler.EndSample();
+
+            Profiler.EndSample();
+            return result;
         }
 
         public Individual GetBest(IComparer<Individual> comparer)

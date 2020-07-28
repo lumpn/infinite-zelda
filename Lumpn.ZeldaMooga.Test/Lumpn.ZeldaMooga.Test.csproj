@@ -59,6 +59,10 @@
       <Project>{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}</Project>
       <Name>Lumpn.ZeldaMooga</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj">
+      <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
+      <Name>Lumpn.Profiling</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
