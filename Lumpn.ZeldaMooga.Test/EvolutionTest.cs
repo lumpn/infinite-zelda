@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Lumpn.Dungeon;
 using Lumpn.Mooga;
 using Lumpn.Profiling;
@@ -47,7 +48,8 @@ namespace Lumpn.ZeldaMooga.Test
             var initialState = new State(initialVariables);
             var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
 
-            var evolution = new ElitistEvolution(100, 1000, factory, environment, ZeldaIndividual.NumAttributes);
+            var writer = File.CreateText("stats.csv");
+            var evolution = new ElitistEvolution(100, 1000, factory, environment, ZeldaIndividual.NumAttributes, writer);
             var genomes = evolution.Initialize();
 
             // TODO Jonas: replace fixed weight multirank optimization by dynamic randomized weighting
@@ -62,6 +64,8 @@ namespace Lumpn.ZeldaMooga.Test
                 Profiler.EndFrame();
             }
 
+            writer.Close();
+
             var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
             Console.WriteLine(best);
 
@@ -69,8 +73,9 @@ namespace Lumpn.ZeldaMooga.Test
             var builder = new DotBuilder();
             crawler.Express(builder);
 
-            Profiler.ExportToUnityProfileAnalyzer("EvolutionTest.pdata");
             // TODO: output genome to puzzle unit test (puzzle building statements)
+
+            Profiler.ExportToUnityProfileAnalyzer("EvolutionTest.pdata");
         }
     }
 }

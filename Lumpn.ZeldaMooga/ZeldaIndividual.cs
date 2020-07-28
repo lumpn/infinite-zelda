@@ -8,7 +8,7 @@ namespace Lumpn.ZeldaMooga
     public sealed class ZeldaIndividual : Individual
     {
         // configuration
-        public const int NumAttributes = 5;
+        public const int NumAttributes = 2;
 
         // statistics
         private readonly int numSteps;
@@ -37,18 +37,18 @@ namespace Lumpn.ZeldaMooga
 
         public double GetScore()
         {
-            return GetScore(4);
+            return GetScore(1);
         }
 
         public double GetScore(int attribute)
         {
             switch (attribute)
             {
-                case 0: return OptimizationUtils.Maximize(numSteps);
-                case 1: return OptimizationUtils.Minimize(numDeadEnds);
-                case 2: return OptimizationUtils.Maximize(revisitFactor);
-                case 3: return OptimizationUtils.Maximize(branchFactor);
-                case 4: return OptimizationUtils.Maximize(shortestPathLength);
+                case 0: return OptimizationUtils.Minimize(numDeadEnds);
+                case 1: return OptimizationUtils.Maximize(shortestPathLength);
+                case 2: return OptimizationUtils.Maximize(branchFactor);
+                case 3: return OptimizationUtils.Maximize(revisitFactor);
+                case 4: return OptimizationUtils.Maximize(numSteps);
             }
 
             Debug.Fail();

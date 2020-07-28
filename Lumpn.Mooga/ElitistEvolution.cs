@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Lumpn.Utils;
 using Lumpn.Profiling;
+using Lumpn.Utils;
 
 namespace Lumpn.Mooga
 {
     public sealed class ElitistEvolution
     {
-        public ElitistEvolution(int populationSize, int archiveSize, GenomeFactory factory, Environment environment, int numAttributes)
+        private readonly List<Individual> archive = new List<Individual>();
+
+        private readonly int numAttributes;
+        private readonly int archiveSize;
+
+        private readonly Evolution evolution;
+        private readonly Environment environment;
+        private readonly Ranking ranking;
+        private readonly TextWriter writer;
+
+        public ElitistEvolution(int populationSize, int archiveSize, GenomeFactory factory, Environment environment, int numAttributes, TextWriter writer)
         {
             var random = new SystemRandom(42);
             var selection = new BinaryTournamentSelection(random);
@@ -18,10 +29,12 @@ namespace Lumpn.Mooga
             this.evolution = new Evolution(populationSize, 0.5, 0.4, factory, selection);
             this.environment = environment;
             this.ranking = new CrowdingDistanceRanking(numAttributes);
+            this.writer = writer;
         }
 
         public List<Genome> Initialize()
         {
+            PrintHeader(numAttributes, writer);
             return evolution.Initialize();
         }
 
@@ -52,8 +65,10 @@ namespace Lumpn.Mooga
             archive.Clear();
             archive.AddRange(population.Take(archiveSize));
 
+            Profiler.BeginSample("Stats");
             Print(population.Take(10));
-            PrintStats(population, numAttributes);
+            PrintStats(population, numAttributes, writer);
+            Profiler.EndSample();
 
             // evolve population
             Profiler.BeginSample("Evolve");
@@ -79,7 +94,17 @@ namespace Lumpn.Mooga
             Console.WriteLine("----------------------------------------------------");
         }
 
-        private static void PrintStats(IEnumerable<Individual> individuals, int numAttributes)
+        private static void PrintHeader(int numAttributes, TextWriter writer)
+        {
+            // print stats
+            for (int i = 0; i < numAttributes; i++)
+            {
+                writer.Write("Attribute; Min; Max; Mid; Avg;; ");
+            }
+            writer.WriteLine();
+        }
+
+        private static void PrintStats(IEnumerable<Individual> individuals, int numAttributes, TextWriter writer)
         {
             var mins = new List<double>(numAttributes);
             var maxs = new List<double>(numAttributes);
@@ -106,18 +131,20 @@ namespace Lumpn.Mooga
             // print stats
             for (int i = 0; i < numAttributes; i++)
             {
-                Console.WriteLine("{0}: min {1}, max {2}, mid {3}, avg {4}", i, mins[i], maxs[i], (mins[i] + maxs[i]) / 2, sums[i] / count);
+                var mid = (mins[i] + maxs[i]) / 2;
+                var avg = sums[i] / count;
+                writer.Write(i);
+                writer.Write("; ");
+                writer.Write(mins[i]);
+                writer.Write("; ");
+                writer.Write(maxs[i]);
+                writer.Write("; ");
+                writer.Write(mid);
+                writer.Write("; ");
+                writer.Write(avg);
+                writer.Write(";; ");
             }
+            writer.WriteLine();
         }
-
-        private readonly int numAttributes;
-        private readonly int archiveSize;
-
-        private readonly Evolution evolution;
-        private readonly Environment environment;
-
-        private readonly Ranking ranking;
-
-        private readonly List<Individual> archive = new List<Individual>();
     }
 }

@@ -6,7 +6,7 @@ namespace Lumpn.ZeldaMooga
     public sealed class ZeldaConfiguration
     {
         // environment
-        private const int numLocations = 5;
+        private const int numLocations = 10;
         private const int numGeneTypes = 6;
         private const int numKeyTypes = 2;
         private const int numToolTypes = 4;
