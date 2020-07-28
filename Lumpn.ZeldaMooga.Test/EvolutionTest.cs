@@ -16,6 +16,9 @@ namespace Lumpn.ZeldaMooga.Test
         [Test]
         public void CreateIndividual()
         {
+            Profiler.Reset();
+            Profiler.BeginFrame();
+
             var random = new SystemRandom(42);
             var configuration = new ZeldaConfiguration(random);
             var factory = new ZeldaGenomeFactory(configuration);
@@ -27,6 +30,8 @@ namespace Lumpn.ZeldaMooga.Test
             var example = factory.CreateGenome();
             var individual = environment.Evaluate(example);
             Console.WriteLine("test: " + individual);
+
+            Profiler.EndFrame();
         }
 
         [Test]
@@ -49,7 +54,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);

@@ -41,12 +41,7 @@ namespace Lumpn.Mooga
                     if (j == i) continue;
 
                     var other = individuals[j];
-
-                    Profiler.BeginSample("Compare");
-                    var result = dominationComparer.Compare(individual, other);
-                    Profiler.EndSample();
-
-                    if (result < 0)
+                    if (dominationComparer.Compare(individual, other) < 0)
                     {
                         isDominated = true;
                         break;

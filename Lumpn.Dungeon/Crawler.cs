@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lumpn.Utils;
+using Lumpn.Profiling;
 
 namespace Lumpn.Dungeon
 {
@@ -20,6 +21,8 @@ namespace Lumpn.Dungeon
 
         public List<Step> Crawl(IEnumerable<State> initialStates, int maxSteps)
         {
+            //Profiler.BeginSample("Crawler.Crawl");
+
             // find entrance & exit
             var entrance = locations.GetOrFallback(entranceId, null);
             var exit = locations.GetOrFallback(exitId, null);
@@ -36,7 +39,9 @@ namespace Lumpn.Dungeon
             }
 
             // forward pass
-            var terminalSteps = Crawl(initialSteps, maxSteps, exit);
+            Profiler.BeginSample("CrawlForward");
+            var terminalSteps = CrawlForward(initialSteps, maxSteps, exit);
+            Profiler.EndSample();
 
             // initialize distance from exit
             foreach (var step in terminalSteps)
@@ -45,11 +50,15 @@ namespace Lumpn.Dungeon
             }
 
             // backward pass
+            Profiler.BeginSample("CrawBackward");
             CrawlBackward(terminalSteps);
+            Profiler.EndSample();
+
+            //Profiler.EndSample();
             return terminalSteps;
         }
 
-        private static List<Step> Crawl(List<Step> initialSteps, int maxSteps, Location exit)
+        private static List<Step> CrawlForward(List<Step> initialSteps, int maxSteps, Location exit)
         {
             // keep track of terminals
             var terminalSteps = new List<Step>();

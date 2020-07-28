@@ -73,6 +73,10 @@
       <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
       <Name>Lumpn.ZeldaDungeon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj">
+      <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
+      <Name>Lumpn.Profiling</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
