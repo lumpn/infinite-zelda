@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Lumpn.Profiling;
 using Lumpn.Utils;
 
@@ -43,15 +45,51 @@ namespace Lumpn.Mooga
             Profiler.BeginSample("ElitistEvolution.Evolve");
 
             // spawn individuals
-            var population = new List<Individual>();
-            foreach (Genome genome in genomes)
-            {
-                Profiler.BeginSample("Evaluate");
-                var individual = environment.Evaluate(genome);
-                Profiler.EndSample();
+            var population = new List<Individual>(Enumerable.Repeat<Individual>(null, genomes.Count));
 
-                population.Add(individual);
+            Profiler.BeginSample("Evaluate");
+            var threads = new Thread[genomes.Count];
+            for (int i = 0; i < genomes.Count; i++)
+            {
+                var thread = new Thread((obj) =>
+                {
+                    int j = (int)obj;
+                    var genome = genomes[j];
+                    var individual = environment.Evaluate(genome);
+                    population[j] = individual;
+                });
+                thread.Start(i);
+                threads[i] = thread;
             }
+            foreach(var thread in threads)
+            {
+                thread.Join();
+            }
+
+            //ThreadPool.SetMaxThreads(32, 32);
+            //var semaphore = new SemaphoreSlim(0, genomes.Count);
+            //for (int i = 0; i < genomes.Count; i++)
+            //{
+            //    ThreadPool.QueueUserWorkItem(obj =>
+            //    {
+            //        int j = (int)obj;
+            //        var genome = genomes[j];
+            //        var individual = environment.Evaluate(genome);
+            //        population[j] = individual;
+            //        semaphore.Release();
+            //    },i);
+            //}
+            //for (int i = 0; i < genomes.Count; i++)
+            //{
+            //    semaphore.Wait();
+            //}
+            //Parallel.For(0, genomes.Count, new ParallelOptions { MaxDegreeOfParallelism = 32 }, i =>
+            //{
+            //    var genome = genomes[i];
+            //    var individual = environment.Evaluate(genome);
+            //    population[i] = individual;
+            //});
+            Profiler.EndSample();
 
             // combine with archive
             population.AddRange(archive);

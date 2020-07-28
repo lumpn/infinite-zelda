@@ -39,9 +39,9 @@ namespace Lumpn.Dungeon
             }
 
             // forward pass
-            Profiler.BeginSample("CrawlForward");
+            //Profiler.BeginSample("CrawlForward");
             var terminalSteps = CrawlForward(initialSteps, maxSteps, exit);
-            Profiler.EndSample();
+            //Profiler.EndSample();
 
             // initialize distance from exit
             foreach (var step in terminalSteps)
@@ -50,9 +50,9 @@ namespace Lumpn.Dungeon
             }
 
             // backward pass
-            Profiler.BeginSample("CrawBackward");
+            //Profiler.BeginSample("CrawBackward");
             CrawlBackward(terminalSteps);
-            Profiler.EndSample();
+            //Profiler.EndSample();
 
             //Profiler.EndSample();
             return terminalSteps;

@@ -23,9 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Profiling", "Lumpn.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Profiling.Test", "Lumpn.Profiling.Test\Lumpn.Profiling.Test.csproj", "{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{D0BE2BB3-D5B7-4201-A3AF-3AC26069E5F5}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{69191F86-EAB6-42C7-B4F1-60FB5C714F35}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{86106684-3E52-4F01-BE0F-5EB6777DEFA0}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{CC27F0C1-F2BD-4D31-B7DB-93F8D9F57130}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,14 +77,14 @@ Global
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Debug|x86.Build.0 = Debug|Any CPU
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Release|x86.ActiveCfg = Release|Any CPU
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Release|x86.Build.0 = Release|Any CPU
-		{D0BE2BB3-D5B7-4201-A3AF-3AC26069E5F5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D0BE2BB3-D5B7-4201-A3AF-3AC26069E5F5}.Debug|x86.Build.0 = Debug|Any CPU
-		{D0BE2BB3-D5B7-4201-A3AF-3AC26069E5F5}.Release|x86.ActiveCfg = Release|Any CPU
-		{D0BE2BB3-D5B7-4201-A3AF-3AC26069E5F5}.Release|x86.Build.0 = Release|Any CPU
-		{86106684-3E52-4F01-BE0F-5EB6777DEFA0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{86106684-3E52-4F01-BE0F-5EB6777DEFA0}.Debug|x86.Build.0 = Debug|Any CPU
-		{86106684-3E52-4F01-BE0F-5EB6777DEFA0}.Release|x86.ActiveCfg = Release|Any CPU
-		{86106684-3E52-4F01-BE0F-5EB6777DEFA0}.Release|x86.Build.0 = Release|Any CPU
+		{69191F86-EAB6-42C7-B4F1-60FB5C714F35}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69191F86-EAB6-42C7-B4F1-60FB5C714F35}.Debug|x86.Build.0 = Debug|Any CPU
+		{69191F86-EAB6-42C7-B4F1-60FB5C714F35}.Release|x86.ActiveCfg = Release|Any CPU
+		{69191F86-EAB6-42C7-B4F1-60FB5C714F35}.Release|x86.Build.0 = Release|Any CPU
+		{CC27F0C1-F2BD-4D31-B7DB-93F8D9F57130}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC27F0C1-F2BD-4D31-B7DB-93F8D9F57130}.Debug|x86.Build.0 = Debug|Any CPU
+		{CC27F0C1-F2BD-4D31-B7DB-93F8D9F57130}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC27F0C1-F2BD-4D31-B7DB-93F8D9F57130}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
