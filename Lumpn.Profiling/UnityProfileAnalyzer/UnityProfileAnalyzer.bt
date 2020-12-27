@@ -1,0 +1,49 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct Name
+{
+    char length;
+    char value[length];
+};
+
+struct Marker {
+    int nameIndex;
+    float totalMS;
+    int depth;
+};
+
+struct Thread {
+    int threadIndex;
+    int numMarkers;
+    Marker markers[numMarkers];
+};
+
+struct Frame {
+    double startTimeMS;
+    float frameMS;
+    int numThreads;
+    Thread threads[numThreads];
+};
+
+struct Data {
+    int version;
+    int frameIndexOffset;
+    int numFrames;
+    Frame frames[numFrames];
+    int numMarkerNames;
+    Name markerNames[numMarkerNames];
+    int numThreads;
+    Name threadNames[numThreads];
+};
+
+Data data;
