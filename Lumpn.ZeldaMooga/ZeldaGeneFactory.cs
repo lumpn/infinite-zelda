@@ -8,7 +8,7 @@ namespace Lumpn.ZeldaMooga
         {
             switch (configuration.RandomGeneType())
             {
-                case 0: return new ColorPistonGene(configuration );
+                case 0: return new ColorPistonGene(configuration);
                 case 1: return new ColorSwitchGene(configuration);
                 case 2: return new KeyDoorGene(configuration);
                 case 3: return new ObstacleGene(configuration);

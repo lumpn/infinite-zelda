@@ -50,14 +50,14 @@ namespace Lumpn.ZeldaMooga.Test
             var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
 
             var writer = File.CreateText("stats.csv");
-            var evolution = new ElitistEvolution(100, 1000, factory, environment, ZeldaIndividual.NumAttributes, writer);
+            var evolution = new ElitistEvolution(200, 100, factory, environment, ZeldaIndividual.NumAttributes, writer);
             var genomes = evolution.Initialize();
 
             // TODO Jonas: replace fixed weight multirank optimization by dynamic randomized weighting
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);
