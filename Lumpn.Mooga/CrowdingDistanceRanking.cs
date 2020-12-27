@@ -18,8 +18,16 @@ namespace Lumpn.Mooga
         {
             Profiler.BeginSample("CrowdingDistanceRanking.Rank");
 
+            Profiler.BeginSample("CalcDomination");
             var matrix = CalcDomination(individuals);
+            Profiler.EndSample();
+
+            Profiler.BeginSample("TopologicalSort");
             var sortedIndividuals = TopologicalSort(individuals, matrix);
+            Profiler.EndSample();
+
+            individuals.Clear();
+            individuals.AddRange(sortedIndividuals);
 
             Profiler.EndSample();
         }
@@ -60,42 +68,57 @@ namespace Lumpn.Mooga
         private List<Individual> TopologicalSort(List<Individual> individuals, int[,] dominationMatrix)
         {
             // find non-dominated individuals
+            Profiler.BeginSample("Find");
+            int count = individuals.Count;
             var nonDominated = new List<int>();
-            for (int i = 0; i < individuals.Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                bool isNonDominated = true;
-                for (int j = 0; j < individuals.Count; j++)
-                {
-                    if (dominationMatrix[i, j] < 0)
-                    {
-                        // dominated
-                        isNonDominated = false;
-                        break;
-                    }
-                }
-
-                if (isNonDominated)
+                if (dominationMatrix[i, count] == 0)
                 {
                     nonDominated.Add(i);
                 }
             }
+            Profiler.EndSample();
 
             var result = new List<Individual>();
-            return TopologicalSort(individuals, dominationMatrix, nonDominated, result);
+            TopologicalSort(individuals, dominationMatrix, nonDominated, result);
+            return result;
         }
 
-        private List<Individual> TopologicalSort(List<Individual> individuals, int[,] dominationMatrix, List<int> nonDominated, List<Individual> result)
+        private void TopologicalSort(List<Individual> individuals, int[,] dominationMatrix, List<int> nonDominated, List<Individual> result)
         {
-            var next = new List<int>();
-            foreach (var i in nonDominated)
+            var count = individuals.Count;
+            var nextNonDominated = new List<int>();
+
+            Profiler.BeginSample("TopologicalSort");
+            foreach (var idx in nonDominated)
             {
-                var individual = individuals[i];
+                var individual = individuals[idx];
                 result.Add(individual); // TODO Jonas: sort by crowding distance
 
-                for (int j = 0; j < individuals.Count; j++)
+                for (int i = 0; i < count; i++)
                 {
-                    dominationMatrix[i, j] = 0;
+                    var domination = dominationMatrix[i, idx];
+                    if (domination < 0)
+                    {
+                        // node i used to be dominated by node idx
+                        dominationMatrix[i, idx] = 0;
+
+                        var rank = dominationMatrix[i, count];
+                        rank--;
+                        dominationMatrix[i, count] = rank;
+                        if (rank == 0)
+                        {
+                            nextNonDominated.Add(i);
+                        }
+                    }
                 }
+            }
+            Profiler.EndSample();
+
+            if (nextNonDominated.Count > 0)
+            {
+                TopologicalSort(individuals, dominationMatrix, nextNonDominated, result);
             }
         }
 
