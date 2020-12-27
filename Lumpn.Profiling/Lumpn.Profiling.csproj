@@ -37,9 +37,14 @@
     <Compile Include="UnityProfileAnalyzer\ProfileMarker.cs" />
     <Compile Include="UnityProfileAnalyzer\ProfileThread.cs" />
     <Compile Include="UnityProfileAnalyzer\Exporter.cs" />
+    <Compile Include="GoogleChromeTracing\Exporter.cs" />
+    <Compile Include="GoogleChromeTracing\CompleteEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GoogleChromeTracing\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

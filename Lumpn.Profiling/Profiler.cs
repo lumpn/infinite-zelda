@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using GoogleChromeTracingExporter = Lumpn.Profiling.GoogleChromeTracing.Exporter;
 using UnityProfileAnalzerExporter = Lumpn.Profiling.UnityProfileAnalyzer.Exporter;
 
 namespace Lumpn.Profiling
@@ -30,6 +31,12 @@ namespace Lumpn.Profiling
         public static void EndSample()
         {
             impl.EndSample();
+        }
+
+        public static void ExportToGoogleChromeTracing(string filename)
+        {
+            var converter = new GoogleChromeTracingExporter(impl.Frames, Stopwatch.Frequency);
+            converter.Export(filename);
         }
 
         public static void ExportToUnityProfileAnalyzer(string filename)

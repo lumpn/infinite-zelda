@@ -31,6 +31,11 @@ namespace Lumpn.Profiling
             end = Stopwatch.GetTimestamp();
         }
 
+        public double CalcStartTime(long frequency)
+        {
+            return TimeUtils.CalcTimestamp(begin, frequency);
+        }
+
         public float CalcElapsedMilliseconds(long frequency)
         {
             return TimeUtils.CalcElapsedMilliseconds(begin, end, frequency);

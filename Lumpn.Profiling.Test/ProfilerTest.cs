@@ -7,7 +7,7 @@ namespace Lumpn.Profiling.Test
     public sealed class ProfilerTest
     {
         [Test]
-        public void ExportToUnity()
+        public void Export()
         {
             for (int i = 0; i < 20; i++)
             {
@@ -30,6 +30,7 @@ namespace Lumpn.Profiling.Test
                 Profiler.EndFrame();
             }
 
+            Profiler.ExportToGoogleChromeTracing("W:\\samples.json");
             Profiler.ExportToUnityProfileAnalyzer("w:\\samples.pdata");
         }
     }
