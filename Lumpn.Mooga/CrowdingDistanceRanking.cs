@@ -17,53 +17,86 @@ namespace Lumpn.Mooga
         public void Rank(List<Individual> individuals)
         {
             Profiler.BeginSample("CrowdingDistanceRanking.Rank");
-            Rank(individuals, 0, individuals.Count);
+
+            var matrix = CalcDomination(individuals);
+            var sortedIndividuals = TopologicalSort(individuals, matrix);
+
             Profiler.EndSample();
         }
 
-        private void Rank(List<Individual> individuals, int start, int end)
+        private int[,] CalcDomination(List<Individual> individuals)
         {
-            // trivially sorted?
-            int count = end - start;
-            if (count < 2) return;
+            var count = individuals.Count;
+            var matrix = new int[count, count + 1];
 
-            // split into non-dominated and dominated
             Profiler.BeginSample("Domination");
-            int splitIndex = start;
-            for (int i = start; i < end; i++)
+            for (int i = 0; i < count; i++)
             {
                 var individual = individuals[i];
-
-                // check domination
-                bool isDominated = false;
-                for (int j = start; j < end; j++)
+                int rank = 0;
+                for (int j = i + 1; j < count; j++)
                 {
-                    if (j == i) continue;
-
                     var other = individuals[j];
-                    if (dominationComparer.Compare(individual, other) < 0)
+
+                    Profiler.BeginSample("Compare");
+                    var compareResult = dominationComparer.Compare(individual, other);
+                    Profiler.EndSample();
+
+                    matrix[i, j] = compareResult;
+                    matrix[j, i] = -compareResult;
+
+                    if (compareResult < 0)
                     {
-                        isDominated = true;
+                        rank++;
+                    }
+                }
+                matrix[i, count] = rank;
+            }
+            Profiler.EndSample();
+
+            return matrix;
+        }
+
+        private List<Individual> TopologicalSort(List<Individual> individuals, int[,] dominationMatrix)
+        {
+            // find non-dominated individuals
+            var nonDominated = new List<int>();
+            for (int i = 0; i < individuals.Count; i++)
+            {
+                bool isNonDominated = true;
+                for (int j = 0; j < individuals.Count; j++)
+                {
+                    if (dominationMatrix[i, j] < 0)
+                    {
+                        // dominated
+                        isNonDominated = false;
                         break;
                     }
                 }
 
-                // non-dominated first
-                if (!isDominated)
+                if (isNonDominated)
                 {
-                    individuals.Swap(splitIndex, i);
-                    splitIndex++;
+                    nonDominated.Add(i);
                 }
             }
-            Profiler.EndSample();
 
-            // sort non-dominated by crowding distance
-            Profiler.BeginSample("Sort");
-            SortByCrowdingDistanceDescending(individuals, start, splitIndex);
-            Profiler.EndSample();
+            var result = new List<Individual>();
+            return TopologicalSort(individuals, dominationMatrix, nonDominated, result);
+        }
 
-            // recursively rank the dominated individuals
-            Rank(individuals, splitIndex, end);
+        private List<Individual> TopologicalSort(List<Individual> individuals, int[,] dominationMatrix, List<int> nonDominated, List<Individual> result)
+        {
+            var next = new List<int>();
+            foreach (var i in nonDominated)
+            {
+                var individual = individuals[i];
+                result.Add(individual); // TODO Jonas: sort by crowding distance
+
+                for (int j = 0; j < individuals.Count; j++)
+                {
+                    dominationMatrix[i, j] = 0;
+                }
+            }
         }
 
         private void SortByCrowdingDistanceDescending(List<Individual> individuals, int start, int end)

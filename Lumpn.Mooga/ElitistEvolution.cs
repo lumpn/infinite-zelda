@@ -45,15 +45,14 @@ namespace Lumpn.Mooga
             Profiler.BeginSample("ElitistEvolution.Evolve");
 
             // spawn individuals
-            var population = new List<Individual>(Enumerable.Repeat<Individual>(null, genomes.Count));
+            var population = new List<Individual>();
 
             Profiler.BeginSample("Evaluate");
-            Parallel.For(0, genomes.Count, i =>
+            foreach (var genome in genomes)
             {
-                var genome = genomes[i];
                 var individual = environment.Evaluate(genome);
-                population[i] = individual;
-            });
+                population.Add(individual);
+            }
             Profiler.EndSample();
 
             // combine with archive

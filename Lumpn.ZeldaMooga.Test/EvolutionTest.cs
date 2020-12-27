@@ -33,6 +33,7 @@ namespace Lumpn.ZeldaMooga.Test
             Console.WriteLine("test: " + individual);
 
             Profiler.EndFrame();
+            Profiler.ExportToUnityProfileAnalyzer("w:\\EvolutionTest-CreateIndividual.pdata");
         }
 
         [Test]
@@ -56,7 +57,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);
@@ -75,7 +76,7 @@ namespace Lumpn.ZeldaMooga.Test
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
 
-            Profiler.ExportToUnityProfileAnalyzer("EvolutionTest.pdata");
+            Profiler.ExportToUnityProfileAnalyzer("w:\\EvolutionTest-TestEvolution.pdata");
         }
     }
 }
