@@ -42,8 +42,6 @@ namespace Lumpn.Mooga
 
         public List<Genome> Evolve(List<Genome> genomes, RandomNumberGenerator random)
         {
-            Profiler.BeginSample("ElitistEvolution.Evolve");
-
             // spawn individuals
             var population = new List<Individual>();
 
@@ -77,7 +75,6 @@ namespace Lumpn.Mooga
             var result = evolution.Evolve(population, random);
             Profiler.EndSample();
 
-            Profiler.EndSample();
             return result;
         }
 

@@ -57,7 +57,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);

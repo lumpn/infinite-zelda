@@ -28,7 +28,6 @@ namespace Lumpn.Mooga
 
         public List<Genome> Evolve(List<Individual> rankedPopulation, RandomNumberGenerator random)
         {
-            Profiler.BeginSample("Evolution.Evolve");
             List<Genome> generation = new List<Genome>();
 
             // crossover
@@ -67,7 +66,6 @@ namespace Lumpn.Mooga
                 generation.Add(genome);
             }
 
-            Profiler.EndSample();
             return generation;
         }
 
