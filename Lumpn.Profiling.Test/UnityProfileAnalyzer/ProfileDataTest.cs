@@ -19,8 +19,8 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer.Test
                     {
                         using (var reader = new BinaryReader(stream))
                         {
-                            var data = new ProfileData(reader);
-                            data.Write(writer);
+                            var data = ProfileData.ReadFrom(reader);
+                            data.WriteTo(writer);
                         }
                     }
                 }

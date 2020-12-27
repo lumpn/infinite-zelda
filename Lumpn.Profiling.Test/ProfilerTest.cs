@@ -30,7 +30,7 @@ namespace Lumpn.Profiling.Test
                 Profiler.EndFrame();
             }
 
-            Profiler.ExportToUnityProfileAnalyzer("samples.pdata");
+            Profiler.ExportToUnityProfileAnalyzer("w:\\samples.pdata");
         }
     }
 }

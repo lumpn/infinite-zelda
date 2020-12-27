@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace Lumpn.Profiling.UnityProfileAnalyzer
@@ -6,7 +7,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
     public sealed class ProfileData
     {
         private const int currentVersion = 7;
-        int frameIndexOffset = 0;
+        private readonly int frameIndexOffset = 0;
 
         private readonly List<ProfileFrame> frames = new List<ProfileFrame>();
         private readonly List<string> markerNames = new List<string>();
@@ -15,30 +16,6 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
         public ProfileData(int frameIndexOffset)
         {
             this.frameIndexOffset = frameIndexOffset;
-        }
-
-        public ProfileData(BinaryReader reader)
-        {
-            var version = reader.ReadInt32();
-            frameIndexOffset = reader.ReadInt32();
-
-            int numFrames = reader.ReadInt32();
-            for(int i = 0; i < numFrames;i++)
-            {
-                frames.Add(new ProfileFrame(reader));
-            }
-
-            int numMarkers = reader.ReadInt32();
-            for (int i = 0; i < numMarkers; i++)
-            {
-                markerNames.Add(reader.ReadString());
-            }
-
-            int numThreads = reader.ReadInt32();
-            for (int i = 0; i < numThreads; i++)
-            {
-                threadNames.Add(reader.ReadString());
-            }
         }
 
         public void Add(ProfileFrame frame)
@@ -58,7 +35,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             return threadNames.Count - 1;
         }
 
-        public void Write(BinaryWriter writer)
+        public void WriteTo(BinaryWriter writer)
         {
             writer.Write(currentVersion);
             writer.Write(frameIndexOffset);
@@ -66,7 +43,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             writer.Write(frames.Count);
             foreach (var frame in frames)
             {
-                frame.Write(writer);
+                frame.WriteTo(writer);
             };
 
             writer.Write(markerNames.Count);
@@ -80,6 +57,38 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             {
                 writer.Write(threadName);
             };
+        }
+
+        public static ProfileData ReadFrom(BinaryReader reader)
+        {
+            var version = reader.ReadInt32();
+            Debug.Assert(version == currentVersion);
+
+            var frameIndexOffset = reader.ReadInt32();
+            var data = new ProfileData(frameIndexOffset);
+
+            int numFrames = reader.ReadInt32();
+            for(int i = 0; i < numFrames;i++)
+            {
+                var frame = ProfileFrame.ReadFrom(reader);
+                data.frames.Add(frame);
+            }
+
+            int numMarkers = reader.ReadInt32();
+            for (int i = 0; i < numMarkers; i++)
+            {
+                var markerName = reader.ReadString();
+                data.markerNames.Add(markerName);
+            }
+
+            int numThreads = reader.ReadInt32();
+            for (int i = 0; i < numThreads; i++)
+            {
+                var threadName = reader.ReadString();
+                data.threadNames.Add(threadName);
+            }
+
+            return data;
         }
     }
 }

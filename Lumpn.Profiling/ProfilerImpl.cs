@@ -32,6 +32,7 @@ namespace Lumpn.Profiling
             Debug.Assert(topSample == lastFrame.Root);
             topSample.End();
             lastFrame = null;
+            topSample = null;
         }
 
         public void BeginSample(string name)

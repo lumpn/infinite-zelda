@@ -34,8 +34,7 @@ namespace Lumpn.Profiling
 
         public static void ExportToUnityProfileAnalyzer(string filename)
         {
-            var converter = new UnityProfileAnalzerExporter();
-            converter.Convert(impl.Frames, Stopwatch.Frequency);
+            var converter = new UnityProfileAnalzerExporter(impl.Frames, Stopwatch.Frequency);
             converter.Export(filename);
         }
     }

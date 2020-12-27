@@ -6,25 +6,13 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
     public sealed class ProfileFrame
     {
         private readonly List<ProfileThread> threads = new List<ProfileThread>();
-        private double msStartTime;
-        private float msFrame;
+        private readonly double startTimeMS;
+        private readonly float frameMS;
 
         public ProfileFrame(double msStartTime, float msFrame)
         {
-            this.msStartTime = msStartTime;
-            this.msFrame = msFrame;
-        }
-
-        public ProfileFrame(BinaryReader reader)
-        {
-            msStartTime = reader.ReadDouble();
-            msFrame = reader.ReadSingle();
-
-            int count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                threads.Add(new ProfileThread(reader));
-            }
+            this.startTimeMS = msStartTime;
+            this.frameMS = msFrame;
         }
 
         public void Add(ProfileThread thread)
@@ -32,16 +20,32 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             threads.Add(thread);
         }
 
-        public void Write(BinaryWriter writer)
+        public void WriteTo(BinaryWriter writer)
         {
-            writer.Write(msStartTime);
-            writer.Write(msFrame);
+            writer.Write(startTimeMS);
+            writer.Write(frameMS);
 
             writer.Write(threads.Count);
             foreach (var thread in threads)
             {
-                thread.Write(writer);
+                thread.WriteTo(writer);
             };
+        }
+
+        public static ProfileFrame ReadFrom(BinaryReader reader)
+        {
+            var startTimeMS = reader.ReadDouble();
+            var frameMS = reader.ReadSingle();
+            var frame = new ProfileFrame(startTimeMS, frameMS);
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                var thread = ProfileThread.ReadFrom(reader);
+                frame.threads.Add(thread);
+            }
+
+            return frame;
         }
     }
 }

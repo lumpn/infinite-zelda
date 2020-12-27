@@ -13,31 +13,35 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             this.threadIndex = threadIndex;
         }
 
-        public ProfileThread(BinaryReader reader)
-        {
-            threadIndex = reader.ReadInt32();
-
-            int count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                markers.Add(new ProfileMarker(reader));
-            }
-        }
-
         public void Add(ProfileMarker marker)
         {
             markers.Add(marker);
         }
 
-        public void Write(BinaryWriter writer)
+        public void WriteTo(BinaryWriter writer)
         {
             writer.Write(threadIndex);
 
             writer.Write(markers.Count);
             foreach (var marker in markers)
             {
-                marker.Write(writer);
+                marker.WriteTo(writer);
             };
+        }
+
+        public static ProfileThread ReadFrom(BinaryReader reader)
+        {
+            var threadIndex = reader.ReadInt32();
+            var thread = new ProfileThread(threadIndex);
+
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                var marker = ProfileMarker.ReadFrom(reader);
+                thread.markers.Add(marker);
+            }
+
+            return thread;
         }
     }
 }
