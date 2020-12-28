@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Lumpn.Dungeon
@@ -24,7 +25,7 @@ namespace Lumpn.Dungeon
             if (!identifiers.TryGetValue(name, out VariableIdentifier identifier))
             {
                 identifier = Unique(name);
-                identifiers[name] = identifier;
+                identifiers.Add(name, identifier);
             }
             return identifier;
         }
@@ -37,14 +38,18 @@ namespace Lumpn.Dungeon
         public override string ToString()
         {
             var sb = new System.Text.StringBuilder();
-            sb.Append("(");
-            foreach (var entry in identifiers.OrderBy(p => p.Value.Id))
+            sb.Append("(Lookup (");
+            sb.Append(NumVariables);
+            sb.Append(")");
+            foreach (var entry in identifiers.Values.OrderBy(p => p.Id))
             {
+                sb.Append(", ");
+                sb.Append(entry.Id);
+                sb.Append(": \"");
+                sb.Append(entry.Name);
                 sb.Append("\"");
-                sb.Append(entry.Value.Name);
-                sb.Append("\", ");
             }
-            sb.Append("EOL)");
+            sb.Append(")");
 
             return sb.ToString();
         }
