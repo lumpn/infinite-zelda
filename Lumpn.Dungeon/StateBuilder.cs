@@ -2,15 +2,13 @@ using System.Collections.Generic;
 
 namespace Lumpn.Dungeon
 {
-    using Variables = List<int>;
-
     public sealed class StateBuilder
     {
-        private readonly Variables variables;
+        private readonly int[] variables;
 
-        public StateBuilder(Variables variables)
+        public StateBuilder(int[] variables)
         {
-            this.variables = new Variables(variables);
+            this.variables = (int[])variables.Clone();
         }
 
         public void Set(VariableIdentifier identifier, int value)

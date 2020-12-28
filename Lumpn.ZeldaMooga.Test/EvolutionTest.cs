@@ -9,8 +9,6 @@ using NUnit.Framework;
 
 namespace Lumpn.ZeldaMooga.Test
 {
-    using Variables = List<int>;
-
     [TestFixture]
     public sealed class EvolutionTest
     {
@@ -24,9 +22,8 @@ namespace Lumpn.ZeldaMooga.Test
             var configuration = new ZeldaConfiguration(random);
             var factory = new ZeldaGenomeFactory(configuration);
 
-            var initialVariables = new Variables();
-            var initialState = new State(initialVariables);
-            var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
+            var initialVariables = new VariableAssignment();
+            var environment = new ZeldaEnvironment(new[] { initialVariables }, 10000);
 
             var example = factory.CreateGenome();
             var individual = environment.Evaluate(example);
@@ -45,9 +42,8 @@ namespace Lumpn.ZeldaMooga.Test
             var configuration = new ZeldaConfiguration(random);
             var factory = new ZeldaGenomeFactory(configuration);
 
-            var initialVariables = new Variables();
-            var initialState = new State(initialVariables);
-            var environment = new ZeldaEnvironment(new[] { initialState }, 10000);
+            var initialVariables = new VariableAssignment();
+            var environment = new ZeldaEnvironment(new[] { initialVariables }, 10000);
 
             var writer = File.CreateText("stats.csv");
             var evolution = new ElitistEvolution(200, 100, factory, environment, ZeldaIndividual.NumAttributes, writer);

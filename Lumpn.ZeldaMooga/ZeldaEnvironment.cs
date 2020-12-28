@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using Lumpn.Dungeon;
 using Lumpn.Mooga;
 using Lumpn.ZeldaDungeon;
@@ -8,12 +9,12 @@ namespace Lumpn.ZeldaMooga
 {
     public sealed class ZeldaEnvironment : Environment
     {
-        private readonly State[] initialStates;
+        private readonly VariableAssignment[] initialVariables;
         private readonly int maxSteps;
 
-        public ZeldaEnvironment(State[] initialStates, int maxSteps)
+        public ZeldaEnvironment(VariableAssignment[] initialVariables, int maxSteps)
         {
-            this.initialStates = initialStates;
+            this.initialVariables = initialVariables;
             this.maxSteps = maxSteps;
         }
 
@@ -27,6 +28,14 @@ namespace Lumpn.ZeldaMooga
             genome.Express(builder);
             Profiler.EndSample();
             var crawler = builder.Build();
+
+            // build initial states
+            var initialStates = new List<State>();
+            foreach (var variableAssignment in initialVariables)
+            {
+                var state = variableAssignment.ToState(builder.Lookup);
+                initialStates.Add(state);
+            }
 
             // crawl puzzle
             Profiler.BeginSample("Crawl");

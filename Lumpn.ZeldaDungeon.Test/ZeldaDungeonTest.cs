@@ -1,18 +1,14 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Lumpn.Dungeon;
+﻿using Lumpn.Dungeon;
+using NUnit.Framework;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
-    using Variables = Dictionary<VariableIdentifier, int>;
-
     [TestFixture]
     public sealed class ZeldaDungeonTest
     {
         private const int maxSteps = 10000;
 
-        private static readonly Variables emptyVariables = new Variables();
+        private static readonly VariableAssignment emptyVariables = new VariableAssignment();
 
         [Test]
         public void CrawlMinimal()
@@ -22,7 +18,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
             var crawler = builder.Build();
 
-            var initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.IsNotEmpty(terminalSteps);

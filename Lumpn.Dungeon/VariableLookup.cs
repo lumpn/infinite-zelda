@@ -11,6 +11,8 @@ namespace Lumpn.Dungeon
 
         private int serial = 0;
 
+        public int NumVariables { get { return serial; } }
+
         public VariableIdentifier Unique(string name)
         {
             int uniqueId = serial++;
@@ -25,6 +27,11 @@ namespace Lumpn.Dungeon
                 identifiers[name] = identifier;
             }
             return identifier;
+        }
+
+        public VariableIdentifier Query(string name)
+        {
+            return identifiers[name];
         }
 
         public override string ToString()

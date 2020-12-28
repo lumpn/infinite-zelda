@@ -6,14 +6,12 @@ using Lumpn.Utils;
 
 namespace Lumpn.Dungeon
 {
-    using Variables = List<int>;
-
     public sealed class State : IEquatable<State>
     {
-        private readonly Variables variables;
+        private readonly int[] variables;
         private readonly int hashCode;
 
-        public State(Variables variables)
+        public State(int[] variables)
         {
             this.variables = variables;
             this.hashCode = GetHashCode(variables);
@@ -22,11 +20,7 @@ namespace Lumpn.Dungeon
         public int Get(VariableIdentifier identifier, int fallbackValue)
         {
             var idx = identifier.Id;
-            if (idx < variables.Count)
-            {
-                return variables[idx];
-            }
-            return fallbackValue;
+            return variables[idx];
         }
 
         public StateBuilder ToStateBuilder()
@@ -62,36 +56,22 @@ namespace Lumpn.Dungeon
             return Equals(variables, other.variables);
         }
 
-        private static int GetHashCode(Variables variables)
+        private static int GetHashCode(int[] variables)
         {
             unchecked
             {
                 int hash = 17;
-                foreach (var entry in variables.OrderBy(p => p.Key.Id))
+                foreach (var entry in variables)
                 {
-                    hash = hash * 23 + entry.Key.Id;
-                    hash = hash * 29 + entry.Value;
+                    hash = hash * 23 + entry;
                 }
                 return hash;
             }
         }
 
-        private static bool Equals(Variables a, Variables b)
+        private static bool Equals(int[] a, int[] b)
         {
-            var count = Math.Min(a.Count, b.Count);
-            for (int i = 0; i < count; i++)
-            {
-                if (a[i] != b[i]) return false;
-            }
-            for (int i = count; i < a.Count; i++)
-            {
-                if (a[i] != 0) return false;
-            }
-            for (int i = count; i < b.Count; i++)
-            {
-                if (b[i] != 0) return false;
-            }
-            return true;
+            return Enumerable.SequenceEqual(a, b);
         }
     }
 }

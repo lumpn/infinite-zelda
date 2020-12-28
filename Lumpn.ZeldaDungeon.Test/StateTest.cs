@@ -4,47 +4,46 @@ using NUnit.Framework;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
-    using Variables = Dictionary<VariableIdentifier, int>;
-
     [TestFixture]
     public sealed class StateTest
     {
-        private static readonly VariableIdentifier va = new VariableIdentifier(1, "a");
-        private static readonly VariableIdentifier vb = new VariableIdentifier(2, "b");
-        private static readonly VariableIdentifier vc = new VariableIdentifier(3, "c");
-        private static readonly VariableIdentifier vx = new VariableIdentifier(42, "x");
-
-        private static Variables CreateVariables1()
+        private static VariableAssignment CreateVariables1()
         {
-            return new Variables();
+            return new VariableAssignment();
         }
 
-        private static Variables CreateVariables2()
+        private static VariableAssignment CreateVariables2()
         {
-            var variables = new Variables();
-            variables.Add(vx, 3);
+            var variables = new VariableAssignment();
+            variables.Assign("x", 3);
             return variables;
         }
 
-        private static Variables CreateVariables3()
+        private static VariableAssignment CreateVariables3()
         {
-            var variables = new Variables();
-            variables.Add(va, 1);
-            variables.Add(vb, 1);
-            variables.Add(vc, 1);
+            var variables = new VariableAssignment();
+            variables.Assign("a", 1);
+            variables.Assign("b", 1);
+            variables.Assign("c", 1);
             return variables;
         }
 
         [Test]
         public void EqualsByContent()
         {
+            var lookup = new VariableLookup();
+            lookup.Resolve("a");
+            lookup.Resolve("b");
+            lookup.Resolve("c");
+            lookup.Resolve("x");
+
             var variables = CreateVariables3();
 
-            State a = new State(CreateVariables1());
-            State b = new State(CreateVariables2());
-            State x = new State(variables);
-            State y = new State(variables);
-            State z = new State(CreateVariables3());
+            State a = CreateVariables1().ToState(lookup);
+            State b = CreateVariables2().ToState(lookup);
+            State x = variables.ToState(lookup);
+            State y = variables.ToState(lookup);
+            State z = CreateVariables3().ToState(lookup);
 
             // self equality
             Assert.AreNotSame(x, y);
@@ -74,13 +73,19 @@ namespace Lumpn.ZeldaDungeon.Test
         [Test]
         public void HashCodeEqualsByContent()
         {
+            var lookup = new VariableLookup();
+            lookup.Resolve("a");
+            lookup.Resolve("b");
+            lookup.Resolve("c");
+            lookup.Resolve("x");
+
             var variables = CreateVariables3();
 
-            State a = new State(CreateVariables1());
-            State b = new State(CreateVariables2());
-            State x = new State(variables);
-            State y = new State(variables);
-            State z = new State(CreateVariables3());
+            State a = CreateVariables1().ToState(lookup);
+            State b = CreateVariables2().ToState(lookup);
+            State x = variables.ToState(lookup);
+            State y = variables.ToState(lookup);
+            State z = CreateVariables3().ToState(lookup);
 
             // self equality
             Assert.AreNotSame(x, y);
