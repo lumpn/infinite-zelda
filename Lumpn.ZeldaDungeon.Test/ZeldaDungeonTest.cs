@@ -38,7 +38,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(3, 1, IdentityScript.Default);
             var crawler = builder.Build();
 
-            var initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(0, initialState));
@@ -61,7 +61,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(2, 1, IdentityScript.Default);
             var crawler = builder.Build();
 
-            var initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(0, initialState));
@@ -82,7 +82,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(3, IdentityScript.Default);
             var crawler = builder.Build();
 
-            State initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(0, initialState));
@@ -104,7 +104,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(0, 3, IdentityScript.Default);
             var crawler = builder.Build();
 
-            State initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(0, initialState));
@@ -129,7 +129,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(0, 2, IdentityScript.Default);
             var puzzle = builder.Build();
 
-            var initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             puzzle.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(puzzle.DebugGetStep(0, initialState));
@@ -159,7 +159,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(3, ZeldaScripts.CreateKey(0, lookup));
             var crawler = builder.Build();
 
-            var initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
@@ -182,7 +182,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(0, ZeldaScripts.CreateKey(0, lookup));
             var crawler = builder.Build();
 
-            State initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
@@ -226,7 +226,7 @@ namespace Lumpn.ZeldaDungeon.Test
             var dot = new DotBuilder();
             crawler.Express(dot);
 
-            State initialState = new State(emptyVariables);
+            var initialState = emptyVariables.ToState(builder.Lookup);
             crawler.Crawl(new[] { initialState }, 10000);
 
             // test for exit reached

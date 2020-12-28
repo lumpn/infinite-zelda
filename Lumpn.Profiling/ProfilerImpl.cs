@@ -6,8 +6,9 @@ namespace Lumpn.Profiling
     public sealed class ProfilerImpl
     {
         private readonly List<Frame> frames = new List<Frame>();
+
         private Frame lastFrame;
-        private Sample topSample;
+        private Sample topSample = new Sample(null, "Default");
 
         public IEnumerable<Frame> Frames { get { return frames; } }
 
@@ -15,7 +16,7 @@ namespace Lumpn.Profiling
         {
             frames.Clear();
             lastFrame = null;
-            topSample = null;
+            topSample = new Sample(null, "Default");
         }
 
         public void BeginFrame()
