@@ -49,6 +49,10 @@
       <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
       <Name>Lumpn.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj">
+      <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
+      <Name>Lumpn.Profiling</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

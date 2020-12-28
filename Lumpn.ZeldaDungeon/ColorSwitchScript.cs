@@ -19,18 +19,8 @@ namespace Lumpn.ZeldaDungeon
             var builder = state.ToStateBuilder();
 
             int switchState = state.Get(switchIdentifier, ZeldaStates.SwitchRed);
-            switch (switchState)
-            {
-                case ZeldaStates.SwitchRed:
-                    builder.Set(switchIdentifier, ZeldaStates.SwitchBlue);
-                    break;
-                case ZeldaStates.SwitchBlue:
-                    builder.Set(switchIdentifier, ZeldaStates.SwitchRed);
-                    break;
-                default:
-                    Debug.Fail();
-                    break;
-            }
+            int nextSwitchState = (switchState == ZeldaStates.SwitchRed) ? ZeldaStates.SwitchBlue : ZeldaStates.SwitchRed;
+            builder.Set(switchIdentifier, nextSwitchState);
 
             return builder.ToState();
         }

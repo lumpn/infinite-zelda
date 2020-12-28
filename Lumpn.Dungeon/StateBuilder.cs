@@ -2,25 +2,21 @@ using System.Collections.Generic;
 
 namespace Lumpn.Dungeon
 {
+    using Variables = List<int>;
+
     public sealed class StateBuilder
     {
-        private readonly Dictionary<VariableIdentifier, int> variables;
+        private readonly Variables variables;
 
-        public StateBuilder(IDictionary<VariableIdentifier, int> variables)
+        public StateBuilder(Variables variables)
         {
-            this.variables = new Dictionary<VariableIdentifier, int>(variables);
+            this.variables = new Variables(variables);
         }
 
         public void Set(VariableIdentifier identifier, int value)
         {
-            if (value == 0)
-            {
-                variables.Remove(identifier);
-            }
-            else
-            {
-                variables[identifier] = value;
-            }
+            var idx = identifier.Id;
+            variables[idx] = value;
         }
 
         public State ToState()

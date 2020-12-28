@@ -33,6 +33,11 @@ namespace Lumpn.Profiling
             impl.EndSample();
         }
 
+        public static void AddSample(string name, long durationTicks)
+        {
+            impl.AddSample(name, durationTicks);
+        }
+
         public static void ExportToGoogleChromeTracing(string filename)
         {
             var converter = new GoogleChromeTracingExporter(impl.Frames, Stopwatch.Frequency);

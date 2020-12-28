@@ -49,5 +49,11 @@ namespace Lumpn.Profiling
             topSample = topSample.Parent;
             Debug.Assert(topSample != null);
         }
+
+        public void AddSample(string name, long durationTicks)
+        {
+            var child = new Sample(topSample, name, durationTicks);
+            topSample.AddChild(child);
+        }
     }
 }

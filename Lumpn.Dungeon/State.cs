@@ -6,7 +6,7 @@ using Lumpn.Utils;
 
 namespace Lumpn.Dungeon
 {
-    using Variables = IDictionary<VariableIdentifier, int>;
+    using Variables = List<int>;
 
     public sealed class State : IEquatable<State>
     {
@@ -21,7 +21,12 @@ namespace Lumpn.Dungeon
 
         public int Get(VariableIdentifier identifier, int fallbackValue)
         {
-            return variables.GetOrFallback(identifier, fallbackValue);
+            var idx = identifier.Id;
+            if (idx < variables.Count)
+            {
+                return variables[idx];
+            }
+            return fallbackValue;
         }
 
         public StateBuilder ToStateBuilder()
@@ -36,9 +41,7 @@ namespace Lumpn.Dungeon
             foreach (var entry in variables)
             {
                 sb.Append(", ");
-                sb.Append(entry.Key.Name);
-                sb.Append("=");
-                sb.Append(entry.Value);
+                sb.Append(entry);
             }
             sb.Append(")");
             return sb.ToString();
@@ -75,17 +78,18 @@ namespace Lumpn.Dungeon
 
         private static bool Equals(Variables a, Variables b)
         {
-            if (a.Count != b.Count) return false;
-            foreach (var entrance in a)
+            var count = Math.Min(a.Count, b.Count);
+            for (int i = 0; i < count; i++)
             {
-                if (!b.TryGetValue(entrance.Key, out int value))
-                {
-                    return false;
-                }
-                if (value != entrance.Value)
-                {
-                    return false;
-                }
+                if (a[i] != b[i]) return false;
+            }
+            for (int i = count; i < a.Count; i++)
+            {
+                if (a[i] != 0) return false;
+            }
+            for (int i = count; i < b.Count; i++)
+            {
+                if (b[i] != 0) return false;
             }
             return true;
         }

@@ -21,6 +21,14 @@ namespace Lumpn.Profiling
             this.name = name;
         }
 
+        public Sample(Sample parent, string name, long durationTicks)
+        {
+            this.parent = parent;
+            this.name = name;
+            this.begin = parent.begin;
+            this.end = begin + durationTicks;
+        }
+
         public void Begin()
         {
             begin = Stopwatch.GetTimestamp();

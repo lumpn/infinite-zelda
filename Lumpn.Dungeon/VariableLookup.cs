@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lumpn.Dungeon
 {
@@ -24,6 +25,21 @@ namespace Lumpn.Dungeon
                 identifiers[name] = identifier;
             }
             return identifier;
+        }
+
+        public override string ToString()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("(");
+            foreach (var entry in identifiers.OrderBy(p => p.Value.Id))
+            {
+                sb.Append("\"");
+                sb.Append(entry.Value.Name);
+                sb.Append("\", ");
+            }
+            sb.Append("EOL)");
+
+            return sb.ToString();
         }
     }
 }

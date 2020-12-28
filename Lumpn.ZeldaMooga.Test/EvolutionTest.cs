@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace Lumpn.ZeldaMooga.Test
 {
-    using Variables = Dictionary<VariableIdentifier, int>;
+    using Variables = List<int>;
 
     [TestFixture]
     public sealed class EvolutionTest
@@ -57,7 +57,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);

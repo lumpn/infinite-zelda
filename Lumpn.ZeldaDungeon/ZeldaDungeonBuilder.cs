@@ -33,6 +33,12 @@ namespace Lumpn.ZeldaDungeon
 
         public Crawler Build()
         {
+            var str = lookup.ToString();
+            var count = lookup.Unique("Count");
+            System.Console.Write(count.Id);
+            System.Console.Write(": ");
+            System.Console.WriteLine(lookup);
+            Lumpn.Profiling.Profiler.AddSample("Lookup", count.Id * (System.Diagnostics.Stopwatch.Frequency / 1000L));
             return new Crawler(locations);
         }
 

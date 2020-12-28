@@ -65,6 +65,7 @@ namespace Lumpn.Dungeon
             int visitedSteps = 0;
 
             // crawl!
+            var recorder = new Recorder("Execute");
             while (queue.Count > 0 && (visitedSteps < maxSteps))
             {
                 // fetch step
@@ -85,7 +86,9 @@ namespace Lumpn.Dungeon
                 {
                     // execute transition
                     Location nextLocation = transition.Destination;
+                    recorder.Begin();
                     State nextState = transition.Execute(state);
+                    recorder.End();
                     if (nextState == null) continue; // transition impassable
 
                     // location reached with new state -> enqueue
@@ -99,6 +102,7 @@ namespace Lumpn.Dungeon
                     step.AddSuccessor(nextStep);
                 }
             }
+            recorder.Submit();
 
             return terminalSteps;
         }
