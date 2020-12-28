@@ -8,7 +8,7 @@ namespace Lumpn.ZeldaMooga
     public sealed class ZeldaIndividual : Individual
     {
         // configuration
-        public const int NumAttributes = 2;
+        public const int NumAttributes = 4;
 
         // statistics
         private readonly int numSteps;
@@ -48,7 +48,7 @@ namespace Lumpn.ZeldaMooga
                 case 1: return OptimizationUtils.Maximize(shortestPathLength);
                 case 2: return OptimizationUtils.Maximize(branchFactor);
                 case 3: return OptimizationUtils.Maximize(revisitFactor);
-                case 4: return OptimizationUtils.Maximize(numSteps);
+                case 4: return OptimizationUtils.Maximize(numSteps); // is this a good idea?
             }
 
             Debug.Fail();
