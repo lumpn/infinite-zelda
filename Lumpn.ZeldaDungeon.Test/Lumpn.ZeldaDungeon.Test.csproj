@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="StateTest.cs" />
     <Compile Include="ZeldaDungeonTest.cs" />
+    <Compile Include="SolTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
