@@ -7,6 +7,12 @@ namespace Lumpn.ZeldaDungeon.Test
     [TestFixture]
     public sealed class SolTest
     {
+        private const string solarPanel = "Solar Panel";
+        private const string generator = "Generator";
+        private const string routeInfo = "Route Information";
+        private const string clearance = "Security Clearance";
+        private const string laser = "Ignition Laser";
+
         private const int maxSteps = 10000;
 
         private static readonly VariableAssignment emptyVariables = new VariableAssignment();
@@ -16,12 +22,6 @@ namespace Lumpn.ZeldaDungeon.Test
         {
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
-
-            var solarPanel = "Solar Panel";
-            var generator = "Generator";
-            var routeInfo = "Route Information";
-            var clearance = "Security Clearance";
-            var laser = "Ignition Laser";
 
             builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
             builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
@@ -62,6 +62,45 @@ namespace Lumpn.ZeldaDungeon.Test
             PrintStates(crawler, lookup);
         }
 
+        [Test]
+        public void CrawlChapter1Reduced()
+        {
+            var builder = new ZeldaDungeonBuilder();
+            var lookup = builder.Lookup;
+
+            // 0: 1-4
+            // 1: 5-13
+            // 2: 14
+            // 3: 15-17
+            // 4: 18
+            // 5: 19-20
+            // 6: 21-22
+
+            builder.AddUndirectedTransition(0, 1, CreateDoor(solarPanel, lookup));
+            builder.AddUndirectedTransition(1, 2, CreateDoor(generator, lookup));
+            builder.AddUndirectedTransition(2, 3, CreateDoor(solarPanel, lookup));
+            builder.AddUndirectedTransition(3, 1, CreateObstacle(routeInfo, lookup));
+            builder.AddUndirectedTransition(1, 4, CreateObstacle(clearance, lookup));
+            builder.AddUndirectedTransition(0, 5, CreateObstacle(clearance, lookup));
+            builder.AddUndirectedTransition(5, 6, CreateObstacle(laser, lookup));
+
+            builder.AddScript(0, CreateItem(solarPanel, lookup));
+            builder.AddScript(1, CreateItem(generator, lookup));
+            builder.AddScript(1, CreateItem(solarPanel, lookup));
+            builder.AddScript(3, CreateItem(routeInfo, lookup));
+            builder.AddScript(3, CreateItem(clearance, lookup));
+            builder.AddScript(4, CreateItem(laser, lookup));
+
+            var crawler = builder.Build();
+
+            var initialState = emptyVariables.ToState(lookup);
+            crawler.Crawl(new[] { initialState }, maxSteps);
+
+            PrintMission(crawler);
+            PrintStates(crawler, lookup);
+            PrintSteps(crawler, lookup);
+        }
+
         private static void PrintMission(Crawler crawler)
         {
             var dot = new DotBuilder();
@@ -94,7 +133,7 @@ namespace Lumpn.ZeldaDungeon.Test
                     var id1 = System.Array.IndexOf(states, state);
                     var id2 = System.Array.IndexOf(states, succState);
 
-                    dot.AddEdge(id1, id2, $"{step.Location} -> {succ.Location}");
+                    dot.AddEdge(id1, id2, $"{step.Location} &rarr; {succ.Location}");
                 }
             }
             dot.End();
