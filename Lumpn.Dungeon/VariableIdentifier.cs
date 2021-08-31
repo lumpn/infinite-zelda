@@ -16,7 +16,7 @@ namespace Lumpn.Dungeon
 
         public override string ToString()
         {
-            return string.Format("{0}", name);
+            return name;
         }
     }
 }

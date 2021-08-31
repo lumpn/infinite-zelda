@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
@@ -285,17 +286,29 @@ namespace Lumpn.ZeldaDungeon.Test
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, 10000);
 
+            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.Query).Where(p => p != null).ToArray();
+
             dot.Begin();
             var steps = crawler.DebugGetSteps().ToArray();
             for (int i = 0; i < steps.Length; i++)
             {
                 var step = steps[i];
-                dot.AddNode(i, $"location {step.Location}\nstate {step.State}");
+
+                var state = step.State;
+                var vars = allVariables.Where(p => state.Get(p, 0) > 0);
+
+                dot.AddNode(i, $"Location {step.Location}\n{string.Join(", ", vars)}");
 
                 foreach (var succ in step.Successors)
                 {
-                    var index = System.Array.IndexOf(steps, succ);
-                    dot.AddEdge(i, index, string.Empty);
+                    var succIndex = System.Array.IndexOf(steps, succ);
+                    var succState = succ.State;
+                    var label = string.Empty;
+                    if (!state.Equals(succState))
+                    {
+                        label = "\", style=bold, color=\"maroon";
+                    }
+                    dot.AddEdge(i, succIndex, label);
                 }
             }
             dot.End();

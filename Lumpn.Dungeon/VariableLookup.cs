@@ -34,6 +34,11 @@ namespace Lumpn.Dungeon
             return identifiers[name];
         }
 
+        public VariableIdentifier Query(int id)
+        {
+            return identifiers.Values.FirstOrDefault(p => p.Id == id);
+        }
+
         public override string ToString()
         {
             var sb = new System.Text.StringBuilder();
