@@ -1,5 +1,7 @@
 ﻿using Lumpn.Dungeon;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
@@ -279,6 +281,24 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
             var dot = new DotBuilder();
             crawler.Express(dot);
+
+            var initialState = emptyVariables.ToState(lookup);
+            crawler.Crawl(new[] { initialState }, 10000);
+
+            dot.Begin();
+            var steps = crawler.DebugGetSteps().ToArray();
+            for (int i = 0; i < steps.Length; i++)
+            {
+                var step = steps[i];
+                dot.AddNode(i, $"location {step.Location}\nstate {step.State}");
+
+                foreach (var succ in step.Successors)
+                {
+                    var index = System.Array.IndexOf(steps, succ);
+                    dot.AddEdge(i, index, string.Empty);
+                }
+            }
+            dot.End();
         }
 
         private static ItemScript CreateItem(string item, VariableLookup lookup)
