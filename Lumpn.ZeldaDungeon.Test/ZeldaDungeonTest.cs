@@ -239,14 +239,17 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            var solarPanel = new ItemScript(lookup.Resolve("SolarPanel"), lookup);
-            var generator = new ItemScript(lookup.Resolve("Generator"), lookup);
+            var solarPanel = "Solar Panel";
+            var generator = "Generator";
+            var routeInfo = "Route Information";
+            var clearance = "Security Clearance";
+            var laser = "Ignition Laser";
 
             builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
             builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 5, ZeldaScripts.CreateDoor(0, lookup));
+            builder.AddUndirectedTransition(2, 5, CreateDoor(solarPanel, lookup));
             builder.AddUndirectedTransition(5, 6, IdentityScript.Default);
             builder.AddUndirectedTransition(6, 7, IdentityScript.Default);
             builder.AddUndirectedTransition(7, 8, IdentityScript.Default);
@@ -255,27 +258,42 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(9, 11, IdentityScript.Default);
             builder.AddUndirectedTransition(11, 12, IdentityScript.Default);
             builder.AddUndirectedTransition(11, 13, IdentityScript.Default);
-            builder.AddUndirectedTransition(11, 14, ZeldaScripts.CreateDoor(1, lookup));
-            builder.AddUndirectedTransition(14, 15, ZeldaScripts.CreateDoor(0, lookup));
+            builder.AddUndirectedTransition(11, 14, CreateDoor(generator, lookup));
+            builder.AddUndirectedTransition(14, 15, CreateDoor(solarPanel, lookup));
             builder.AddUndirectedTransition(15, 16, IdentityScript.Default);
             builder.AddUndirectedTransition(16, 17, IdentityScript.Default);
-            builder.AddUndirectedTransition(15, 6, ZeldaScripts.CreateObstacle(0, lookup));
-            builder.AddUndirectedTransition(6, 18, ZeldaScripts.CreateObstacle(1, lookup));
-            builder.AddUndirectedTransition(4, 19, ZeldaScripts.CreateObstacle(1, lookup));
+            builder.AddUndirectedTransition(15, 6, CreateObstacle(routeInfo, lookup));
+            builder.AddUndirectedTransition(6, 18, CreateObstacle(clearance, lookup));
+            builder.AddUndirectedTransition(4, 19, CreateObstacle(clearance, lookup));
             builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
-            builder.AddUndirectedTransition(20, 21, ZeldaScripts.CreateObstacle(2, lookup));
+            builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
             builder.AddUndirectedTransition(21, 22, IdentityScript.Default);
 
-            builder.AddScript(4, ZeldaScripts.CreateKey(0, lookup));
-            builder.AddScript(12, ZeldaScripts.CreateKey(1, lookup));
-            builder.AddScript(13, ZeldaScripts.CreateKey(0, lookup));
-            builder.AddScript(15, ZeldaScripts.CreateTool(0, lookup));
-            builder.AddScript(17, ZeldaScripts.CreateTool(1, lookup));
-            builder.AddScript(18, ZeldaScripts.CreateTool(2, lookup));
+            builder.AddScript(4, CreateItem(solarPanel, lookup));
+            builder.AddScript(12, CreateItem(generator, lookup));
+            builder.AddScript(13, CreateItem(solarPanel, lookup));
+            builder.AddScript(15, CreateItem(routeInfo, lookup));
+            builder.AddScript(17, CreateItem(clearance, lookup));
+            builder.AddScript(18, CreateItem(laser, lookup));
 
             var crawler = builder.Build();
             var dot = new DotBuilder();
             crawler.Express(dot);
+        }
+
+        private static ItemScript CreateItem(string item, VariableLookup lookup)
+        {
+            return new ItemScript(lookup.Resolve(item), lookup);
+        }
+
+        private static DoorScript CreateDoor(string item, VariableLookup lookup)
+        {
+            return new DoorScript(lookup.Resolve(item), lookup, $"Use {item}");
+        }
+
+        private static ObstacleScript CreateObstacle(string item, VariableLookup lookup)
+        {
+            return new ObstacleScript(lookup.Resolve(item), $"Has {item}");
         }
     }
 }
