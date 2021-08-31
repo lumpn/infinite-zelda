@@ -232,5 +232,50 @@ namespace Lumpn.ZeldaDungeon.Test
             // test for exit reached
             Assert.True(crawler.DebugGetStep(0, initialState).HasDistanceFromExit);
         }
+
+        [Test]
+        public void CrawlChapter1()
+        {
+            var builder = new ZeldaDungeonBuilder();
+            var lookup = builder.Lookup;
+
+            var solarPanel = new ItemScript(lookup.Resolve("SolarPanel"), lookup);
+            var generator = new ItemScript(lookup.Resolve("Generator"), lookup);
+
+            builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
+            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
+            builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
+            builder.AddUndirectedTransition(2, 5, ZeldaScripts.CreateDoor(0, lookup));
+            builder.AddUndirectedTransition(5, 6, IdentityScript.Default);
+            builder.AddUndirectedTransition(6, 7, IdentityScript.Default);
+            builder.AddUndirectedTransition(7, 8, IdentityScript.Default);
+            builder.AddUndirectedTransition(7, 9, IdentityScript.Default);
+            builder.AddUndirectedTransition(9, 10, IdentityScript.Default);
+            builder.AddUndirectedTransition(9, 11, IdentityScript.Default);
+            builder.AddUndirectedTransition(11, 12, IdentityScript.Default);
+            builder.AddUndirectedTransition(11, 13, IdentityScript.Default);
+            builder.AddUndirectedTransition(11, 14, ZeldaScripts.CreateDoor(1, lookup));
+            builder.AddUndirectedTransition(14, 15, ZeldaScripts.CreateDoor(0, lookup));
+            builder.AddUndirectedTransition(15, 16, IdentityScript.Default);
+            builder.AddUndirectedTransition(16, 17, IdentityScript.Default);
+            builder.AddUndirectedTransition(15, 6, ZeldaScripts.CreateObstacle(0, lookup));
+            builder.AddUndirectedTransition(6, 18, ZeldaScripts.CreateObstacle(1, lookup));
+            builder.AddUndirectedTransition(4, 19, ZeldaScripts.CreateObstacle(1, lookup));
+            builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
+            builder.AddUndirectedTransition(20, 21, ZeldaScripts.CreateObstacle(2, lookup));
+            builder.AddUndirectedTransition(21, 22, IdentityScript.Default);
+
+            builder.AddScript(4, ZeldaScripts.CreateKey(0, lookup));
+            builder.AddScript(12, ZeldaScripts.CreateKey(1, lookup));
+            builder.AddScript(13, ZeldaScripts.CreateKey(0, lookup));
+            builder.AddScript(15, ZeldaScripts.CreateTool(0, lookup));
+            builder.AddScript(17, ZeldaScripts.CreateTool(1, lookup));
+            builder.AddScript(18, ZeldaScripts.CreateTool(2, lookup));
+
+            var crawler = builder.Build();
+            var dot = new DotBuilder();
+            crawler.Express(dot);
+        }
     }
 }
