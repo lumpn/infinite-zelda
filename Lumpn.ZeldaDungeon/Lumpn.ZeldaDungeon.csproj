@@ -36,7 +36,7 @@
     <Compile Include="ItemScript.cs" />
     <Compile Include="ZeldaDungeonBuilder.cs" />
     <Compile Include="ZeldaScripts.cs" />
-    <Compile Include="ZeldaStates.cs" />
+    <Compile Include="TradeScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">

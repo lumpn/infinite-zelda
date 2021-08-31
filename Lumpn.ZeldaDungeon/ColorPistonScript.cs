@@ -4,6 +4,9 @@ namespace Lumpn.ZeldaDungeon
 {
     public sealed class ColorPistonScript : Script
     {
+        public const int RedPistonState = 0;
+        public const int BluePistonState = 1;
+
         private readonly VariableIdentifier switchIdentifier;
         private readonly int pistonColor;
         private readonly string name;
@@ -20,7 +23,7 @@ namespace Lumpn.ZeldaDungeon
         public State Execute(State state)
         {
             // color correct?
-            int switchColor = state.Get(switchIdentifier, ZeldaStates.SwitchRed);
+            int switchColor = state.Get(switchIdentifier, RedPistonState);
             if (switchColor == pistonColor)
             {
                 return state; // pass

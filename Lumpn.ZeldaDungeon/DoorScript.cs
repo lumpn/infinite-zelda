@@ -5,6 +5,9 @@ namespace Lumpn.ZeldaDungeon
     /// any type of door that can be opened by consuming an item
     public sealed class DoorScript : Script
     {
+        private const int doorLockedState = 0;
+        private const int doorUnlockedState = 1;
+
         private readonly VariableIdentifier keyIdentifier, doorStateIdentifier;
         private readonly string doorName;
 
@@ -20,8 +23,8 @@ namespace Lumpn.ZeldaDungeon
         public State Execute(State state)
         {
             // already unlocked?
-            int doorState = state.Get(doorStateIdentifier, ZeldaStates.DoorLocked);
-            if (doorState == ZeldaStates.DoorUnlocked)
+            int doorState = state.Get(doorStateIdentifier, doorLockedState);
+            if (doorState == doorUnlockedState)
             {
                 return state; // pass
             }
@@ -36,7 +39,7 @@ namespace Lumpn.ZeldaDungeon
             // consume key & unlock
             var builder = state.ToStateBuilder();
             builder.Set(keyIdentifier, numKeys - 1);
-            builder.Set(doorStateIdentifier, ZeldaStates.DoorUnlocked);
+            builder.Set(doorStateIdentifier, doorUnlockedState);
             return builder.ToState();
         }
     }

@@ -28,14 +28,9 @@ namespace Lumpn.ZeldaDungeon
             return new ColorSwitchScript(lookup.Resolve(switches[type]));
         }
 
-        public static ColorPistonScript CreateRedPiston(int type, VariableLookup lookup)
+        public static ColorPistonScript CreateColorPiston(int type, int color, VariableLookup lookup)
         {
-            return new ColorPistonScript(lookup.Resolve(switches[type]), ZeldaStates.SwitchRed, redPistons[type]);
-        }
-
-        public static ColorPistonScript CreateBluePiston(int type, VariableLookup lookup)
-        {
-            return new ColorPistonScript(lookup.Resolve(switches[type]), ZeldaStates.SwitchBlue, bluePistons[type]);
+            return new ColorPistonScript(lookup.Resolve(switches[type]), color, redPistons[type]);
         }
 
         public static ItemScript CreateTool(int type, VariableLookup lookup)

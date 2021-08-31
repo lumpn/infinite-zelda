@@ -1,6 +1,5 @@
 ﻿using System;
 using Lumpn.Dungeon;
-using Lumpn.Utils;
 using Lumpn.ZeldaDungeon;
 
 namespace Lumpn.ZeldaMooga
@@ -40,14 +39,7 @@ namespace Lumpn.ZeldaMooga
 
         private static Script CreateScript(int switchType, int switchColor, VariableLookup lookup)
         {
-            switch (switchColor)
-            {
-                case ZeldaStates.SwitchRed: return ZeldaScripts.CreateRedPiston(switchType, lookup);
-                case ZeldaStates.SwitchBlue: return ZeldaScripts.CreateBluePiston(switchType, lookup);
-            }
-
-            Debug.Fail();
-            return IdentityScript.Default;
+            return ZeldaScripts.CreateColorPiston(switchType, switchColor, lookup);
         }
     }
 }

@@ -219,8 +219,8 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(4, ZeldaScripts.CreateColorSwitch(0, lookup));
 
             // Piston: 1--7, Piston: 2--6
-            builder.AddUndirectedTransition(1, 7, ZeldaScripts.CreateBluePiston(0, lookup));
-            builder.AddUndirectedTransition(2, 6, ZeldaScripts.CreateRedPiston(0, lookup));
+            builder.AddUndirectedTransition(1, 7, ZeldaScripts.CreateColorPiston(0, ColorPistonScript.BluePistonState, lookup));
+            builder.AddUndirectedTransition(2, 6, ZeldaScripts.CreateColorPiston(0, ColorPistonScript.RedPistonState, lookup));
 
             var crawler = builder.Build();
             var dot = new DotBuilder();
