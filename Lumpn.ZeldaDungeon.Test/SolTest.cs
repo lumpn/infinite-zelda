@@ -96,7 +96,7 @@ namespace Lumpn.ZeldaDungeon.Test
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
-            PrintMission(crawler);
+            PrintMission(crawler, lookup);
             PrintStates(crawler, lookup);
             PrintSteps(crawler, lookup);
         }
@@ -131,7 +131,9 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
             builder.AddUndirectedTransition(21, 22, IdentityScript.Default);
 
-            builder.AddScript(4, CreateItem(solarPanel, lookup));
+            builder.AddScript(1, CreateItem("item1", lookup));
+
+            builder.AddScript(4, CreateTrade("item1", solarPanel, lookup));
             builder.AddScript(12, CreateItem(generator, lookup));
             builder.AddScript(13, CreateItem(solarPanel, lookup));
             builder.AddScript(15, CreateItem(routeInfo, lookup));
@@ -139,13 +141,13 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(18, CreateItem(laser, lookup));
 
             // deliver
-            builder.AddScript(1, CreateItem("item1", lookup));
-            builder.AddScript(3, CreateDoor("item1", lookup));
+            //builder.AddScript(1, CreateItem("item1", lookup));
+            //builder.AddScript(3, CreateDoor("item1", lookup));
 
             // trade
-            builder.AddScript(1, CreateItem("item2", lookup));
-            builder.AddScript(6, CreateTrade("item2", "item3", lookup));
-            builder.AddScript(21, CreateDoor("item3", lookup));
+            //builder.AddScript(1, CreateItem("item2", lookup));
+            //builder.AddScript(6, CreateTrade("item2", "item3", lookup));
+            //builder.AddScript(21, CreateDoor("item3", lookup));
 
             var crawler = builder.Build();
 
@@ -155,7 +157,7 @@ namespace Lumpn.ZeldaDungeon.Test
             PrintStates(crawler, lookup);
         }
 
-        private static void PrintMission(Crawler crawler)
+        private static void PrintMission(Crawler crawler, VariableLookup lookup)
         {
             var dot = new DotBuilder();
             crawler.Express(dot);
