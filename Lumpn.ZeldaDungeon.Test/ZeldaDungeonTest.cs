@@ -280,16 +280,58 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(18, CreateItem(laser, lookup));
 
             var crawler = builder.Build();
-            var dot = new DotBuilder();
-            crawler.Express(dot);
 
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, 10000);
 
+            PrintStates(crawler, lookup);
+        }
+
+        private static void PrintMission(Crawler crawler)
+        {
+            var dot = new DotBuilder();
+            crawler.Express(dot);
+        }
+
+        private static void PrintStates(Crawler crawler, VariableLookup lookup)
+        {
+            var steps = crawler.DebugGetSteps().ToArray();
+            var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
             var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.Query).Where(p => p != null).ToArray();
 
+            var dot = new DotBuilder();
             dot.Begin();
+            for (int i = 0; i < states.Length; i++)
+            {
+                var state = states[i];
+                var vars = allVariables.Where(p => state.Get(p, 0) > 0);
+                dot.AddNode(i, string.Join(", ", vars));
+            }
+
+            foreach (var step in steps)
+            {
+                var state = step.State;
+                foreach (var succ in step.Successors)
+                {
+                    var succState = succ.State;
+                    if (state.Equals(succState)) continue;
+
+                    var id1 = System.Array.IndexOf(states, state);
+                    var id2 = System.Array.IndexOf(states, succState);
+
+                    dot.AddEdge(id1, id2, $"{step.Location} -> {succ.Location}");
+                }
+            }
+            dot.End();
+        }
+
+        private static void PrintSteps(Crawler crawler, VariableLookup lookup)
+        {
             var steps = crawler.DebugGetSteps().ToArray();
+            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.Query).Where(p => p != null).ToArray();
+
+            var dot = new DotBuilder();
+            dot.Begin();
             for (int i = 0; i < steps.Length; i++)
             {
                 var step = steps[i];
