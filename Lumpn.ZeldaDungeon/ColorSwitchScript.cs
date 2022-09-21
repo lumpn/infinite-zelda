@@ -1,5 +1,4 @@
 using Lumpn.Dungeon;
-using Lumpn.Utils;
 
 namespace Lumpn.ZeldaDungeon
 {
@@ -18,8 +17,8 @@ namespace Lumpn.ZeldaDungeon
         {
             var builder = state.ToStateBuilder();
 
-            int switchState = state.Get(switchIdentifier, ZeldaStates.SwitchRed);
-            int nextSwitchState = (switchState == ZeldaStates.SwitchRed) ? ZeldaStates.SwitchBlue : ZeldaStates.SwitchRed;
+            int switchState = state.Get(switchIdentifier, ColorPistonScript.RedPistonState);
+            int nextSwitchState = (switchState == ColorPistonScript.RedPistonState) ? ColorPistonScript.BluePistonState : ColorPistonScript.RedPistonState;
             builder.Set(switchIdentifier, nextSwitchState);
 
             return builder.ToState();

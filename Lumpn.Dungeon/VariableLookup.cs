@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Lumpn.Dungeon
@@ -33,6 +32,11 @@ namespace Lumpn.Dungeon
         public VariableIdentifier Query(string name)
         {
             return identifiers[name];
+        }
+
+        public VariableIdentifier Query(int id)
+        {
+            return identifiers.Values.FirstOrDefault(p => p.Id == id);
         }
 
         public override string ToString()

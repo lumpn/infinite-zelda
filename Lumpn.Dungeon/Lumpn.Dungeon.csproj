@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Lumpn.Dungeon</RootNamespace>
     <AssemblyName>Lumpn.Dungeon</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <BaseIntermediateOutputPath>C:\Work\MonoDevelop\bin</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
