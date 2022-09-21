@@ -25,25 +25,25 @@ struct Marker {
 struct Thread {
     int threadIndex;
     int numMarkers;
-    Marker markers[numMarkers];
+    Marker markers[numMarkers] <optimize=true>;
 };
 
 struct Frame {
     double startTimeMS;
     float frameMS;
     int numThreads;
-    Thread threads[numThreads];
+    Thread threads[numThreads] <optimize=false>;
 };
 
 struct Data {
     int version;
     int frameIndexOffset;
     int numFrames;
-    Frame frames[numFrames];
+    Frame frames[numFrames] <optimize=false>;
     int numMarkerNames;
-    Name markerNames[numMarkerNames];
+    Name markerNames[numMarkerNames] <optimize=false>;
     int numThreads;
-    Name threadNames[numThreads];
+    Name threadNames[numThreads] <optimize=false>;
 };
 
 Data data;
