@@ -30,6 +30,7 @@
     <Compile Include="Graph.cs" />
     <Compile Include="GraphBuilder.cs" />
     <Compile Include="GraphValidator.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Transition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

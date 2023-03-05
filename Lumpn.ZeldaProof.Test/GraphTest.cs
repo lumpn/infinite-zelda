@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Lumpn.ZeldaProof.Test
 {
@@ -11,16 +6,77 @@ namespace Lumpn.ZeldaProof.Test
     public sealed class GraphTest
     {
         [Test]
-        public void CreateGraph()
+        public void Trivial()
+        {
+            var builder = new GraphBuilder();
+            builder.addTransition(0, 1);
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Basic()
         {
             var builder = new GraphBuilder();
             builder.addItem(0, "A");
             builder.addTransition(0, 1, "A");
 
             var graph = builder.build();
-            var verifier = new GraphValidator();
-            
-            var result = verifier.Verify(graph);
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void MissingItem()
+        {
+            var builder = new GraphBuilder();
+            builder.addTransition(0, 1, "A");
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void ExtraItem()
+        {
+            var builder = new GraphBuilder();
+            builder.addItem(0, "A");
+            builder.addTransition(0, 1);
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Sequence()
+        {
+            var builder = new GraphBuilder();
+            builder.addItem(0, "A");
+            builder.addTransition(0, 1, "B");
+            builder.addTransition(0, 2, "A");
+            builder.addItem(2, "B");
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
             Assert.IsTrue(result);
         }
     }
