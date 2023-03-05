@@ -1,6 +1,8 @@
+/[Mm]igrationBackup/
+
 [Bb]in/
 [Oo]bj/
 [Pp]ackages/
 
 # Visual Studio cache directory
-.vs/
+/.vs/
