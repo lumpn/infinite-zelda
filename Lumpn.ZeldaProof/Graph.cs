@@ -8,12 +8,18 @@ namespace Lumpn.ZeldaProof
     public sealed class Graph : IEquatable<Graph>
     {
         private static readonly Graph trivialGraph = new Graph(0);
+        private static readonly IRule[] rules =
+        {
+            new RemoveLoopsRule(),
+            new MergeNodesRule(),
+            new RemoveItemRule(),
+        };
 
         private readonly Dictionary<string, int> items = new Dictionary<string, int>();
         private readonly Dictionary<int, string> names = new Dictionary<int, string>();
 
-        private readonly List<Node> nodes = new List<Node>();
-        private readonly List<Transition> transitions = new List<Transition>();
+        public readonly List<Node> nodes = new List<Node>();
+        public readonly List<Transition> transitions = new List<Transition>();
 
         public Graph(int destinationNodeId)
         {
@@ -35,8 +41,10 @@ namespace Lumpn.ZeldaProof
 
         public void AddTrade(int nodeId, string itemName1, string itemName2)
         {
-            // TODO Jonas: implement
-            AddItem(nodeId, itemName2);
+            var node = EnsureNode(nodeId);
+            var itemId1 = GetIdentifier(itemName1);
+            var itemId2 = GetIdentifier(itemName2);
+            node.AddTrade(itemId1, itemId2);
         }
 
         public void AddTransition(int nodeId1, int nodeId2)
@@ -69,53 +77,6 @@ namespace Lumpn.ZeldaProof
             return itemId;
         }
 
-        public bool Simplify()
-        {
-            foreach (var transition in transitions)
-            {
-                if (transition.itemId < 0)
-                {
-                    // remove loops
-                    var nodeId1 = transition.nodeId1;
-                    var nodeId2 = transition.nodeId2;
-                    if (nodeId1 == nodeId2)
-                    {
-                        transitions.Remove(transition);
-                        return true;
-                    }
-
-                    // merge destination node items with source
-                    var node1 = nodes.First(p => p.id == nodeId1);
-                    var node2 = nodes.First(p => p.id == nodeId2);
-                    node1.AddItems(node2);
-
-                    // redirect incoming transitions
-                    foreach (var transition2 in transitions)
-                    {
-                        if (transition2.nodeId2 == nodeId2)
-                        {
-                            transition2.SetNodes(transition2.nodeId1, nodeId1);
-                        }
-                    }
-
-                    // redirect outgoing transitions
-                    foreach (var transition2 in transitions)
-                    {
-                        if (transition2.nodeId1 == nodeId2)
-                        {
-                            transition2.SetNodes(nodeId1, transition2.nodeId2);
-                        }
-                    }
-
-                    nodes.Remove(node2);
-                    transitions.Remove(transition);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public void Print(TextWriter writer)
         {
             writer.WriteLine("digraph G {");
@@ -145,92 +106,21 @@ namespace Lumpn.ZeldaProof
 
         public bool Validate()
         {
-            if (Equals(trivialGraph))
+            bool changed;
+            do
             {
-                return true;
-            }
-
-            if (Simplify())
-            {
-                System.Console.Out.WriteLine("simplified:");
-                Print(System.Console.Out);
-                return Validate();
-            }
-
-            if (RemoveItem())
-            {
-                System.Console.Out.WriteLine("reduced:");
-                Print(System.Console.Out);
-                return Validate();
-            }
-
-            return false;
-        }
-
-        private bool RemoveItem()
-        {
-            var items = new HashSet<int>();
-            foreach (var transition in transitions)
-            {
-                var itemId = transition.itemId;
-                items.Add(itemId);
-            }
-
-            foreach (var item in items)
-            {
-                if (RemoveItem(item))
+                changed = false;
+                foreach (var rule in rules)
                 {
-                    return true;
+                    if (rule.ApplyTo(this))
+                    {
+                        Print(System.Console.Out);
+                        changed = true;
+                    }
                 }
-            }
+            } while (changed);
 
-            return false;
-        }
-
-        private bool RemoveItem(int itemId)
-        {
-            // 1. find unique node N that has item
-            var relatedNodes = new List<Node>();
-            foreach (var node in nodes)
-            {
-                if (node.HasItem(itemId))
-                {
-                    relatedNodes.Add(node);
-                }
-            }
-            if (relatedNodes.Count != 1)
-            {
-                return false;
-            }
-            var uniqueNode = relatedNodes[0];
-
-            // 2. find transitions T that require item
-            var relatedTransitions = new List<Transition>();
-            foreach (var transition in transitions)
-            {
-                if (transition.itemId == itemId)
-                {
-                    relatedTransitions.Add(transition);
-                }
-            }
-
-            // 3. make sure all transitions T start in node N
-            foreach (var transition in relatedTransitions)
-            {
-                if (transition.nodeId1 != uniqueNode.id)
-                {
-                    return false;
-                }
-            }
-
-            // 4. remove item
-            uniqueNode.RemoveItem(itemId);
-            foreach (var transition in relatedTransitions)
-            {
-                transition.SetItem(-1);
-            }
-
-            return true;
+            return Equals(trivialGraph);
         }
 
         public bool Equals(Graph b)
