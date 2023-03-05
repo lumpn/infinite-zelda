@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon", "Lumpn.Dungeon\Lumpn.Dungeon.csproj", "{318F2992-7CC2-4543-9041-0E3CAE0562C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Mooga", "Lumpn.Mooga\Lumpn.Mooga.csproj", "{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}"
@@ -23,9 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Profiling", "Lumpn.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Profiling.Test", "Lumpn.Profiling.Test\Lumpn.Profiling.Test.csproj", "{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{5CE1BA95-D090-4B1B-A16B-EB176AFC2444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout", "Lumpn.ZeldaLayout\Lumpn.ZeldaLayout.csproj", "{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{807F9741-3597-4D5B-991D-5C4170CF02DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaLayout.Test", "Lumpn.ZeldaLayout.Test\Lumpn.ZeldaLayout.Test.csproj", "{2861AB03-2D65-42D0-B410-C59CCA76C21A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,25 +78,27 @@ Global
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Debug|x86.Build.0 = Debug|Any CPU
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Release|x86.ActiveCfg = Release|Any CPU
 		{0837488B-8CB5-4F7B-90F4-FBCFF51F2023}.Release|x86.Build.0 = Release|Any CPU
-		{5CE1BA95-D090-4B1B-A16B-EB176AFC2444}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5CE1BA95-D090-4B1B-A16B-EB176AFC2444}.Debug|x86.Build.0 = Debug|Any CPU
-		{5CE1BA95-D090-4B1B-A16B-EB176AFC2444}.Release|x86.ActiveCfg = Release|Any CPU
-		{5CE1BA95-D090-4B1B-A16B-EB176AFC2444}.Release|x86.Build.0 = Release|Any CPU
-		{807F9741-3597-4D5B-991D-5C4170CF02DB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{807F9741-3597-4D5B-991D-5C4170CF02DB}.Debug|x86.Build.0 = Debug|Any CPU
-		{807F9741-3597-4D5B-991D-5C4170CF02DB}.Release|x86.ActiveCfg = Release|Any CPU
-		{807F9741-3597-4D5B-991D-5C4170CF02DB}.Release|x86.Build.0 = Release|Any CPU
+		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Debug|x86.Build.0 = Debug|Any CPU
+		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Release|x86.ActiveCfg = Release|Any CPU
+		{A4F351FA-78A5-4518-A0CE-F9AA369FFC07}.Release|x86.Build.0 = Release|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $4
 		$2.inheritsSet = null
 		$2.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $3
 		$3.scope = text/x-csharp
-		$0.TextStylePolicy = $4
 		$4.FileWidth = 80
 		$4.TabsToSpaces = True
 		$4.scope = text/plain
