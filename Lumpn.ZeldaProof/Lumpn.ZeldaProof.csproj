@@ -33,6 +33,7 @@
     <Compile Include="RemoveItemRule.cs" />
     <Compile Include="MergeNodesRule.cs" />
     <Compile Include="RemoveLoopsRule.cs" />
+    <Compile Include="RemoveTradeRule.cs" />
     <Compile Include="Transition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

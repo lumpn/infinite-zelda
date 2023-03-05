@@ -9,8 +9,8 @@ namespace Lumpn.ZeldaProof
     {
         public readonly int id;
 
-        private readonly List<int> items = new List<int>();
-        private readonly List<ValueTuple<int, int>> trades = new List<ValueTuple<int, int>>();
+        public readonly List<int> items = new List<int>();
+        public readonly List<ValueTuple<int, int>> trades = new List<ValueTuple<int, int>>();
 
         public Node(int id)
         {
@@ -45,6 +45,11 @@ namespace Lumpn.ZeldaProof
         public void AddTrade(int itemId1, int itemId2)
         {
             trades.Add(ValueTuple.Create(itemId1, itemId2));
+        }
+
+        public void RemoveTrade(int itemId1, int itemId2)
+        {
+            trades.Remove(ValueTuple.Create(itemId1, itemId2));
         }
 
         public void Print(TextWriter writer, IReadOnlyDictionary<int, string> names)

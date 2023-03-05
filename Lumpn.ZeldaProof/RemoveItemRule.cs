@@ -33,8 +33,8 @@ namespace Lumpn.ZeldaProof
 
         private bool RemoveItem(Graph graph, int itemId)
         {
-            // 0. is the item used in any trade?
-            foreach(var node in graph.nodes)
+            // is the item used in any trade?
+            foreach (var node in graph.nodes)
             {
                 if (node.HasTrade(itemId))
                 {
@@ -42,7 +42,7 @@ namespace Lumpn.ZeldaProof
                 }
             }
 
-            // 1. find unique node N that has item
+            // find unique node that has item
             var relatedNodes = new List<Node>();
             foreach (var node in graph.nodes)
             {
@@ -57,7 +57,7 @@ namespace Lumpn.ZeldaProof
             }
             var uniqueNode = relatedNodes[0];
 
-            // 2. find transitions T that require item
+            // find transitions that require item
             var relatedTransitions = new List<Transition>();
             foreach (var transition in graph.transitions)
             {
@@ -67,7 +67,7 @@ namespace Lumpn.ZeldaProof
                 }
             }
 
-            // 3. make sure all transitions T start in node N
+            // make sure all transitions start in node N
             foreach (var transition in relatedTransitions)
             {
                 if (transition.nodeId1 != uniqueNode.id)
@@ -76,7 +76,7 @@ namespace Lumpn.ZeldaProof
                 }
             }
 
-            // 4. remove item
+            // remove item
             uniqueNode.RemoveItem(itemId);
             foreach (var transition in relatedTransitions)
             {

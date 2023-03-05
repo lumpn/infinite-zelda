@@ -13,6 +13,7 @@ namespace Lumpn.ZeldaProof
             new RemoveLoopsRule(),
             new MergeNodesRule(),
             new RemoveItemRule(),
+            new RemoveTradeRule(),
         };
 
         private readonly Dictionary<string, int> items = new Dictionary<string, int>();
@@ -116,6 +117,7 @@ namespace Lumpn.ZeldaProof
                     {
                         Print(System.Console.Out);
                         changed = true;
+                        break;
                     }
                 }
             } while (changed);
