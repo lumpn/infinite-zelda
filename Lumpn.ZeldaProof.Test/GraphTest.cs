@@ -20,6 +20,33 @@ namespace Lumpn.ZeldaProof.Test
         }
 
         [Test]
+        public void TrivialNoPath()
+        {
+            var builder = new GraphBuilder();
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void TrivialNoPath2()
+        {
+            var builder = new GraphBuilder();
+            builder.addTransition(0, 2);
+
+            var graph = builder.build();
+            graph.print(System.Console.Out);
+
+            var validator = new GraphValidator();
+            var result = validator.validate(graph);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
         public void Basic()
         {
             var builder = new GraphBuilder();

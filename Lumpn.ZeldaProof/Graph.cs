@@ -35,6 +35,47 @@ namespace Lumpn.ZeldaProof
             transitions.Add(transition);
         }
 
+        public bool simplify()
+        {
+            foreach (var transition in transitions)
+            {
+                if (transition.itemId < 0)
+                {
+                    // merge destination node items with source
+                    var node1 = transition.node1;
+                    var node2 = transition.node2;
+                    for (int i = 0; i < node2.itemCount; i++)
+                    {
+                        node1.addItem(node2.getItem(i));
+                    }
+
+                    // redirect incoming transitions
+                    foreach (var transition2 in transitions)
+                    {
+                        if (transition2.node2 == node2)
+                        {
+                            transition2.setNodes(transition2.node1, node1);
+                        }
+                    }
+
+                    // redirect outgoing transitions
+                    foreach (var transition2 in transitions)
+                    {
+                        if (transition2.node1 == node2)
+                        {
+                            transition2.setNodes(node1, transition2.node2);
+                        }
+                    }
+
+                    nodes.Remove(node2);
+                    transitions.Remove(transition);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void print(TextWriter writer)
         {
             writer.WriteLine("digraph G {");

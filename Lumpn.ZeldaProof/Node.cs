@@ -26,12 +26,17 @@ namespace Lumpn.ZeldaProof
             items.Add(itemId);
         }
 
+        public void removeItem(int itemId)
+        {
+            items.Remove(itemId);
+        }
+
         public void print(TextWriter writer)
         {
-            writer.WriteLine("node{0} [label=\"N{0}\"]", id);
+            writer.WriteLine("node{0} [label=\"n{0}\"]", id);
             foreach (var item in items)
             {
-                writer.WriteLine("node{0} -> node{0} [label=\"+{1}\"]", id, item);
+                writer.WriteLine("node{0} -> node{0} [label=\"+i{1}\"]", id, item);
             }
         }
     }
