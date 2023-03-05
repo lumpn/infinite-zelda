@@ -88,13 +88,16 @@ Global
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2861AB03-2D65-42D0-B410-C59CCA76C21A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Debug|Any CPU.Build.0 = Debug|x86
-		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Release|Any CPU.ActiveCfg = Release|x86
-		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Release|Any CPU.Build.0 = Release|x86
+		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {273CFFDB-FEF0-4B5A-9098-2EF1EEA79F88}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
