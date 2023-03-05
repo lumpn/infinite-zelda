@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Lumpn.ZeldaProof
@@ -26,7 +27,7 @@ namespace Lumpn.ZeldaProof
             this.itemId = itemId;
         }
 
-        public void Print(TextWriter writer)
+        public void Print(TextWriter writer, IReadOnlyDictionary<int, string> names)
         {
             if (itemId < 0)
             {
@@ -34,7 +35,7 @@ namespace Lumpn.ZeldaProof
             }
             else
             {
-                writer.WriteLine("node{0} -> node{1} [label=\"?i{2}\"]", nodeId1, nodeId2, itemId);
+                writer.WriteLine("node{0} -> node{1} [label=\"{2}\"]", nodeId1, nodeId2, names[itemId]);
             }
         }
 

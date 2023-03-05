@@ -10,6 +10,7 @@ namespace Lumpn.ZeldaProof
         private static readonly Graph trivialGraph = new Graph(0);
 
         private readonly Dictionary<string, int> items = new Dictionary<string, int>();
+        private readonly Dictionary<int, string> names = new Dictionary<int, string>();
 
         private readonly List<Node> nodes = new List<Node>();
         private readonly List<Transition> transitions = new List<Transition>();
@@ -17,7 +18,7 @@ namespace Lumpn.ZeldaProof
         public Graph(int destinationNodeId)
         {
             // add special "reach destination" item
-            AddItem(destinationNodeId, -1);
+            AddItem(destinationNodeId, "END");
         }
 
         public void AddItem(int nodeId, string itemName)
@@ -30,6 +31,12 @@ namespace Lumpn.ZeldaProof
         {
             var node = EnsureNode(nodeId);
             node.AddItem(itemId);
+        }
+
+        public void AddTrade(int nodeId, string itemName1, string itemName2)
+        {
+            // TODO Jonas: implement
+            AddItem(nodeId, itemName2);
         }
 
         public void AddTransition(int nodeId1, int nodeId2)
@@ -57,6 +64,7 @@ namespace Lumpn.ZeldaProof
             {
                 itemId = items.Count;
                 items.Add(itemName, itemId);
+                names.Add(itemId, itemName);
             }
             return itemId;
         }
@@ -67,9 +75,16 @@ namespace Lumpn.ZeldaProof
             {
                 if (transition.itemId < 0)
                 {
-                    // merge destination node items with source
+                    // remove loops
                     var nodeId1 = transition.nodeId1;
                     var nodeId2 = transition.nodeId2;
+                    if (nodeId1 == nodeId2)
+                    {
+                        transitions.Remove(transition);
+                        return true;
+                    }
+
+                    // merge destination node items with source
                     var node1 = nodes.First(p => p.id == nodeId1);
                     var node2 = nodes.First(p => p.id == nodeId2);
                     node1.AddItems(node2);
@@ -104,13 +119,15 @@ namespace Lumpn.ZeldaProof
         public void Print(TextWriter writer)
         {
             writer.WriteLine("digraph G {");
+            writer.WriteLine("node [shape=point]");
+            writer.WriteLine("edge [dir=none]");
             foreach (var node in nodes)
             {
-                node.Print(writer);
+                node.Print(writer, names);
             }
             foreach (var transition in transitions)
             {
-                transition.Print(writer);
+                transition.Print(writer, names);
             }
             writer.WriteLine("}");
         }

@@ -36,12 +36,13 @@ namespace Lumpn.ZeldaProof
             items.Remove(itemId);
         }
 
-        public void Print(TextWriter writer)
+        public void Print(TextWriter writer, IReadOnlyDictionary<int, string> names)
         {
             writer.WriteLine("node{0} [label=\"n{0}\"]", id);
             foreach (var item in items)
             {
-                writer.WriteLine("node{0} -> node{0} [label=\"+i{1}\"]", id, item);
+                writer.WriteLine("item{0} [label=\"{1}\", shape=ellipse]", item, names[item]);
+                writer.WriteLine("node{0} -> item{1}", id, item);
             }
         }
 
