@@ -8,102 +8,81 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void Trivial()
         {
-            var builder = new GraphBuilder();
-            builder.addTransition(0, 1);
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addTransition(0, 1);
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsTrue(result);
         }
 
         [Test]
         public void TrivialNoPath()
         {
-            var builder = new GraphBuilder();
-
-            var graph = builder.build();
+            var graph = new Graph();
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsFalse(result);
         }
 
         [Test]
         public void TrivialNoPath2()
         {
-            var builder = new GraphBuilder();
-            builder.addTransition(0, 2);
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addTransition(0, 2);
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsFalse(result);
         }
 
         [Test]
         public void Basic()
         {
-            var builder = new GraphBuilder();
-            builder.addItem(0, "A");
-            builder.addTransition(0, 1, "A");
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addItem(0, "A");
+            graph.addTransition(0, 1, "A");
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsTrue(result);
         }
 
         [Test]
         public void MissingItem()
         {
-            var builder = new GraphBuilder();
-            builder.addTransition(0, 1, "A");
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addTransition(0, 1, "A");
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsFalse(result);
         }
 
         [Test]
         public void ExtraItem()
         {
-            var builder = new GraphBuilder();
-            builder.addItem(0, "A");
-            builder.addTransition(0, 1);
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addItem(0, "A");
+            graph.addTransition(0, 1);
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsFalse(result);
         }
 
         [Test]
         public void Sequence()
         {
-            var builder = new GraphBuilder();
-            builder.addItem(0, "A");
-            builder.addTransition(0, 1, "B");
-            builder.addTransition(0, 2, "A");
-            builder.addItem(2, "B");
-
-            var graph = builder.build();
+            var graph = new Graph();
+            graph.addItem(0, "A");
+            graph.addTransition(0, 1, "B");
+            graph.addTransition(0, 2, "A");
+            graph.addItem(2, "B");
             graph.print(System.Console.Out);
 
-            var validator = new GraphValidator();
-            var result = validator.validate(graph);
+            var result = graph.validate();
             Assert.IsTrue(result);
         }
     }
