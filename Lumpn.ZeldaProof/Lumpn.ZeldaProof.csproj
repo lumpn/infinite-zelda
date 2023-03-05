@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{FB71EA49-316B-47F0-A2C3-B65DA4F9580B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ZeldaProof</RootNamespace>
-    <AssemblyName>ZeldaProof</AssemblyName>
+    <RootNamespace>Lumpn.ZeldaProof</RootNamespace>
+    <AssemblyName>Lumpn.ZeldaProof</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -26,6 +26,11 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Graph.cs" />
+    <Compile Include="GraphBuilder.cs" />
+    <Compile Include="GraphValidator.cs" />
+    <Compile Include="Transition.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
