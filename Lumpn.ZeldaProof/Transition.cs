@@ -15,18 +15,18 @@ namespace Lumpn.ZeldaProof
             this.itemId = itemId;
         }
 
-        public void setNodes(int nodeId1, int nodeId2)
+        public void SetNodes(int nodeId1, int nodeId2)
         {
             this.nodeId1 = nodeId1;
             this.nodeId2 = nodeId2;
         }
 
-        public void setItem(int itemId)
+        public void SetItem(int itemId)
         {
             this.itemId = itemId;
         }
 
-        public void print(TextWriter writer)
+        public void Print(TextWriter writer)
         {
             if (itemId < 0)
             {

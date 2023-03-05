@@ -17,24 +17,38 @@ namespace Lumpn.ZeldaProof
         public Graph(int destinationNodeId)
         {
             // add special "reach destination" item
-            addItem(destinationNodeId, -1);
+            AddItem(destinationNodeId, -1);
         }
 
-        public void addItem(int nodeId, string itemName)
+        public void AddItem(int nodeId, string itemName)
         {
             var itemId = GetIdentifier(itemName);
-            addItem(nodeId, itemId);
+            AddItem(nodeId, itemId);
         }
 
-        public void addTransition(int nodeId1, int nodeId2)
+        private void AddItem(int nodeId, int itemId)
         {
-            addTransition(nodeId1, nodeId2, -1);
+            var node = EnsureNode(nodeId);
+            node.AddItem(itemId);
         }
 
-        public void addTransition(int nodeId1, int nodeId2, string requiredItemName)
+        public void AddTransition(int nodeId1, int nodeId2)
+        {
+            AddTransition(nodeId1, nodeId2, -1);
+        }
+
+        public void AddTransition(int nodeId1, int nodeId2, string requiredItemName)
         {
             var itemId = GetIdentifier(requiredItemName);
-            addTransition(nodeId1, nodeId2, itemId);
+            AddTransition(nodeId1, nodeId2, itemId);
+        }
+
+        private void AddTransition(int nodeId1, int nodeId2, int itemId)
+        {
+            var node1 = EnsureNode(nodeId1);
+            var node2 = EnsureNode(nodeId2);
+            var transition = new Transition(node1.id, node2.id, itemId);
+            transitions.Add(transition);
         }
 
         private int GetIdentifier(string itemName)
@@ -47,21 +61,7 @@ namespace Lumpn.ZeldaProof
             return itemId;
         }
 
-        private void addItem(int nodeId, int itemId)
-        {
-            var node = ensureNode(nodeId);
-            node.addItem(itemId);
-        }
-
-        private void addTransition(int nodeId1, int nodeId2, int itemId)
-        {
-            var node1 = ensureNode(nodeId1);
-            var node2 = ensureNode(nodeId2);
-            var transition = new Transition(node1.id, node2.id, itemId);
-            transitions.Add(transition);
-        }
-
-        public bool simplify()
+        public bool Simplify()
         {
             foreach (var transition in transitions)
             {
@@ -72,14 +72,14 @@ namespace Lumpn.ZeldaProof
                     var nodeId2 = transition.nodeId2;
                     var node1 = nodes.First(p => p.id == nodeId1);
                     var node2 = nodes.First(p => p.id == nodeId2);
-                    node1.addItems(node2);
+                    node1.AddItems(node2);
 
                     // redirect incoming transitions
                     foreach (var transition2 in transitions)
                     {
                         if (transition2.nodeId2 == nodeId2)
                         {
-                            transition2.setNodes(transition2.nodeId1, nodeId1);
+                            transition2.SetNodes(transition2.nodeId1, nodeId1);
                         }
                     }
 
@@ -88,7 +88,7 @@ namespace Lumpn.ZeldaProof
                     {
                         if (transition2.nodeId1 == nodeId2)
                         {
-                            transition2.setNodes(nodeId1, transition2.nodeId2);
+                            transition2.SetNodes(nodeId1, transition2.nodeId2);
                         }
                     }
 
@@ -101,21 +101,21 @@ namespace Lumpn.ZeldaProof
             return false;
         }
 
-        public void print(TextWriter writer)
+        public void Print(TextWriter writer)
         {
             writer.WriteLine("digraph G {");
             foreach (var node in nodes)
             {
-                node.print(writer);
+                node.Print(writer);
             }
             foreach (var transition in transitions)
             {
-                transition.print(writer);
+                transition.Print(writer);
             }
             writer.WriteLine("}");
         }
 
-        private Node ensureNode(int nodeId)
+        private Node EnsureNode(int nodeId)
         {
             while (nodeId >= nodes.Count)
             {
@@ -126,31 +126,31 @@ namespace Lumpn.ZeldaProof
             return nodes[nodeId];
         }
 
-        public bool validate()
+        public bool Validate()
         {
             if (Equals(trivialGraph))
             {
                 return true;
             }
 
-            if (simplify())
+            if (Simplify())
             {
                 System.Console.Out.WriteLine("simplified:");
-                print(System.Console.Out);
-                return validate();
+                Print(System.Console.Out);
+                return Validate();
             }
 
-            if (removeItem())
+            if (RemoveItem())
             {
                 System.Console.Out.WriteLine("reduced:");
-                print(System.Console.Out);
-                return validate();
+                Print(System.Console.Out);
+                return Validate();
             }
 
             return false;
         }
 
-        private bool removeItem()
+        private bool RemoveItem()
         {
             var items = new HashSet<int>();
             foreach (var transition in transitions)
@@ -161,7 +161,7 @@ namespace Lumpn.ZeldaProof
 
             foreach (var item in items)
             {
-                if (removeItem(item))
+                if (RemoveItem(item))
                 {
                     return true;
                 }
@@ -170,13 +170,13 @@ namespace Lumpn.ZeldaProof
             return false;
         }
 
-        private bool removeItem(int itemId)
+        private bool RemoveItem(int itemId)
         {
             // 1. find unique node N that has item
             var relatedNodes = new List<Node>();
             foreach (var node in nodes)
             {
-                if (node.hasItem(itemId))
+                if (node.HasItem(itemId))
                 {
                     relatedNodes.Add(node);
                 }
@@ -207,10 +207,10 @@ namespace Lumpn.ZeldaProof
             }
 
             // 4. remove item
-            uniqueNode.removeItem(itemId);
+            uniqueNode.RemoveItem(itemId);
             foreach (var transition in relatedTransitions)
             {
-                transition.setItem(-1);
+                transition.SetItem(-1);
             }
 
             return true;

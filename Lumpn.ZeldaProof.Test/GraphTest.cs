@@ -9,9 +9,9 @@ namespace Lumpn.ZeldaProof.Test
         public void Trivial()
         {
             var graph = new Graph(0);
-            graph.print(System.Console.Out);
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsTrue(result);
         }
 
@@ -19,10 +19,10 @@ namespace Lumpn.ZeldaProof.Test
         public void Trivial2()
         {
             var graph = new Graph(1);
-            graph.addTransition(0, 1);
-            graph.print(System.Console.Out);
+            graph.AddTransition(0, 1);
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsTrue(result);
         }
 
@@ -30,9 +30,9 @@ namespace Lumpn.ZeldaProof.Test
         public void TrivialNoPath()
         {
             var graph = new Graph(1);
-            graph.print(System.Console.Out);
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsFalse(result);
         }
 
@@ -40,10 +40,10 @@ namespace Lumpn.ZeldaProof.Test
         public void TrivialNoPath2()
         {
             var graph = new Graph(1);
-            graph.addTransition(0, 2);
-            graph.print(System.Console.Out);
+            graph.AddTransition(0, 2);
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsFalse(result);
         }
 
@@ -51,11 +51,11 @@ namespace Lumpn.ZeldaProof.Test
         public void Basic()
         {
             var graph = new Graph(1);
-            graph.addItem(0, "A");
-            graph.addTransition(0, 1, "A");
-            graph.print(System.Console.Out);
+            graph.AddItem(0, "A");
+            graph.AddTransition(0, 1, "A");
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsTrue(result);
         }
 
@@ -63,10 +63,10 @@ namespace Lumpn.ZeldaProof.Test
         public void MissingItem()
         {
             var graph = new Graph(1);
-            graph.addTransition(0, 1, "A");
-            graph.print(System.Console.Out);
+            graph.AddTransition(0, 1, "A");
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsFalse(result);
         }
 
@@ -74,11 +74,11 @@ namespace Lumpn.ZeldaProof.Test
         public void ExtraItem()
         {
             var graph = new Graph(1);
-            graph.addItem(0, "A");
-            graph.addTransition(0, 1);
-            graph.print(System.Console.Out);
+            graph.AddItem(0, "A");
+            graph.AddTransition(0, 1);
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsFalse(result);
         }
 
@@ -86,13 +86,13 @@ namespace Lumpn.ZeldaProof.Test
         public void Sequence()
         {
             var graph = new Graph(1);
-            graph.addItem(0, "A");
-            graph.addTransition(0, 1, "B");
-            graph.addTransition(0, 2, "A");
-            graph.addItem(2, "B");
-            graph.print(System.Console.Out);
+            graph.AddItem(0, "A");
+            graph.AddTransition(0, 1, "B");
+            graph.AddTransition(0, 2, "A");
+            graph.AddItem(2, "B");
+            graph.Print(System.Console.Out);
 
-            var result = graph.validate();
+            var result = graph.Validate();
             Assert.IsTrue(result);
         }
     }

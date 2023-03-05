@@ -16,27 +16,27 @@ namespace Lumpn.ZeldaProof
             this.id = id;
         }
 
-        public bool hasItem(int itemId)
+        public bool HasItem(int itemId)
         {
             return items.Contains(itemId);
         }
 
-        public void addItems(Node other)
+        public void AddItems(Node other)
         {
             items.AddRange(other.items);
         }
 
-        public void addItem(int itemId)
+        public void AddItem(int itemId)
         {
             items.Add(itemId);
         }
 
-        public void removeItem(int itemId)
+        public void RemoveItem(int itemId)
         {
             items.Remove(itemId);
         }
 
-        public void print(TextWriter writer)
+        public void Print(TextWriter writer)
         {
             writer.WriteLine("node{0} [label=\"n{0}\"]", id);
             foreach (var item in items)
