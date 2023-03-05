@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Lumpn.ZeldaProof
 {
-    public sealed class Transition
+    public sealed class Transition : IEquatable<Transition>
     {
         public int nodeId1, nodeId2;
         public int itemId;
@@ -35,6 +36,13 @@ namespace Lumpn.ZeldaProof
             {
                 writer.WriteLine("node{0} -> node{1} [label=\"?i{2}\"]", nodeId1, nodeId2, itemId);
             }
+        }
+
+        public bool Equals(Transition other)
+        {
+            return (nodeId1 == other.nodeId1
+                 && nodeId2 == other.nodeId2
+                 && itemId == other.itemId);
         }
     }
 }

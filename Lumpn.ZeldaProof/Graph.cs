@@ -1,21 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Lumpn.ZeldaProof
 {
-    public sealed class Graph
+    public sealed class Graph : IEquatable<Graph>
     {
-        private static readonly Graph trivialGraph = new Graph();
-
-        static Graph()
-        {
-            trivialGraph.addItem(0, -1);
-        }
+        private static readonly Graph trivialGraph = new Graph(0);
 
         private readonly Dictionary<string, int> items = new Dictionary<string, int>();
 
         private readonly List<Node> nodes = new List<Node>();
         private readonly List<Transition> transitions = new List<Transition>();
+
+        public Graph(int destinationNodeId)
+        {
+            // add special "reach destination" item
+            addItem(destinationNodeId, -1);
+        }
 
         public void addItem(int nodeId, string itemName)
         {
@@ -46,14 +49,14 @@ namespace Lumpn.ZeldaProof
 
         private void addItem(int nodeId, int itemId)
         {
-            var node = EnsureNode(nodeId);
+            var node = ensureNode(nodeId);
             node.addItem(itemId);
         }
 
         private void addTransition(int nodeId1, int nodeId2, int itemId)
         {
-            var node1 = EnsureNode(nodeId1);
-            var node2 = EnsureNode(nodeId2);
+            var node1 = ensureNode(nodeId1);
+            var node2 = ensureNode(nodeId2);
             var transition = new Transition(node1.id, node2.id, itemId);
             transitions.Add(transition);
         }
@@ -67,12 +70,9 @@ namespace Lumpn.ZeldaProof
                     // merge destination node items with source
                     var nodeId1 = transition.nodeId1;
                     var nodeId2 = transition.nodeId2;
-                    var node1 = nodes[nodeId1]; // TODO Jonas: guarantee node1.id == nodeId1
-                    var node2 = nodes[nodeId2];
-                    for (int i = 0; i < node2.itemCount; i++)
-                    {
-                        node1.addItem(node2.getItem(i));
-                    }
+                    var node1 = nodes.First(p => p.id == nodeId1);
+                    var node2 = nodes.First(p => p.id == nodeId2);
+                    node1.addItems(node2);
 
                     // redirect incoming transitions
                     foreach (var transition2 in transitions)
@@ -115,7 +115,7 @@ namespace Lumpn.ZeldaProof
             writer.WriteLine("}");
         }
 
-        private Node EnsureNode(int nodeId)
+        private Node ensureNode(int nodeId)
         {
             while (nodeId >= nodes.Count)
             {
@@ -128,16 +128,7 @@ namespace Lumpn.ZeldaProof
 
         public bool validate()
         {
-            // TODO Jonas: make a copy of graph first
-            // add special "reach destination" item
-            addItem(1, -1);
-
-            return validateImpl();
-        }
-
-        private bool validateImpl()
-        {
-            if (isMatching(trivialGraph))
+            if (Equals(trivialGraph))
             {
                 return true;
             }
@@ -146,26 +137,20 @@ namespace Lumpn.ZeldaProof
             {
                 System.Console.Out.WriteLine("simplified:");
                 print(System.Console.Out);
-                return validateImpl();
+                return validate();
             }
 
-            if (tryRemoveItem(out var reducedGraph))
+            if (removeItem())
             {
                 System.Console.Out.WriteLine("reduced:");
-                reducedGraph.print(System.Console.Out);
-                return reducedGraph.validateImpl();
+                print(System.Console.Out);
+                return validate();
             }
 
             return false;
         }
 
-        private bool tryRemoveItem(out Graph result)
-        {
-            result = removeItem();
-            return (result != null);
-        }
-
-        private Graph removeItem()
+        private bool removeItem()
         {
             var items = new HashSet<int>();
             foreach (var transition in transitions)
@@ -176,43 +161,37 @@ namespace Lumpn.ZeldaProof
 
             foreach (var item in items)
             {
-                var result = removeItem(item);
-                if (result != null)
+                if (removeItem(item))
                 {
-                    return result;
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
 
-        private Graph removeItem(int itemId)
+        private bool removeItem(int itemId)
         {
             // 1. find unique node N that has item
             var relatedNodes = new List<Node>();
             foreach (var node in nodes)
             {
-                for (int i = 0; i < node.itemCount; i++)
+                if (node.hasItem(itemId))
                 {
-                    var item = node.getItem(i);
-                    if (item == itemId)
-                    {
-                        relatedNodes.Add(node);
-                    }
+                    relatedNodes.Add(node);
                 }
             }
             if (relatedNodes.Count != 1)
             {
-                return null;
+                return false;
             }
-            var uniqueNode = nodes[0];
+            var uniqueNode = relatedNodes[0];
 
             // 2. find transitions T that require item
             var relatedTransitions = new List<Transition>();
             foreach (var transition in transitions)
             {
-                var item = transition.itemId;
-                if (item == itemId)
+                if (transition.itemId == itemId)
                 {
                     relatedTransitions.Add(transition);
                 }
@@ -223,86 +202,24 @@ namespace Lumpn.ZeldaProof
             {
                 if (transition.nodeId1 != uniqueNode.id)
                 {
-                    return null;
+                    return false;
                 }
             }
 
             // 4. remove item
             uniqueNode.removeItem(itemId);
-            foreach (var transition in transitions)
+            foreach (var transition in relatedTransitions)
             {
                 transition.setItem(-1);
             }
 
-            // 5. simplify
-            while (simplify()) { }
-
-            return this;
-        }
-
-        private bool isMatching(Graph b)
-        {
-            var a = this;
-            if (nodes.Count != b.nodes.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                var nodeA = a.nodes[i];
-                var nodeB = b.nodes[i];
-
-                if (!isMatching(nodeA, nodeB))
-                {
-                    return false;
-                }
-            }
-
-            if (a.transitions.Count != b.transitions.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.transitions.Count; i++)
-            {
-                var transitionA = a.transitions[i];
-                var transitionB = b.transitions[i];
-                if (!isMatching(transitionA, transitionB))
-                {
-                    return false;
-                }
-            }
-
             return true;
         }
 
-        private bool isMatching(Node a, Node b)
+        public bool Equals(Graph b)
         {
-            if (a.itemCount != b.itemCount)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.itemCount; i++)
-            {
-                var itemA = a.getItem(i);
-                var itemB = b.getItem(i);
-                if (itemA != itemB)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return (Enumerable.SequenceEqual(nodes, b.nodes)
+                 && Enumerable.SequenceEqual(transitions, b.transitions));
         }
-
-        private bool isMatching(Transition a, Transition b)
-        {
-            return (a.nodeId1 == b.nodeId1
-                 && a.nodeId2 == b.nodeId2
-                 && a.itemId == b.itemId);
-        }
-
     }
 }

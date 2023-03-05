@@ -8,7 +8,17 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void Trivial()
         {
-            var graph = new Graph();
+            var graph = new Graph(0);
+            graph.print(System.Console.Out);
+
+            var result = graph.validate();
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Trivial2()
+        {
+            var graph = new Graph(1);
             graph.addTransition(0, 1);
             graph.print(System.Console.Out);
 
@@ -19,7 +29,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void TrivialNoPath()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.print(System.Console.Out);
 
             var result = graph.validate();
@@ -29,7 +39,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void TrivialNoPath2()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.addTransition(0, 2);
             graph.print(System.Console.Out);
 
@@ -40,7 +50,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void Basic()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.addItem(0, "A");
             graph.addTransition(0, 1, "A");
             graph.print(System.Console.Out);
@@ -52,7 +62,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void MissingItem()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.addTransition(0, 1, "A");
             graph.print(System.Console.Out);
 
@@ -63,7 +73,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void ExtraItem()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.addItem(0, "A");
             graph.addTransition(0, 1);
             graph.print(System.Console.Out);
@@ -75,7 +85,7 @@ namespace Lumpn.ZeldaProof.Test
         [Test]
         public void Sequence()
         {
-            var graph = new Graph();
+            var graph = new Graph(1);
             graph.addItem(0, "A");
             graph.addTransition(0, 1, "B");
             graph.addTransition(0, 2, "A");

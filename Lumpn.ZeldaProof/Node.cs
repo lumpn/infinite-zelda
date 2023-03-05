@@ -1,24 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Lumpn.ZeldaProof
 {
-    public sealed class Node
+    public sealed class Node : IEquatable<Node>
     {
         public readonly int id;
 
         private readonly List<int> items = new List<int>();
-
-        public int itemCount => items.Count;
 
         public Node(int id)
         {
             this.id = id;
         }
 
-        public int getItem(int i)
+        public bool hasItem(int itemId)
         {
-            return items[i];
+            return items.Contains(itemId);
+        }
+
+        public void addItems(Node other)
+        {
+            items.AddRange(other.items);
         }
 
         public void addItem(int itemId)
@@ -38,6 +43,12 @@ namespace Lumpn.ZeldaProof
             {
                 writer.WriteLine("node{0} -> node{0} [label=\"+i{1}\"]", id, item);
             }
+        }
+
+        public bool Equals(Node other)
+        {
+            return (id == other.id
+                 && Enumerable.SequenceEqual(items, other.items));
         }
     }
 }
