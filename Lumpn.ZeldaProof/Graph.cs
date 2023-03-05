@@ -5,13 +5,17 @@ namespace Lumpn.ZeldaProof
 {
     public sealed class Graph
     {
+        private static readonly Graph trivialGraph = new Graph();
+
+        static Graph()
+        {
+            trivialGraph.addItem(0, -1);
+        }
+
         private readonly Dictionary<string, int> items = new Dictionary<string, int>();
 
         private readonly List<Node> nodes = new List<Node>();
         private readonly List<Transition> transitions = new List<Transition>();
-
-        public int nodeCount => nodes.Count;
-        public int transitionCount => transitions.Count;
 
         public void addItem(int nodeId, string itemName)
         {
@@ -39,27 +43,18 @@ namespace Lumpn.ZeldaProof
             }
             return itemId;
         }
-        public Node getNode(int i)
-        {
-            return nodes[i];
-        }
 
-        public Transition getTransition(int i)
-        {
-            return transitions[i];
-        }
-
-        public void addItem(int nodeId, int itemId)
+        private void addItem(int nodeId, int itemId)
         {
             var node = EnsureNode(nodeId);
             node.addItem(itemId);
         }
 
-        public void addTransition(int nodeId1, int nodeId2, int itemId)
+        private void addTransition(int nodeId1, int nodeId2, int itemId)
         {
             var node1 = EnsureNode(nodeId1);
             var node2 = EnsureNode(nodeId2);
-            var transition = new Transition(node1, node2, itemId);
+            var transition = new Transition(node1.id, node2.id, itemId);
             transitions.Add(transition);
         }
 
@@ -70,8 +65,10 @@ namespace Lumpn.ZeldaProof
                 if (transition.itemId < 0)
                 {
                     // merge destination node items with source
-                    var node1 = transition.node1;
-                    var node2 = transition.node2;
+                    var nodeId1 = transition.nodeId1;
+                    var nodeId2 = transition.nodeId2;
+                    var node1 = nodes[nodeId1]; // TODO Jonas: guarantee node1.id == nodeId1
+                    var node2 = nodes[nodeId2];
                     for (int i = 0; i < node2.itemCount; i++)
                     {
                         node1.addItem(node2.getItem(i));
@@ -80,18 +77,18 @@ namespace Lumpn.ZeldaProof
                     // redirect incoming transitions
                     foreach (var transition2 in transitions)
                     {
-                        if (transition2.node2 == node2)
+                        if (transition2.nodeId2 == nodeId2)
                         {
-                            transition2.setNodes(transition2.node1, node1);
+                            transition2.setNodes(transition2.nodeId1, nodeId1);
                         }
                     }
 
                     // redirect outgoing transitions
                     foreach (var transition2 in transitions)
                     {
-                        if (transition2.node1 == node2)
+                        if (transition2.nodeId1 == nodeId2)
                         {
-                            transition2.setNodes(node1, transition2.node2);
+                            transition2.setNodes(nodeId1, transition2.nodeId2);
                         }
                     }
 
@@ -127,13 +124,6 @@ namespace Lumpn.ZeldaProof
             }
 
             return nodes[nodeId];
-        }
-
-        private static readonly Graph trivialGraph = new Graph();
-
-        static Graph()
-        {
-            trivialGraph.addItem(0, -1);
         }
 
         public bool validate()
@@ -178,9 +168,8 @@ namespace Lumpn.ZeldaProof
         private Graph removeItem()
         {
             var items = new HashSet<int>();
-            for (int i = 0; i < transitionCount; i++)
+            foreach (var transition in transitions)
             {
-                var transition = getTransition(i);
                 var itemId = transition.itemId;
                 items.Add(itemId);
             }
@@ -200,41 +189,39 @@ namespace Lumpn.ZeldaProof
         private Graph removeItem(int itemId)
         {
             // 1. find unique node N that has item
-            var nodes = new List<Node>();
-            for (int i = 0; i < nodeCount; i++)
+            var relatedNodes = new List<Node>();
+            foreach (var node in nodes)
             {
-                var node = getNode(i);
-                for (int j = 0; j < node.itemCount; j++)
+                for (int i = 0; i < node.itemCount; i++)
                 {
-                    var item = node.getItem(j);
+                    var item = node.getItem(i);
                     if (item == itemId)
                     {
-                        nodes.Add(node);
+                        relatedNodes.Add(node);
                     }
                 }
             }
-            if (nodes.Count != 1)
+            if (relatedNodes.Count != 1)
             {
                 return null;
             }
             var uniqueNode = nodes[0];
 
             // 2. find transitions T that require item
-            var transitions = new List<Transition>();
-            for (int i = 0; i < transitionCount; i++)
+            var relatedTransitions = new List<Transition>();
+            foreach (var transition in transitions)
             {
-                var transition = getTransition(i);
                 var item = transition.itemId;
                 if (item == itemId)
                 {
-                    transitions.Add(transition);
+                    relatedTransitions.Add(transition);
                 }
             }
 
             // 3. make sure all transitions T start in node N
-            foreach (var transition in transitions)
+            foreach (var transition in relatedTransitions)
             {
-                if (transition.node1 != uniqueNode)
+                if (transition.nodeId1 != uniqueNode.id)
                 {
                     return null;
                 }
@@ -253,18 +240,18 @@ namespace Lumpn.ZeldaProof
             return this;
         }
 
-        private bool isMatching( Graph b)
+        private bool isMatching(Graph b)
         {
             var a = this;
-            if (nodeCount != b.nodeCount)
+            if (nodes.Count != b.nodes.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < nodeCount; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                var nodeA = a.getNode(i);
-                var nodeB = b.getNode(i);
+                var nodeA = a.nodes[i];
+                var nodeB = b.nodes[i];
 
                 if (!isMatching(nodeA, nodeB))
                 {
@@ -272,15 +259,15 @@ namespace Lumpn.ZeldaProof
                 }
             }
 
-            if (a.transitionCount != b.transitionCount)
+            if (a.transitions.Count != b.transitions.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < a.transitionCount; i++)
+            for (int i = 0; i < a.transitions.Count; i++)
             {
-                var transitionA = a.getTransition(i);
-                var transitionB = b.getTransition(i);
+                var transitionA = a.transitions[i];
+                var transitionB = b.transitions[i];
                 if (!isMatching(transitionA, transitionB))
                 {
                     return false;
@@ -312,8 +299,8 @@ namespace Lumpn.ZeldaProof
 
         private bool isMatching(Transition a, Transition b)
         {
-            return (a.node1.id == b.node1.id
-                 && a.node2.id == b.node2.id
+            return (a.nodeId1 == b.nodeId1
+                 && a.nodeId2 == b.nodeId2
                  && a.itemId == b.itemId);
         }
 

@@ -4,20 +4,20 @@ namespace Lumpn.ZeldaProof
 {
     public sealed class Transition
     {
-        public Node node1, node2;
+        public int nodeId1, nodeId2;
         public int itemId;
 
-        public Transition(Node node1, Node node2, int itemId)
+        public Transition(int nodeId1, int nodeId2, int itemId)
         {
-            this.node1 = node1;
-            this.node2 = node2;
+            this.nodeId1 = nodeId1;
+            this.nodeId2 = nodeId2;
             this.itemId = itemId;
         }
 
-        public void setNodes(Node node1, Node node2)
+        public void setNodes(int nodeId1, int nodeId2)
         {
-            this.node1 = node1;
-            this.node2 = node2;
+            this.nodeId1 = nodeId1;
+            this.nodeId2 = nodeId2;
         }
 
         public void setItem(int itemId)
@@ -29,11 +29,11 @@ namespace Lumpn.ZeldaProof
         {
             if (itemId < 0)
             {
-                writer.WriteLine("node{0} -> node{1}", node1.id, node2.id);
+                writer.WriteLine("node{0} -> node{1}", nodeId1, nodeId2);
             }
             else
             {
-                writer.WriteLine("node{0} -> node{1} [label=\"?i{2}\"]", node1.id, node2.id, itemId);
+                writer.WriteLine("node{0} -> node{1} [label=\"?i{2}\"]", nodeId1, nodeId2, itemId);
             }
         }
     }
