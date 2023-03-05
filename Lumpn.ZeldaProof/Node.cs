@@ -19,8 +19,12 @@ namespace Lumpn.ZeldaProof
 
         public bool HasItem(int itemId)
         {
-            return (items.Contains(itemId)
-                 || trades.Any(p => p.Item1 == itemId || p.Item2 == itemId));
+            return items.Contains(itemId);
+        }
+
+        public bool HasTrade(int itemId)
+        {
+            return trades.Any(p => p.Item1 == itemId || p.Item2 == itemId);
         }
 
         public void AddItems(Node other)
@@ -53,7 +57,7 @@ namespace Lumpn.ZeldaProof
             }
             foreach (var trade in trades)
             {
-                writer.WriteLine("trade{0}_{1} [label=\"{1}\n{2}\", shape=ellipse]", trade.Item1, trade.Item2, names[trade.Item1], names[trade.Item2]);
+                writer.WriteLine("trade{0}_{1} [label=\"{2}|{3}\", shape=ellipse]", trade.Item1, trade.Item2, names[trade.Item1], names[trade.Item2]);
                 writer.WriteLine("node{0} -> trade{1}_{2}", id, trade.Item1, trade.Item2);
             }
         }
@@ -61,7 +65,8 @@ namespace Lumpn.ZeldaProof
         public bool Equals(Node other)
         {
             return (id == other.id
-                 && Enumerable.SequenceEqual(items, other.items));
+                 && Enumerable.SequenceEqual(items, other.items)
+                 && Enumerable.SequenceEqual(trades, other.trades));
         }
     }
 }

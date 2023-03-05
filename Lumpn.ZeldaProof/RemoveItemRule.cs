@@ -33,6 +33,15 @@ namespace Lumpn.ZeldaProof
 
         private bool RemoveItem(Graph graph, int itemId)
         {
+            // 0. is the item used in any trade?
+            foreach(var node in graph.nodes)
+            {
+                if (node.HasTrade(itemId))
+                {
+                    return false;
+                }
+            }
+
             // 1. find unique node N that has item
             var relatedNodes = new List<Node>();
             foreach (var node in graph.nodes)
