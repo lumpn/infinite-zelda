@@ -1,0 +1,227 @@
+graph G {
+rankdir=LR;
+{
+node [fillcolor=gold, style=filled, shape=Msquare, label="door"]
+Door1
+Door2
+Door3
+Door4
+Door5
+Door6
+Door7
+Door8
+Door9
+Door10
+Door11
+}
+
+{
+node [fillcolor=burlywood, style=filled, shape=hexagon, label="secret"]
+DoorSecret
+}
+
+{
+node [fillcolor=gold, style=filled, shape=ellipse, label="key"]
+Key1
+Key2
+Key3
+Key4
+Key5
+Key6
+Key7
+Key8
+Key9
+Key10
+Key11
+}
+
+{
+node [fillcolor=skyblue, style=filled, shape=diamond, label="T"]
+Balloon
+}
+
+{
+node [fillcolor=green, style=filled, shape=diamond, label="map"]
+Map
+}
+
+{
+node [fillcolor=skyblue, style=filled, shape=square, label="T"]
+BalloonLock1
+BalloonLock2
+BalloonLock3
+BalloonLock4
+BalloonLock5
+BalloonLock52
+BalloonLock53
+BalloonLock54
+}
+
+{
+node [shape=diamond, style=filled]
+Switch1 [label=A, fillcolor=turquoise]
+Switch2 [label=B, fillcolor=royalblue]
+Switch3 [label=C, fillcolor=crimson]
+Switch4 [label=D, fillcolor=orange]
+Switch5 [label=E, fillcolor=greenyellow]
+Switch6 [label=F, fillcolor=hotpink]
+Switch7 [label=G, fillcolor=seagreen]
+}
+
+{
+node [fillcolor=turquoise, style=filled, shape=rectangle]
+Switch1Lock  [label=A, fillcolor=turquoise]
+Switch2LockA [label=B, fillcolor=royalblue]
+Switch2LockB [label=B, fillcolor=royalblue]
+Switch3Lock  [label=C, fillcolor=crimson]
+Switch4Lock  [label=D, fillcolor=orange]
+Switch5Lock  [label=E, fillcolor=greenyellow]
+Switch6LockA [label=F, fillcolor=hotpink]
+Switch6LockB [label=F, fillcolor=hotpink]
+Switch7Lock  [label=G, fillcolor=seagreen]
+}
+
+{
+ node [fillcolor=plum, style=filled, shape=square]
+ {
+  node [label=1]
+   Elevator1A
+   Elevator1B
+ }
+ {
+  node [label=2]
+  Elevator2A
+  Elevator2B
+  Elevator2C
+  Elevator2D
+  Elevator2E
+ }
+}
+
+{
+node [fillcolor=plum, style=filled, shape=diamond]
+ElevatorControls [label="1 / 2"]
+}
+
+{
+node [shape=point]
+AreaOne
+AreaTwo
+AreaFour
+AreaFive
+AreaFiveB
+AreaSix
+AreaSeven1
+AreaSeven2A
+AreaSeven2B
+AreaEight
+AreaNine
+AreaTen
+AreaEleven
+AreaSand
+AreaBlue1
+AreaBlue3
+AreaSky2
+AreaLava2
+AreaSecret
+AreaBrown1
+AreaCamel1
+AreaOrange1
+AreaYellow1
+AreaRed1
+AreaRed2
+AreaOrange3
+AreaRight1
+AreaRight23
+AreaBridgeRight
+AreaBridgeLeft
+AreaPurple1
+AreaSeven1
+AreaLeft123
+AreaElevator
+AreaBonus1
+AreaBonus2
+AreaBonus3
+}
+
+{
+node [fillcolor=lavender, style=filled]
+AreaEntrance [shape=circle, label=""]
+AreaBoss [shape=doublecircle, label=""]
+}
+
+{
+edge [dir=forward, color=firebrick]
+Elevator1B -- AreaBoss // JumpZ
+Elevator2B -- AreaTwo // JumpV
+AreaNine -- AreaTwo // blocks
+AreaLeft123 -- AreaRight23 // ledge
+AreaEight -- AreaRight23 // wind
+AreaRight1 -- AreaLava2 -- AreaEight // JumpA, JumpD
+AreaSecret -- AreaSand -- AreaFive // JumpB
+AreaRight1 -- AreaSix -- AreaFive // JumpE
+AreaBrown1 -- AreaFiveB // JumpK
+AreaSeven1 -- AreaSeven2A // JumpC
+AreaBlue1 -- AreaEleven // JumpL
+AreaBridgeLeft -- AreaOrange3 // JumpF
+AreaBridgeRight -- AreaOrange3 // JumpF
+BalloonLock3 -- AreaRed2 // JumpG
+BalloonLock4 -- AreaRed2 // JumpG
+AreaRed1 -- AreaBlue3 // JumpH
+AreaEleven -- AreaFiveB // wind
+AreaOrange3 -- AreaRight23
+AreaSeven2A -- AreaFiveB // block
+}
+
+
+AreaEntrance -- AreaElevator -- Elevator1A -- AreaOne -- BalloonLock5 -- AreaOrange1 -- Door9 -- AreaYellow1 -- Switch3Lock -- AreaRight1 -- Door2 -- AreaBridgeRight -- BalloonLock2 -- AreaBridgeLeft -- Door8
+AreaYellow1 -- Switch3
+AreaTwo -- Door11 -- AreaLeft123 -- Door7 -- AreaSeven1 -- BalloonLock1 -- AreaPurple1 -- Door8
+AreaElevator -- Elevator2A -- AreaTwo
+AreaElevator -- ElevatorControls
+AreaOne -- Elevator2B
+AreaTwo -- Elevator1B
+AreaOne -- Key1
+AreaTwo -- Key2
+AreaTwo -- BalloonLock52 -- AreaNine -- Key9
+AreaLeft123 -- Key3
+AreaEight -- Key8
+AreaSix -- Switch7
+AreaRight1 -- Door3 -- AreaFour -- Door4 -- AreaCamel1 -- Door5 -- AreaBrown1 -- Door6 -- AreaBlue1 -- Switch2LockA -- AreaRed1
+AreaBlue1 -- Switch2
+AreaFiveB -- Switch7Lock -- Key6
+AreaFour -- Key4
+AreaBlue3 -- Balloon
+AreaBlue3 -- BalloonLock53 -- AreaRight23
+AreaFiveB -- Switch2LockB -- AreaBlue1 // via teal
+AreaEleven -- Key11
+AreaFiveB -- Key5
+AreaOrange3 -- Map
+AreaBridgeLeft -- BalloonLock3
+AreaBridgeRight -- BalloonLock4
+AreaRed2 -- Switch6
+AreaRed2 -- Switch6LockA -- AreaTen -- Switch6LockB -- AreaFive
+AreaTen -- Key10
+AreaFiveB -- Switch5Lock -- AreaSeven2B -- Key7
+AreaSeven2A -- Switch5
+AreaFive -- Switch4
+AreaFive -- Switch4Lock -- AreaRight23
+
+// area breakup
+AreaFive -- AreaFiveB
+AreaRight1 -- AreaRight23
+
+// critical
+AreaRight1 -- Elevator2E -- AreaLeft123
+
+// optional?
+AreaOne -- Elevator2C -- AreaLeft123
+AreaOne -- Elevator2D -- AreaRight1
+AreaRight1 -- DoorSecret -- AreaSecret
+
+// distraction
+AreaOne -- Door1 -- AreaBonus1 -- Switch1
+AreaRed1 -- Switch1Lock -- AreaBonus3
+AreaFive -- BalloonLock54 -- AreaSky2 -- Door10 -- AreaBonus2
+
+}
