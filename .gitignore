@@ -6,3 +6,4 @@
 
 # Visual Studio cache directory
 /.vs/
+*/.vs

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Lumpn.Utils;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.Mooga.Test
 {

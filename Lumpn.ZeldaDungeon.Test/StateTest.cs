@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lumpn.Dungeon;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
