@@ -47,6 +47,7 @@
     <Compile Include="VariableLookup.cs" />
     <Compile Include="Crawler.cs" />
     <Compile Include="VariableAssignment.cs" />
+    <Compile Include="CrawlerBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">

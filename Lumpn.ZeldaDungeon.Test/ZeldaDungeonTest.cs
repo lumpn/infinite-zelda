@@ -145,7 +145,7 @@ namespace Lumpn.ZeldaDungeon.Test
         }
 
         [Test]
-        public void testCrawlKeyDoorLinear()
+        public void CrawlKeyDoorLinear()
         {
             // 0 -d- 2 -d- 3 -d- 1
             // k     k     k
