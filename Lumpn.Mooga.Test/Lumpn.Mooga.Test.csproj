@@ -1,63 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6CB833C7-351F-4DF7-AAC8-384157C9690B}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Mooga.Test</RootNamespace>
     <AssemblyName>Mooga.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <IntermediateOutputPath>obj\Debug</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <IntermediateOutputPath>obj\Release</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CrowdingDistanceRankingTest.cs" />
-    <Compile Include="SimpleIndividual.cs" />
-    <Compile Include="ParetoIndividual.cs" />
-    <Compile Include="ScoreComparerTest.cs" />
-    <Compile Include="DominationComparerTest.cs" />
-    <Compile Include="EvolutionTest.cs" />
-    <Compile Include="SimpleGenome.cs" />
-    <Compile Include="ParetoGenome.cs" />
-    <Compile Include="SimpleGenomeFactory.cs" />
-    <Compile Include="SimpleEnvironment.cs" />
-    <Compile Include="ElitistEvolutionTest.cs" />
+    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj" />
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj">
-      <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
-      <Name>Lumpn.Mooga</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
-      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Lumpn.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NUnit">
-      <Version>4.3.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

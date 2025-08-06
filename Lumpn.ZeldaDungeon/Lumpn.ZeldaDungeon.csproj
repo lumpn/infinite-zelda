@@ -1,60 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</ProjectGuid>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>ZeldaPuzzle</RootNamespace>
     <AssemblyName>ZeldaPuzzle</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <IntermediateOutputPath>obj\Debug</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn />
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <IntermediateOutputPath>obj\Release</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn />
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ColorSwitchScript.cs" />
-    <Compile Include="DoorScript.cs" />
-    <Compile Include="IdentityScript.cs" />
-    <Compile Include="ObstacleScript.cs" />
-    <Compile Include="ColorPistonScript.cs" />
-    <Compile Include="ItemScript.cs" />
-    <Compile Include="ZeldaDungeonBuilder.cs" />
-    <Compile Include="ZeldaScripts.cs" />
-    <Compile Include="TradeScript.cs" />
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
-      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
-      <Name>Lumpn.Dungeon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
-      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Lumpn.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

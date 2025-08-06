@@ -1,63 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</ProjectGuid>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>Lumpn.Dungeon</RootNamespace>
-    <AssemblyName>Lumpn.Dungeon</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <IntermediateOutputPath>obj\Debug</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn>CA1715, CA1834</NoWarn>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <IntermediateOutputPath>obj\Release</IntermediateOutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn>CA1715, CA1834</NoWarn>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DotBuilder.cs" />
-    <Compile Include="Location.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="State.cs" />
-    <Compile Include="StateBuilder.cs" />
-    <Compile Include="StateEqualityComparer.cs" />
-    <Compile Include="Step.cs" />
-    <Compile Include="Transition.cs" />
-    <Compile Include="VariableIdentifier.cs" />
-    <Compile Include="VariableLookup.cs" />
-    <Compile Include="Crawler.cs" />
-    <Compile Include="VariableAssignment.cs" />
-    <Compile Include="CrawlerBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
-      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Lumpn.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj">
-      <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
-      <Name>Lumpn.Profiling</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

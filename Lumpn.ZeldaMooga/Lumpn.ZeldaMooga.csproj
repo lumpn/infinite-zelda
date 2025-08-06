@@ -1,74 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{CF146C21-3A73-4E0F-BF25-25CAFDD317B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>ZeldaMooga</RootNamespace>
     <AssemblyName>ZeldaMooga</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <Optimize>true</Optimize>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ZeldaConfiguration.cs" />
-    <Compile Include="ZeldaEnvironment.cs" />
-    <Compile Include="ZeldaGene.cs" />
-    <Compile Include="ZeldaGeneFactory.cs" />
-    <Compile Include="ZeldaGenome.cs" />
-    <Compile Include="ZeldaGenomeFactory.cs" />
-    <Compile Include="ZeldaIndividual.cs" />
-    <Compile Include="Gene.cs" />
-    <Compile Include="GeneFactory.cs" />
-    <Compile Include="GeneUtils.cs" />
-    <Compile Include="Genes\ColorSwitchGene.cs" />
-    <Compile Include="Genes\KeyDoorGene.cs" />
-    <Compile Include="Genes\OneWayGene.cs" />
-    <Compile Include="Genes\ToolGene.cs" />
-    <Compile Include="Genes\ObstacleGene.cs" />
-    <Compile Include="Genes\ColorPistonGene.cs" />
-    <Compile Include="Metrics\ErrorCounter.cs" />
-    <Compile Include="Metrics\PathFinder.cs" />
-    <Compile Include="Metrics\OptimizationUtils.cs" />
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
+    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj" />
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
+    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj" />
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj">
-      <Project>{2CA9113E-A497-473F-B74F-F0AED4E9764F}</Project>
-      <Name>Lumpn.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj">
-      <Project>{00D7D97F-8F40-47D3-807A-9F242F1B7BA0}</Project>
-      <Name>Lumpn.Mooga</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj">
-      <Project>{318F2992-7CC2-4543-9041-0E3CAE0562C2}</Project>
-      <Name>Lumpn.Dungeon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj">
-      <Project>{A1C8364B-3AEE-4A38-9C79-9A47621FF767}</Project>
-      <Name>Lumpn.ZeldaDungeon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj">
-      <Project>{0490C391-BA6F-4E72-AFA0-B7FD45DA310E}</Project>
-      <Name>Lumpn.Profiling</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
