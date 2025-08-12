@@ -255,8 +255,12 @@ namespace Lumpn.Dungeon2.Test
         [Test]
         public void CrawlKeyDoorMultipleEndings()
         {
-            //  0 -d- 1 -d- 2
-            //        k     k
+            //  k     k
+            //  1 -d- 2
+            //   \
+            //    d
+            //     \
+            //      0
             var builder = new CrawlerBuilder();
             var lookup = builder.Lookup;
 
