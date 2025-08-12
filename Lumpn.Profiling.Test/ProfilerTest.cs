@@ -18,10 +18,9 @@ namespace Lumpn.Profiling.Test
                     {
                         Profiler.BeginSample("Bar");
                         Thread.Sleep(5);
+                        using (Profiler.Sample("Baz"))
                         {
-                            Profiler.BeginSample("Baz");
                             Thread.Sleep(10);
-                            Profiler.EndSample();
                         }
                         Profiler.EndSample();
                     }

@@ -14,7 +14,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
 
             foreach (var frame in frames)
             {
-                var startTimeMS = frame.CalcStartTime(frequency);
+                var startTimeMS = frame.CalcStartTimeMilliseconds(frequency);
                 var frameMS = frame.CalcElapsedMilliseconds(frequency);
                 var profileFrame = new ProfileFrame(startTimeMS, frameMS);
                 data.Add(profileFrame);
@@ -33,7 +33,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
         {
             var nameIndex = GetOrCreateMarker(sample.Name);
             var totalMS = sample.CalcElapsedMilliseconds(frequency);
-            var marker = new ProfileMarker(nameIndex, totalMS, depth);
+            var marker = new ProfileMarker(nameIndex, depth, totalMS);
             thread.Add(marker);
 
             foreach (var child in sample.Children)

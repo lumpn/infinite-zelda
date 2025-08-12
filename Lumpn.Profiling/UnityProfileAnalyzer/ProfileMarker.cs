@@ -2,17 +2,17 @@
 
 namespace Lumpn.Profiling.UnityProfileAnalyzer
 {
-    public sealed class ProfileMarker
+    public struct ProfileMarker
     {
         private readonly int nameIndex;
-        private readonly float totalMS;
         private readonly int depth;
+        private readonly double totalMS;
 
-        public ProfileMarker(int nameIndex, float totalMS, int depth)
+        public ProfileMarker(int nameIndex, int depth, double totalMS)
         {
             this.nameIndex = nameIndex;
-            this.totalMS = totalMS;
             this.depth = depth;
+            this.totalMS = totalMS;
         }
 
         public void WriteTo(BinaryWriter writer)
@@ -27,7 +27,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
             var nameIndex = reader.ReadInt32();
             var totalMS = reader.ReadSingle();
             var depth = reader.ReadInt32();
-            return new ProfileMarker(nameIndex, totalMS, depth);
+            return new ProfileMarker(nameIndex, depth, totalMS);
         }
     }
 }

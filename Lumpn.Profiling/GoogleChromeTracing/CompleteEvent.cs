@@ -2,20 +2,20 @@
 
 namespace Lumpn.Profiling.GoogleChromeTracing
 {
-    public sealed class CompleteEvent
+    public struct CompleteEvent
     {
         private readonly int processId;
         private readonly int threadId;
-        private readonly double timestampMS;
-        private readonly float durationMS;
+        private readonly long timestamp; // [microseconds]
+        private readonly long duration; // [microseconds]
         private readonly string name;
 
-        public CompleteEvent(int processId, int threadId, double timestampMS, float durationMS, string name)
+        public CompleteEvent(int processId, int threadId, long timestamp, long duration, string name)
         {
             this.processId = processId;
             this.threadId = threadId;
-            this.timestampMS = timestampMS;
-            this.durationMS = durationMS;
+            this.timestamp = timestamp;
+            this.duration = duration;
             this.name = name;
         }
 
@@ -26,9 +26,9 @@ namespace Lumpn.Profiling.GoogleChromeTracing
             writer.Write(", \"tid\":");
             writer.Write(threadId);
             writer.Write(", \"ts\":");
-            writer.Write(timestampMS);
+            writer.Write(timestamp);
             writer.Write(", \"dur\":");
-            writer.Write(durationMS);
+            writer.Write(duration);
             writer.Write(", \"name\":\"");
             writer.Write(name);
             writer.Write("\", \"ph\":\"X\" }");

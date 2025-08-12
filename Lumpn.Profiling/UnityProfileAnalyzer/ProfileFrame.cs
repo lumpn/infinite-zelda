@@ -7,9 +7,9 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
     {
         private readonly List<ProfileThread> threads = new List<ProfileThread>();
         private readonly double startTimeMS;
-        private readonly float frameMS;
+        private readonly double frameMS;
 
-        public ProfileFrame(double msStartTime, float msFrame)
+        public ProfileFrame(double msStartTime, double msFrame)
         {
             this.startTimeMS = msStartTime;
             this.frameMS = msFrame;

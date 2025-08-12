@@ -11,25 +11,30 @@ namespace Lumpn.Profiling.GoogleChromeTracing
         {
             foreach (var frame in frames)
             {
-                foreach (var child in frame.Root.Children)
-                {
-                    AddEvent(child, frequency);
-                }
+                AddEvent(frame.Root, long.MaxValue, frequency);
             }
         }
 
-        private void AddEvent(Sample sample, long frequency)
+        private void AddEvent(Sample sample, long maxEnd, long frequency)
         {
-            var start = sample.CalcStartTime(frequency);
-            var duration = sample.CalcElapsedMilliseconds(frequency);
+            var start = sample.CalcStartTimeMicroseconds(frequency);
+            var duration = sample.CalcElapsedMicroseconds(frequency);
             var name = sample.Name;
+
+            // NOTE Jonas: clamp duration to prevent bad sorting in flame graph
+            var maxDuration = maxEnd - start;
+            if (duration > maxDuration)
+            {
+                duration = maxDuration;
+            }
+            var end = start + duration;
 
             var evt = new CompleteEvent(0, 0, start, duration, name);
             events.Add(evt);
 
             foreach (var child in sample.Children)
             {
-                AddEvent(child, frequency);
+                AddEvent(child, end, frequency);
             }
         }
 
@@ -47,7 +52,8 @@ namespace Lumpn.Profiling.GoogleChromeTracing
                     evt.WriteTo(stream);
                 }
                 stream.WriteLine();
-                stream.WriteLine("]");
+                stream.WriteLine("],");
+                stream.WriteLine("\"displayTimeUnit\": \"ns\"");
                 stream.WriteLine("}");
             }
         }

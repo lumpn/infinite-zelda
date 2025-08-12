@@ -2,21 +2,35 @@
 {
     public static class TimeUtils
     {
-        public static double CalcTimestamp(long timestamp, long frequency)
+        public static double CalcElapsedSeconds(long begin, long end, long frequency)
         {
-            long microseconds = timestamp * 1000000L / frequency;
-            return microseconds * 0.001;
+            return CalcSeconds(end - begin, frequency);
         }
 
-        public static float CalcElapsedMilliseconds(long begin, long end, long frequency)
+        public static double CalcElapsedMilliseconds(long begin, long end, long frequency)
         {
-            return CalcElapsedMilliseconds(end - begin, frequency);
+            return CalcMilliseconds(end - begin, frequency);
         }
 
-        public static float CalcElapsedMilliseconds(long ticks, long frequency)
+        public static long CalcElapsedMicroseconds(long begin, long end, long frequency)
+        {
+            return CalcMicroseconds(end - begin, frequency);
+        }
+
+        public static double CalcSeconds(long ticks, long frequency)
+        {
+            return CalcMicroseconds(ticks, frequency) * 0.000001;
+        }
+
+        public static double CalcMilliseconds(long ticks, long frequency)
+        {
+            return CalcMicroseconds(ticks, frequency) * 0.001;
+        }
+
+        public static long CalcMicroseconds(long ticks, long frequency)
         {
             long microseconds = ticks * 1000000L / frequency;
-            return microseconds * 0.001f;
+            return microseconds;
         }
     }
 }

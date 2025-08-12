@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Lumpn.Profiling
@@ -39,14 +40,19 @@ namespace Lumpn.Profiling
             end = Stopwatch.GetTimestamp();
         }
 
-        public double CalcStartTime(long frequency)
+        public long CalcStartTimeMicroseconds(long frequency)
         {
-            return TimeUtils.CalcTimestamp(begin, frequency);
+            return TimeUtils.CalcMicroseconds(begin, frequency);
         }
 
-        public float CalcElapsedMilliseconds(long frequency)
+        public double CalcElapsedMilliseconds(long frequency)
         {
             return TimeUtils.CalcElapsedMilliseconds(begin, end, frequency);
+        }
+
+        public long CalcElapsedMicroseconds(long frequency)
+        {
+            return TimeUtils.CalcElapsedMicroseconds(begin, end, frequency);
         }
 
         public void AddChild(Sample child)

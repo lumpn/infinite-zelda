@@ -33,6 +33,11 @@ namespace Lumpn.Profiling
             impl.EndSample();
         }
 
+        public static ProfilerScope Sample(string name)
+        {
+            return new ProfilerScope(name, impl);
+        }
+
         public static void AddSample(string name, long durationTicks)
         {
             impl.AddSample(name, durationTicks);
