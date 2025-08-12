@@ -5,15 +5,17 @@ namespace Lumpn.Mooga.Test
     public sealed class ParetoIndividual : Individual
     {
         private readonly double score1, score2, score3;
+        private readonly Genome genome;
 
-        public ParetoIndividual(double score1, double score2, double score3)
+        public ParetoIndividual(double score1, double score2, double score3, Genome genome = null)
         {
             this.score1 = score1;
             this.score2 = score2;
             this.score3 = score3;
+            this.genome = genome;
         }
 
-        public Genome Genome { get { return null; } } // not needed for test
+        public Genome Genome { get { return genome; } }
 
         public double GetScore(int attribute)
         {

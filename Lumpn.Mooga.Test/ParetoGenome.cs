@@ -4,43 +4,44 @@ namespace Lumpn.Mooga.Test
 {
     public sealed class ParetoGenome : Genome
     {
-        private readonly double score1, score2, score3;
+        public readonly double value1, value2, value3;
 
-        public ParetoGenome(double score1, double score2, double score3)
+        public ParetoGenome(double value1, double value2, double value3)
         {
-            this.score1 = score1;
-            this.score2 = score2;
-            this.score3 = score3;
+            this.value1 = value1;
+            this.value2 = value2;
+            this.value3 = value3;
         }
 
         public Pair<Genome> Crossover(Genome other, RandomNumberGenerator random)
         {
             var o = (ParetoGenome)other;
-            var a = new ParetoGenome(
-                    MathUtils.Lerp(score1, o.score1, random.NextDouble()),
-                    MathUtils.Lerp(score2, o.score2, random.NextDouble()),
-                    MathUtils.Lerp(score3, o.score3, random.NextDouble())
-                );
-            var b = new ParetoGenome(
-                    MathUtils.Lerp(score1, o.score1, random.NextDouble()),
-                    MathUtils.Lerp(score2, o.score2, random.NextDouble()),
-                    MathUtils.Lerp(score3, o.score3, random.NextDouble())
-                );
+
+            var split = random.NextInt(3);
+            var a1 = (split < 1) ? value1 : o.value1;
+            var a2 = (split < 2) ? value2 : o.value2;
+            var a3 = (split < 3) ? value3 : o.value3;
+            var b1 = (split < 1) ? o.value1 : value1;
+            var b2 = (split < 2) ? o.value2 : value2;
+            var b3 = (split < 3) ? o.value3 : value3;
+
+            var a = new ParetoGenome(a1, a2, a3);
+            var b = new ParetoGenome(b1, b2, b3);
             return new Pair<Genome>(a, b);
         }
 
         public Genome Mutate(RandomNumberGenerator random)
         {
             return new ParetoGenome(
-                    score1 + random.Range(-1.0, 1.0),
-                    score2 + random.Range(-1.0, 1.0),
-                    score3 + random.Range(-1.0, 1.0)
+                    value1 + random.Range(-1.0, 1.0),
+                    value2 + random.Range(-1.0, 1.0),
+                    value3 + random.Range(-1.0, 1.0)
                 );
         }
 
         public override string ToString()
         {
-            return string.Format("({0}, {1}, {2})", score1, score2, score3);
+            return string.Format("({0}, {1}, {2})", value1, value2, value3);
         }
     }
 }

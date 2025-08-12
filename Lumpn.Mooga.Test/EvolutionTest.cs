@@ -42,5 +42,40 @@ namespace Lumpn.Mooga.Test
 
             Assert.Greater(score, 30);
         }
+
+        [Test]
+        public void FindsParetoSolution()
+        {
+            var random = new SystemRandom(42);
+            var factory = new ParetoGenomeFactory(random);
+            var selection = new BinaryTournamentSelection(random);
+
+            var environment = new ParetoEnvironment();
+            var ranking = new CrowdingDistanceRanking(3);
+
+            var evolution = new Evolution(100, 0.4, 0.4, factory, selection);
+            var genomes = evolution.Initialize();
+
+            Individual best = null;
+            for (int i = 0; i < 100; i++)
+            {
+                // evaluate
+                var population = genomes.Select(environment.Evaluate).ToList();
+
+                // rank
+                ranking.Rank(population);
+
+                // keep score
+                best = population[0];
+                Console.WriteLine(best);
+
+                // evolve
+                genomes = evolution.Evolve(population, random);
+            }
+
+            Assert.Greater(best.GetScore(0), 20);
+            Assert.Greater(best.GetScore(1), 20);
+            Assert.Greater(best.GetScore(2), 20);
+        }
     }
 }
