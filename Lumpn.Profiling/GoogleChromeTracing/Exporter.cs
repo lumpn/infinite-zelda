@@ -44,12 +44,15 @@ namespace Lumpn.Profiling.GoogleChromeTracing
             {
                 stream.WriteLine("{");
                 stream.WriteLine("\"traceEvents\": [");
-                events[0].WriteTo(stream);
-                for (int i = 1; i < events.Count; i++)
+                if (events.Count > 0)
                 {
-                    var evt = events[i];
-                    stream.WriteLine(",");
-                    evt.WriteTo(stream);
+                    events[0].WriteTo(stream);
+                    for (int i = 1; i < events.Count; i++)
+                    {
+                        var evt = events[i];
+                        stream.WriteLine(",");
+                        evt.WriteTo(stream);
+                    }
                 }
                 stream.WriteLine();
                 stream.WriteLine("],");

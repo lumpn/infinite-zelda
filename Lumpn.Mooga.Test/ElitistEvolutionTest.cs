@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Lumpn.Profiling;
 using Lumpn.Utils;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
@@ -49,16 +50,20 @@ namespace Lumpn.Mooga.Test
                 var evolution = new ElitistEvolution(100, 20, factory, environment, 3, writer);
                 var genomes = evolution.Initialize();
 
+                Profiler.BeginFrame();
                 for (int i = 0; i < 100; i++)
                 {
                     genomes = evolution.Evolve(genomes, random);
                 }
+                Profiler.EndFrame();
 
                 var best = evolution.GetBest();
                 Assert.Greater(best.GetScore(0), 30);
                 Assert.Greater(best.GetScore(1), 30);
                 Assert.Greater(best.GetScore(2), 30);
             }
+
+            Profiler.ExportToGoogleChromeTracing("W:\\pareto.json");
         }
     }
 }
