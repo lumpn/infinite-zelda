@@ -18,6 +18,8 @@
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
     <ProjectReference Include="..\Lumpn.ZeldaMooga\Lumpn.ZeldaMooga.csproj" />
     <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
   </ItemGroup>
 </Project>
