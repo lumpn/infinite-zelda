@@ -30,7 +30,7 @@ namespace Lumpn.ZeldaMooga.Test
             Console.WriteLine("test: " + individual);
 
             Profiler.EndFrame();
-            Profiler.ExportToUnityProfileAnalyzer("w:\\EvolutionTest-CreateIndividual.pdata");
+            Profiler.ExportToGoogleChromeTracing("w:\\EvolutionTest-CreateIndividual.json");
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Lumpn.ZeldaMooga.Test
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
 
-            Profiler.ExportToUnityProfileAnalyzer("w:\\EvolutionTest-TestEvolution.pdata");
+            Profiler.ExportToGoogleChromeTracing("w:\\EvolutionTest-TestEvolution.json");
         }
     }
 }
