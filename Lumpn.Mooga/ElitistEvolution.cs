@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Lumpn.Profiling;
 using Lumpn.Utils;
 
@@ -11,6 +9,7 @@ namespace Lumpn.Mooga
 {
     public sealed class ElitistEvolution
     {
+        private readonly List<Individual> population = new List<Individual>();
         private readonly List<Individual> archive = new List<Individual>();
 
         private readonly int numAttributes;
@@ -20,6 +19,7 @@ namespace Lumpn.Mooga
         private readonly Environment environment;
         private readonly Ranking ranking;
         private readonly TextWriter writer;
+
 
         public ElitistEvolution(int populationSize, int archiveSize, GenomeFactory factory, Environment environment, int numAttributes, TextWriter writer)
         {
@@ -42,9 +42,7 @@ namespace Lumpn.Mooga
 
         public List<Genome> Evolve(List<Genome> genomes, RandomNumberGenerator random)
         {
-            // spawn individuals
-            var population = new List<Individual>();
-
+            // evaluate genomes
             Profiler.BeginSample("Evaluate");
             foreach (var genome in genomes)
             {
@@ -73,9 +71,15 @@ namespace Lumpn.Mooga
             // evolve population
             Profiler.BeginSample("Evolve");
             var result = evolution.Evolve(population, random);
+            population.Clear();
             Profiler.EndSample();
 
             return result;
+        }
+
+        public Individual GetBest()
+        {
+            return archive.First();
         }
 
         public Individual GetBest(IComparer<Individual> comparer)
@@ -98,7 +102,7 @@ namespace Lumpn.Mooga
             // print stats
             for (int i = 0; i < numAttributes; i++)
             {
-                writer.Write("Attribute; Min; Max; Mid; Avg;; ");
+                writer.Write("Attribute {0}; Min; Max; Mid; Avg;; ", i);
             }
             writer.WriteLine();
         }

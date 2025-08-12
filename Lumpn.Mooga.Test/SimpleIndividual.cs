@@ -2,6 +2,9 @@
 {
     public sealed class SimpleIndividual : Individual
     {
+        private readonly double score;
+        private readonly Genome genome;
+
         public SimpleIndividual(double score, Genome genome = null)
         {
             this.score = score;
@@ -19,8 +22,5 @@
         {
             return string.Format("({0})", score);
         }
-
-        private readonly double score;
-        private readonly Genome genome;
     }
 }

@@ -16,8 +16,8 @@ namespace Lumpn.Mooga.Test
             var factory = new SimpleGenomeFactory(random);
             var selection = new BinaryTournamentSelection(random);
 
-            Environment environment = new SimpleEnvironment();
-            Ranking ranking = new CrowdingDistanceRanking(1);
+            var environment = new SimpleEnvironment();
+            var ranking = new CrowdingDistanceRanking(1);
 
             var evolution = new Evolution(100, 0.4, 0.4, factory, selection);
             var genomes = evolution.Initialize();

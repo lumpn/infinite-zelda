@@ -6,6 +6,13 @@ namespace Lumpn.Mooga
 {
     public class Evolution
     {
+        private readonly int populationSize;
+        private readonly int crossoverQuota;
+        private readonly int mutationQuota;
+
+        private readonly GenomeFactory factory;
+        private readonly Selection selection;
+
         public Evolution(int populationSize, double crossoverRate, double mutationRate, GenomeFactory factory, Selection selection)
         {
             this.populationSize = populationSize;
@@ -40,8 +47,8 @@ namespace Lumpn.Mooga
                 var children = a.Genome.Crossover(b.Genome, random);
                 Profiler.EndSample();
 
-                generation.Add(children.First);
-                generation.Add(children.Second);
+                generation.Add(children.first);
+                generation.Add(children.second);
             }
 
             // mutation
@@ -68,13 +75,5 @@ namespace Lumpn.Mooga
 
             return generation;
         }
-
-        private readonly int populationSize;
-        private readonly int crossoverQuota;
-        private readonly int mutationQuota;
-
-        private readonly GenomeFactory factory;
-
-        private readonly Selection selection;
     }
 }

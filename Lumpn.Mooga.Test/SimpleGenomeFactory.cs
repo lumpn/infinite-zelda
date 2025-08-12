@@ -4,6 +4,8 @@ namespace Lumpn.Mooga.Test
 {
     public sealed class SimpleGenomeFactory : GenomeFactory
     {
+        private readonly RandomNumberGenerator random;
+
         public SimpleGenomeFactory(RandomNumberGenerator random)
         {
             this.random = random;
@@ -13,7 +15,5 @@ namespace Lumpn.Mooga.Test
         {
             return new SimpleGenome(random.Range(-10.0, 10.0));
         }
-
-        private readonly RandomNumberGenerator random;
     }
 }

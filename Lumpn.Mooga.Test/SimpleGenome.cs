@@ -4,6 +4,8 @@ namespace Lumpn.Mooga.Test
 {
     public sealed class SimpleGenome : Genome
     {
+        public readonly double value;
+
         public SimpleGenome(double value)
         {
             this.value = value;
@@ -27,7 +29,5 @@ namespace Lumpn.Mooga.Test
         {
             return string.Format("({0})", value);
         }
-
-        public readonly double value;
     }
 }
