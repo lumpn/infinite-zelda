@@ -3,8 +3,6 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>Mooga</RootNamespace>
-    <AssemblyName>Mooga</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DefineConstants>DEBUG;</DefineConstants>
