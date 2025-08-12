@@ -23,7 +23,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write(startTimeMS);
-            writer.Write(frameMS);
+            writer.Write((float)frameMS);
 
             writer.Write(threads.Count);
             foreach (var thread in threads)

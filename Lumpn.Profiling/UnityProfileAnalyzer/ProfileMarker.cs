@@ -18,7 +18,7 @@ namespace Lumpn.Profiling.UnityProfileAnalyzer
         public void WriteTo(BinaryWriter writer)
         {
             writer.Write(nameIndex);
-            writer.Write(totalMS);
+            writer.Write((float)totalMS);
             writer.Write(depth);
         }
 
