@@ -5,13 +5,13 @@ namespace Lumpn.Utils
     public static class TopologicalSorting
     {
         /// sorts items by rank (non-dominated first, not stable)
-        public static void SortDescending<T>(IList<T> items, IComparer<T> comparer)
+        public static void Sort<T>(IList<T> items, IComparer<T> comparer)
         {
-            SortDescending(items, 0, items.Count, comparer);
+            Sort(items, 0, items.Count, comparer);
         }
 
         /// sorts items by rank (non-dominated first, not stable)
-        private static void SortDescending<T>(IList<T> items, int start, int end, IComparer<T> comparer)
+        private static void Sort<T>(IList<T> items, int start, int end, IComparer<T> comparer)
         {
             // trivially sorted?
             int count = end - start;
@@ -46,7 +46,7 @@ namespace Lumpn.Utils
             }
 
             // recursively sort the dominated items
-            SortDescending(items, split, end, comparer);
+            Sort(items, split, end, comparer);
         }
     }
 }

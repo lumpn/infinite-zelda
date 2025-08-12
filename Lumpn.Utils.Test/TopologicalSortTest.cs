@@ -13,7 +13,7 @@ namespace Lumpn.Utils.Test
             var items = new List<int> { 3, 1, 4, 1, 5, 9 };
             var comparer = Comparer<int>.Default;
 
-            TopologicalSorting.SortDescending(items, comparer);
+            TopologicalSorting.Sort(items, comparer);
 
             // descending
             Assert.AreEqual(9, items[0]);

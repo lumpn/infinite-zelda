@@ -6,36 +6,40 @@ namespace Lumpn.Mooga
 {
     public sealed class BinaryTournamentSelection : Selection
     {
+        private readonly RandomNumberGenerator random;
+
         public BinaryTournamentSelection(RandomNumberGenerator random)
         {
             this.random = random;
         }
 
-        public Individual Select(List<Individual> individuals)
+        public Individual Select(IReadOnlyList<Individual> individuals)
         {
-            int size = individuals.Count;
-            int pos1 = random.NextInt(size);
-            int pos2 = random.NextInt(size);
-            int pos = Math.Min(pos1, pos2);
+            var pos = SelectPosition(random, individuals.Count);
             return individuals[pos];
         }
 
-        public List<Individual> Select(List<Individual> individuals, int count)
+        public List<Individual> Select(IReadOnlyList<Individual> individuals, int count)
         {
-            Debug.Assert(count < individuals.Count);
-
+            var candidates = new List<Individual>(individuals);
             var result = new List<Individual>();
-            while (result.Count < count)
+
+            while (result.Count < count && candidates.Count > 0)
             {
-                var individual = Select(individuals);
-                if (!result.Contains(individual))
-                {
-                    result.Add(individual);
-                }
+                var pos = SelectPosition(random, candidates.Count);
+                var individual = candidates[pos];
+                candidates.RemoveAt(pos);
+                result.Add(individual);
             }
             return result;
         }
 
-        private readonly RandomNumberGenerator random;
+        private static int SelectPosition(RandomNumberGenerator random, int size)
+        {
+            int pos1 = random.NextInt(size);
+            int pos2 = random.NextInt(size);
+            int pos = Math.Min(pos1, pos2);
+            return pos;
+        }
     }
 }

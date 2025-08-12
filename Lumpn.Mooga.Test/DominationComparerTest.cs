@@ -8,6 +8,8 @@ namespace Lumpn.Mooga.Test
     [TestFixture]
     public sealed class DominationComparerTest
     {
+        private const double delta = 0.1;
+
         [Test]
         public void SortsAscending()
         {
@@ -45,7 +47,7 @@ namespace Lumpn.Mooga.Test
             individuals.Add(new SimpleIndividual(5));
             individuals.Add(new SimpleIndividual(9));
 
-            TopologicalSorting.SortDescending(individuals, new DominationComparer(1));
+            TopologicalSorting.Sort(individuals, new DominationComparer(1));
 
             // descending
             Assert.AreEqual(9, individuals[0].GetScore(0), delta);
@@ -61,24 +63,36 @@ namespace Lumpn.Mooga.Test
         {
             // create individuals
             var individuals = new List<Individual>();
-            individuals.Add(new ParetoIndividual(3, 6, 0)); // rank 1
-            individuals.Add(new ParetoIndividual(1, 5, 0)); // rank 2
-            individuals.Add(new ParetoIndividual(4, 4, 0)); // rank 1
-            individuals.Add(new ParetoIndividual(1, 3, 0)); // rank 3
-            individuals.Add(new ParetoIndividual(5, 2, 0)); // rank 1
-            individuals.Add(new ParetoIndividual(9, 1, 0)); // rank 1
+            individuals.Add(new ParetoIndividual(3, 6, 1)); // rank 1
+            individuals.Add(new ParetoIndividual(1, 5, 2)); // rank 2
+            individuals.Add(new ParetoIndividual(4, 4, 1)); // rank 1
+            individuals.Add(new ParetoIndividual(1, 3, 3)); // rank 3
+            individuals.Add(new ParetoIndividual(5, 2, 1)); // rank 1
+            individuals.Add(new ParetoIndividual(9, 1, 1)); // rank 1
 
-            TopologicalSorting.SortDescending(individuals, new DominationComparer(2));
+            TopologicalSorting.Sort(individuals, new DominationComparer(2));
 
             // sort by rank
-            Assert.AreEqual(6, individuals[0].GetScore(1), delta); // rank 1
-            Assert.AreEqual(4, individuals[1].GetScore(1), delta); // rank 1
-            Assert.AreEqual(2, individuals[2].GetScore(1), delta); // rank 1
-            Assert.AreEqual(1, individuals[3].GetScore(1), delta); // rank 1
-            Assert.AreEqual(5, individuals[4].GetScore(1), delta); // rank 2
-            Assert.AreEqual(3, individuals[5].GetScore(1), delta); // rank 3
+            Assert.AreEqual(1, individuals[0].GetScore(2), delta); // rank 1
+            Assert.AreEqual(1, individuals[1].GetScore(2), delta); // rank 1
+            Assert.AreEqual(1, individuals[2].GetScore(2), delta); // rank 1
+            Assert.AreEqual(1, individuals[3].GetScore(2), delta); // rank 1
+            Assert.AreEqual(2, individuals[4].GetScore(2), delta); // rank 2
+            Assert.AreEqual(3, individuals[5].GetScore(2), delta); // rank 3
         }
 
-        private const double delta = 0.1;
+        [Test]
+        public void ViolatesTransitiveEquality()
+        {
+            var comparer = new DominationComparer(2);
+
+            var x = new ParetoIndividual(0, 1, 0);
+            var y = new ParetoIndividual(1, 0, 0);
+            var z = new ParetoIndividual(0, 2, 0);
+
+            Assert.AreEqual(0, comparer.Compare(x, y)); // x == y
+            Assert.AreEqual(0, comparer.Compare(y, z)); // y == z
+            Assert.AreNotEqual(0, comparer.Compare(x, z)); // x != z (!)
+        }
     }
 }

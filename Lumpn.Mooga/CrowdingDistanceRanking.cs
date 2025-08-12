@@ -1,11 +1,20 @@
-﻿using System.Collections.Generic;
-using Lumpn.Utils;
+﻿using System;
+using System.Collections.Generic;
 using Lumpn.Profiling;
+using Lumpn.Utils;
 
 namespace Lumpn.Mooga
 {
+    /// ranks individuals by pareto domination (ascending) and crowding distance (descending)
     public sealed class CrowdingDistanceRanking : Ranking
     {
+        private readonly int numAttributes;
+        private readonly DominationComparer dominationComparer;
+        private readonly DistanceComparer distanceComparer;
+        private readonly ScoreComparer scoreComparer;
+
+        private readonly Dictionary<Individual, double> distances = new Dictionary<Individual, double>();
+
         public CrowdingDistanceRanking(int numAttributes)
         {
             this.numAttributes = numAttributes;
@@ -16,100 +25,54 @@ namespace Lumpn.Mooga
 
         public void Rank(List<Individual> individuals)
         {
-            Profiler.BeginSample("CalcDomination");
-            var matrix = CalcDomination(individuals);
-            Profiler.EndSample();
-
             Profiler.BeginSample("TopologicalSort");
-            var sortedIndividuals = TopologicalSort(individuals, matrix);
+            TopologicalSort(individuals, 0, individuals.Count);
             Profiler.EndSample();
-
-            individuals.Clear();
-            individuals.AddRange(sortedIndividuals);
         }
 
-        private int[,] CalcDomination(List<Individual> individuals)
+        /// sorts items by rank (non-dominated first, crowding distance descending within a rank)
+        private void TopologicalSort(List<Individual> items, int start, int end)
         {
-            var count = individuals.Count;
-            var matrix = new int[count, count + 1];
+            // trivially sorted?
+            int count = end - start;
+            if (count < 2) return;
 
-            for (int i = 0; i < count; i++)
+            // split into non-dominated and dominated
+            int split = start;
+            for (int i = start; i < end; i++)
             {
-                var individual = individuals[i];
-                int rank = 0;
-                for (int j = i + 1; j < count; j++)
+                var item = items[i];
+
+                // check domination
+                bool isDominated = false;
+                for (int j = start; j < end; j++)
                 {
-                    var other = individuals[j];
-                    var compareResult = dominationComparer.Compare(individual, other);
+                    if (j == i) continue;
 
-                    matrix[i, j] = compareResult;
-                    matrix[j, i] = -compareResult;
-
-                    if (compareResult < 0)
+                    var other = items[j];
+                    if (dominationComparer.Compare(item, other) < 0)
                     {
-                        rank++;
+                        isDominated = true;
+                        break;
                     }
                 }
-                matrix[i, count] = rank;
-            }
 
-            return matrix;
-        }
-
-        private List<Individual> TopologicalSort(List<Individual> individuals, int[,] dominationMatrix)
-        {
-            // find non-dominated individuals
-            int count = individuals.Count;
-            var nonDominated = new List<int>();
-            for (int i = 0; i < count; i++)
-            {
-                if (dominationMatrix[i, count] == 0)
+                // non-dominated first
+                if (!isDominated)
                 {
-                    nonDominated.Add(i);
+                    items.Swap(split, i);
+                    split++;
                 }
             }
 
-            // sort
-            var result = new List<Individual>();
-            TopologicalSort(individuals, dominationMatrix, nonDominated, result);
-            return result;
+            // sort the non-dominated items
+            SortByCrowdingDistanceDescending(items, start, split);
+
+            // recursively sort the dominated items
+            TopologicalSort(items, split, end);
         }
 
-        private void TopologicalSort(List<Individual> individuals, int[,] dominationMatrix, List<int> nonDominated, List<Individual> result)
-        {
-            var count = individuals.Count;
-            var nextNonDominated = new List<int>();
-
-            foreach (var idx in nonDominated)
-            {
-                var individual = individuals[idx];
-                result.Add(individual); // TODO Jonas: sort by crowding distance
-
-                for (int i = 0; i < count; i++)
-                {
-                    var domination = dominationMatrix[i, idx];
-                    if (domination < 0)
-                    {
-                        // node i used to be dominated by node idx
-                        dominationMatrix[i, idx] = 0;
-
-                        var rank = dominationMatrix[i, count];
-                        rank--;
-                        dominationMatrix[i, count] = rank;
-                        if (rank == 0)
-                        {
-                            nextNonDominated.Add(i);
-                        }
-                    }
-                }
-            }
-
-            if (nextNonDominated.Count > 0)
-            {
-                TopologicalSort(individuals, dominationMatrix, nextNonDominated, result);
-            }
-        }
-
+        /// sorts by descending crowding distance, start inclusive, end exclusive.
         private void SortByCrowdingDistanceDescending(List<Individual> individuals, int start, int end)
         {
             // trivially sorted?
@@ -149,16 +112,23 @@ namespace Lumpn.Mooga
                     var rightNeighbor = individuals[i + 1];
 
                     // calculate & accumulate normalized crowding distance
+                    var currentValue = current.GetScore(attribute);
                     var leftValue = leftNeighbor.GetScore(attribute);
                     var rightValue = rightNeighbor.GetScore(attribute);
-                    var range = rightValue - leftValue;
-                    var distance = range / totalRange;
-                    distances[current] += distance;
+                    var deltaLeft = (currentValue - leftValue) / totalRange;
+                    var deltaRight = (rightValue - currentValue) / totalRange;
+                    distances[current] += CalcDistance(deltaLeft, deltaRight);
                 }
 
                 // update extremes
-                distances[min] += 2;
-                distances[max] += 2;
+                var minNeighbor = individuals[start + 1];
+                var maxNeighbor = individuals[end - 2];
+                var minNeighborValue = minNeighbor.GetScore(attribute);
+                var maxNeighborValue = maxNeighbor.GetScore(attribute);
+                var minDelta = (minNeighborValue - minValue) / totalRange;
+                var maxDelta = (maxValue - maxNeighborValue) / totalRange;
+                distances[min] += CalcDistance(1, minDelta);
+                distances[max] += CalcDistance(maxDelta, 1);
             }
 
             // sort by descending crowding distance
@@ -166,11 +136,9 @@ namespace Lumpn.Mooga
             individuals.Reverse(start, count);
         }
 
-        private readonly int numAttributes;
-        private readonly DominationComparer dominationComparer;
-        private readonly DistanceComparer distanceComparer;
-        private readonly ScoreComparer scoreComparer;
-
-        private readonly Dictionary<Individual, double> distances = new Dictionary<Individual, double>();
+        private static double CalcDistance(double a, double b)
+        {
+            return a + b + Math.Sqrt(a * b);
+        }
     }
 }

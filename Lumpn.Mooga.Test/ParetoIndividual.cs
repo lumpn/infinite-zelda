@@ -4,6 +4,8 @@ namespace Lumpn.Mooga.Test
 {
     public sealed class ParetoIndividual : Individual
     {
+        private readonly double score1, score2, score3;
+
         public ParetoIndividual(double score1, double score2, double score3)
         {
             this.score1 = score1;
@@ -30,7 +32,5 @@ namespace Lumpn.Mooga.Test
         {
             return string.Format("({0}, {1}, {2})", score1, score2, score3);
         }
-
-        private readonly double score1, score2, score3;
     }
 }

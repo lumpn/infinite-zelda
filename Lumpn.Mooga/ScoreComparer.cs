@@ -5,6 +5,8 @@ namespace Lumpn.Mooga
     /// compares individuals by score of specific attribute (ascending)
     public sealed class ScoreComparer : IComparer<Individual>
     {
+        private static readonly Comparer<double> comparer = Comparer<double>.Default;
+
         public int attribute;
 
         public ScoreComparer(int attribute)
@@ -18,7 +20,5 @@ namespace Lumpn.Mooga
             double scoreB = b.GetScore(attribute);
             return comparer.Compare(scoreA, scoreB);
         }
-
-        private static readonly Comparer<double> comparer = Comparer<double>.Default;
     }
 }

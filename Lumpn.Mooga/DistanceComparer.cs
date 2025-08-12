@@ -2,9 +2,14 @@
 
 namespace Lumpn.Mooga
 {
+    /// compares individuals by distance (ascending)
     public sealed class DistanceComparer : IComparer<Individual>
     {
-        public DistanceComparer(IDictionary<Individual, double> distances)
+        private static readonly IComparer<double> comparer = Comparer<double>.Default;
+
+        private readonly IReadOnlyDictionary<Individual, double> distances;
+
+        public DistanceComparer(IReadOnlyDictionary<Individual, double> distances)
         {
             this.distances = distances;
         }
@@ -15,9 +20,5 @@ namespace Lumpn.Mooga
             var distanceB = distances[b];
             return comparer.Compare(distanceA, distanceB);
         }
-
-        private readonly IDictionary<Individual, double> distances;
-
-        private static readonly IComparer<double> comparer = Comparer<double>.Default;
     }
 }
