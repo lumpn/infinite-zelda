@@ -3,7 +3,7 @@ namespace Lumpn.Dungeon.Scripts
     /// a blocker that prevents progress unless a switch is in the correct state
     public sealed class BlockerScript : Script
     {
-        public const int defaultState = 0;
+        private const int defaultState = 0;
 
         private readonly int openState;
         private readonly string blockerName;

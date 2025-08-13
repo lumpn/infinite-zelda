@@ -11,7 +11,7 @@ namespace Lumpn.Dungeon
 
         public void Set(VariableIdentifier identifier, int value)
         {
-            var idx = identifier.Id;
+            var idx = identifier.id;
             variables[idx] = value;
         }
 

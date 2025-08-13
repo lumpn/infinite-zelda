@@ -10,7 +10,7 @@ namespace Lumpn.ZeldaDungeon
 
         private readonly VariableIdentifier itemIdentifier, itemStateIdentifier;
 
-        public string Name { get { return itemIdentifier.Name; } }
+        public string Name { get { return itemIdentifier.name; } }
 
         public ItemScript(VariableIdentifier itemIdentifier, VariableLookup lookup)
         {

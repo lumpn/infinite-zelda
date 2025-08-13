@@ -17,7 +17,7 @@ namespace Lumpn.Dungeon
             foreach (var variable in variables)
             {
                 var identifier = lookup.Query(variable.Key);
-                var idx = identifier.Id;
+                var idx = identifier.id;
                 stateVariables[idx] = variable.Value;
             }
 

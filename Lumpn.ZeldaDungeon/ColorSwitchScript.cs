@@ -6,7 +6,7 @@ namespace Lumpn.ZeldaDungeon
     {
         private readonly VariableIdentifier switchIdentifier;
 
-        public string Name { get { return switchIdentifier.Name; } }
+        public string Name { get { return switchIdentifier.name; } }
 
         public ColorSwitchScript(VariableIdentifier switchIdentifier)
         {

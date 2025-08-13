@@ -8,7 +8,7 @@ namespace Lumpn.Dungeon.Scripts
 
         private readonly VariableIdentifier keyIdentifier, doorIdentifier, doorStateIdentifier;
 
-        public string Name { get { return doorIdentifier.Name; } }
+        public string Name { get { return doorIdentifier.name; } }
 
         public DoorScript(string keyName, string doorName, VariableLookup lookup)
         {

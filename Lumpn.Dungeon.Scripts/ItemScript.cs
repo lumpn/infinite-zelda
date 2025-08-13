@@ -8,7 +8,7 @@ namespace Lumpn.Dungeon.Scripts
 
         private readonly VariableIdentifier itemIdentifier, itemStateIdentifier;
 
-        public string Name { get { return itemIdentifier.Name; } }
+        public string Name { get { return itemIdentifier.name; } }
 
         public ItemScript(string itemName, VariableLookup lookup)
         {

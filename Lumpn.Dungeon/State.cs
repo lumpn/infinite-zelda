@@ -17,7 +17,7 @@ namespace Lumpn.Dungeon
 
         public int Get(VariableIdentifier identifier, int fallbackValue)
         {
-            var idx = identifier.Id;
+            var idx = identifier.id;
             return variables[idx];
         }
 

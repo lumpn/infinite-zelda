@@ -8,7 +8,7 @@ namespace Lumpn.Dungeon.Scripts
 
         private readonly VariableIdentifier switchIdentifier;
 
-        public string Name { get { return switchIdentifier.Name; } }
+        public string Name { get { return switchIdentifier.name; } }
 
         public SwitchScript(string switchName, VariableLookup lookup)
         {

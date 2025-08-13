@@ -42,7 +42,7 @@ namespace Lumpn.Dungeon
 
         public VariableIdentifier QueryNamed(int id)
         {
-            return namedIdentifiers.Values.FirstOrDefault(p => p.Id == id);
+            return namedIdentifiers.Values.FirstOrDefault(p => p.id == id);
         }
 
         public override string ToString()
@@ -54,9 +54,9 @@ namespace Lumpn.Dungeon
             foreach (var entry in identifiers)
             {
                 sb.Append(", ");
-                sb.Append(entry.Id);
+                sb.Append(entry.id);
                 sb.Append(": \"");
-                sb.Append(entry.Name);
+                sb.Append(entry.name);
                 sb.Append("\"");
             }
             sb.Append(")");
