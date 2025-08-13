@@ -9,8 +9,8 @@ namespace Lumpn.Dungeon
 
     public sealed class Crawler
     {
-        private const int entranceId = 0;
-        private const int exitId = 1;
+        private const int entranceId = 1;
+        private const int exitId = 0;
 
         private readonly Locations locations;
 

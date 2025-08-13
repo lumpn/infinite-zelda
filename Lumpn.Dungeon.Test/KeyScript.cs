@@ -22,7 +22,7 @@ namespace Lumpn.Dungeon.Test
             int keyState = state.Get(keyStateIdentifier, keyAvailableState);
             if (keyState == keyTakenState)
             {
-                return state;
+                return null;
             }
 
             // acquire key
