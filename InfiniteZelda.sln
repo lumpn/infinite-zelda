@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon2.Test", "Lump
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon.Test", "Lumpn.Dungeon.Test\Lumpn.Dungeon.Test.csproj", "{F7261F0B-C2CE-4369-AE96-842023C6F5D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon.Scripts", "Lumpn.Dungeon.Scripts\Lumpn.Dungeon.Scripts.csproj", "{CDC2C760-11B3-47D2-A016-2706094EABB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,10 @@ Global
 		{F7261F0B-C2CE-4369-AE96-842023C6F5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7261F0B-C2CE-4369-AE96-842023C6F5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7261F0B-C2CE-4369-AE96-842023C6F5D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDC2C760-11B3-47D2-A016-2706094EABB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDC2C760-11B3-47D2-A016-2706094EABB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDC2C760-11B3-47D2-A016-2706094EABB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDC2C760-11B3-47D2-A016-2706094EABB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

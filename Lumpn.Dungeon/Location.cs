@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Lumpn.Utils;
+﻿using Lumpn.Utils;
+using System.Collections.Generic;
 
 namespace Lumpn.Dungeon
 {

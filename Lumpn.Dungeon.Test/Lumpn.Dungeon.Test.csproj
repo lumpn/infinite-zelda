@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Dungeon.Scripts\Lumpn.Dungeon.Scripts.csproj" />
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
   </ItemGroup>
 

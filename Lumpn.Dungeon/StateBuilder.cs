@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Lumpn.Dungeon
 {
     public sealed class StateBuilder
