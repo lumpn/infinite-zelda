@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Lumpn.Dungeon;
 using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.ZeldaDungeon.Test
 {
@@ -12,6 +13,8 @@ namespace Lumpn.ZeldaDungeon.Test
         private const string routeInfo = "Route Information";
         private const string clearance = "Security Clearance";
         private const string laser = "Ignition Laser";
+        private const string drone = "Drone";
+        private const string repairKit = "Repair Kit";
 
         private const int maxSteps = 10000;
 
@@ -23,7 +26,6 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
             builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
@@ -45,7 +47,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(4, 19, CreateObstacle(clearance, lookup));
             builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
             builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
-            builder.AddUndirectedTransition(21, 22, IdentityScript.Default);
+            builder.AddUndirectedTransition(21, 0, IdentityScript.Default);
 
             builder.AddScript(4, CreateItem(solarPanel, lookup));
             builder.AddScript(12, CreateItem(generator, lookup));
@@ -55,11 +57,15 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(18, CreateItem(laser, lookup));
 
             var crawler = builder.Build();
-
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
+            PrintMission(crawler, lookup);
             PrintStates(crawler, lookup);
+            PrintSteps(crawler, lookup);
+
+            // test for exit reached
+            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
         }
 
         [Test]
@@ -68,37 +74,39 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            // 0: 1-4
-            // 1: 5-13
-            // 2: 14
-            // 3: 15-17
-            // 4: 18
-            // 5: 19-20
-            // 6: 21-22
+            // 1: 1-4
+            // 2: 5-13
+            // 3: 14
+            // 4: 15-17
+            // 5: 18
+            // 6: 19-20
+            // 0: 21-0
 
-            builder.AddUndirectedTransition(0, 1, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(1, 2, CreateDoor(generator, lookup));
-            builder.AddUndirectedTransition(2, 3, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(3, 1, CreateObstacle(routeInfo, lookup));
-            builder.AddUndirectedTransition(1, 4, CreateObstacle(clearance, lookup));
-            builder.AddUndirectedTransition(0, 5, CreateObstacle(clearance, lookup));
-            builder.AddUndirectedTransition(5, 6, CreateObstacle(laser, lookup));
+            builder.AddUndirectedTransition(1, 2, CreateDoor(solarPanel, lookup));
+            builder.AddUndirectedTransition(2, 3, CreateDoor(generator, lookup));
+            builder.AddUndirectedTransition(3, 4, CreateDoor(solarPanel, lookup));
+            builder.AddUndirectedTransition(4, 2, CreateObstacle(routeInfo, lookup));
+            builder.AddUndirectedTransition(2, 5, CreateObstacle(clearance, lookup));
+            builder.AddUndirectedTransition(1, 6, CreateObstacle(clearance, lookup));
+            builder.AddUndirectedTransition(6, 0, CreateObstacle(laser, lookup));
 
-            builder.AddScript(0, CreateItem(solarPanel, lookup));
-            builder.AddScript(1, CreateItem(generator, lookup));
             builder.AddScript(1, CreateItem(solarPanel, lookup));
-            builder.AddScript(3, CreateItem(routeInfo, lookup));
-            builder.AddScript(3, CreateItem(clearance, lookup));
-            builder.AddScript(4, CreateItem(laser, lookup));
+            builder.AddScript(2, CreateItem(generator, lookup));
+            builder.AddScript(2, CreateItem(solarPanel, lookup));
+            builder.AddScript(4, CreateItem(routeInfo, lookup));
+            builder.AddScript(4, CreateItem(clearance, lookup));
+            builder.AddScript(5, CreateItem(laser, lookup));
 
             var crawler = builder.Build();
-
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             PrintMission(crawler, lookup);
             PrintStates(crawler, lookup);
             PrintSteps(crawler, lookup);
+
+            // test for exit reached
+            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
         }
 
         [Test]
@@ -107,7 +115,6 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            builder.AddUndirectedTransition(0, 1, IdentityScript.Default);
             builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
             builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
@@ -129,32 +136,27 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(4, 19, CreateObstacle(clearance, lookup));
             builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
             builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
-            builder.AddUndirectedTransition(21, 22, IdentityScript.Default);
+            builder.AddUndirectedTransition(21, 0, IdentityScript.Default);
 
-            builder.AddScript(1, CreateItem("item1", lookup));
-
-            builder.AddScript(4, CreateTrade("item1", solarPanel, lookup));
+            builder.AddScript(1, CreateItem(drone, lookup));
+            builder.AddScript(3, CreateTrade(drone, repairKit, lookup));
+            builder.AddScript(4, CreateTrade(repairKit, solarPanel, lookup));
             builder.AddScript(12, CreateItem(generator, lookup));
             builder.AddScript(13, CreateItem(solarPanel, lookup));
             builder.AddScript(15, CreateItem(routeInfo, lookup));
             builder.AddScript(17, CreateItem(clearance, lookup));
             builder.AddScript(18, CreateItem(laser, lookup));
 
-            // deliver
-            //builder.AddScript(1, CreateItem("item1", lookup));
-            //builder.AddScript(3, CreateDoor("item1", lookup));
-
-            // trade
-            //builder.AddScript(1, CreateItem("item2", lookup));
-            //builder.AddScript(6, CreateTrade("item2", "item3", lookup));
-            //builder.AddScript(21, CreateDoor("item3", lookup));
-
             var crawler = builder.Build();
-
             var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
+            PrintMission(crawler, lookup);
             PrintStates(crawler, lookup);
+            PrintSteps(crawler, lookup);
+
+            // test for exit reached
+            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
         }
 
         private static void PrintMission(Crawler crawler, VariableLookup lookup)
@@ -167,7 +169,7 @@ namespace Lumpn.ZeldaDungeon.Test
         {
             var steps = crawler.DebugGetSteps().ToArray();
             var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.Query).Where(p => p != null).ToArray();
+            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
 
             var dot = new DotBuilder();
             dot.Begin();
@@ -175,7 +177,7 @@ namespace Lumpn.ZeldaDungeon.Test
             {
                 var state = states[i];
                 var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-                dot.AddNode(i, string.Join(", ", vars));
+                dot.AddNode(i, string.Join("\\n", vars));
             }
 
             foreach (var step in steps)
@@ -198,7 +200,7 @@ namespace Lumpn.ZeldaDungeon.Test
         private static void PrintSteps(Crawler crawler, VariableLookup lookup)
         {
             var steps = crawler.DebugGetSteps().ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.Query).Where(p => p != null).ToArray();
+            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
 
             var dot = new DotBuilder();
             dot.Begin();
@@ -209,7 +211,7 @@ namespace Lumpn.ZeldaDungeon.Test
                 var state = step.State;
                 var vars = allVariables.Where(p => state.Get(p, 0) > 0);
 
-                dot.AddNode(i, $"Location {step.Location}\n{string.Join(", ", vars)}");
+                dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars)}");
 
                 foreach (var succ in step.Successors)
                 {
