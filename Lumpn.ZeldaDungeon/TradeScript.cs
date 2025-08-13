@@ -27,7 +27,7 @@ namespace Lumpn.ZeldaDungeon
             int tradeState = state.Get(tradeStateIdentifier, tradeOfferedState);
             if (tradeState == tradeConcludedState)
             {
-                return state; // pass
+                return null;
             }
 
             // has input item?

@@ -24,17 +24,11 @@ namespace Lumpn.ZeldaDungeon
             int itemState = state.Get(itemStateIdentifier, itemAvailableState);
             if (itemState == itemTakenState)
             {
-                return state;
-            }
-
-            // already carrying?
-            int numItems = state.Get(itemIdentifier, 0);
-            if (numItems > 0)
-            {
-                return state;
+                return null;
             }
 
             // acquire item
+            int numItems = state.Get(itemIdentifier, 0);
             var builder = state.ToStateBuilder();
             builder.Set(itemIdentifier, numItems + 1);
             builder.Set(itemStateIdentifier, itemTakenState);

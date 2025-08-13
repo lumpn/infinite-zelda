@@ -3,40 +3,46 @@ using System.Linq;
 
 namespace Lumpn.Dungeon
 {
-    using Identifiers = Dictionary<string, VariableIdentifier>;
+    using NamedIdentifiers = Dictionary<string, VariableIdentifier>;
 
     public sealed class VariableLookup
     {
-        private readonly Identifiers identifiers = new Identifiers();
+        private readonly List<VariableIdentifier> identifiers = new List<VariableIdentifier>();
+        private readonly NamedIdentifiers namedIdentifiers = new NamedIdentifiers();
 
-        private int serial = 0;
-
-        public int NumVariables { get { return serial; } }
+        public int NumVariables { get { return identifiers.Count; } }
 
         public VariableIdentifier Unique(string name)
         {
-            int uniqueId = serial++;
-            return new VariableIdentifier(uniqueId, name);
+            int uniqueId = identifiers.Count;
+            var identifier = new VariableIdentifier(uniqueId, name);
+            identifiers.Add(identifier);
+            return identifier;
         }
 
         public VariableIdentifier Resolve(string name)
         {
-            if (!identifiers.TryGetValue(name, out VariableIdentifier identifier))
+            if (!namedIdentifiers.TryGetValue(name, out VariableIdentifier identifier))
             {
                 identifier = Unique(name);
-                identifiers.Add(name, identifier);
+                namedIdentifiers.Add(name, identifier);
             }
             return identifier;
         }
 
         public VariableIdentifier Query(string name)
         {
-            return identifiers[name];
+            return namedIdentifiers[name];
         }
 
         public VariableIdentifier Query(int id)
         {
-            return identifiers.Values.FirstOrDefault(p => p.Id == id);
+            return identifiers[id];
+        }
+
+        public VariableIdentifier QueryNamed(int id)
+        {
+            return namedIdentifiers.Values.FirstOrDefault(p => p.Id == id);
         }
 
         public override string ToString()
@@ -45,7 +51,7 @@ namespace Lumpn.Dungeon
             sb.Append("(Lookup (");
             sb.Append(NumVariables);
             sb.Append(")");
-            foreach (var entry in identifiers.Values.OrderBy(p => p.Id))
+            foreach (var entry in identifiers)
             {
                 sb.Append(", ");
                 sb.Append(entry.Id);
