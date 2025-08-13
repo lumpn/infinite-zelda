@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
     using Locations = Dictionary<int, Location>;
 

@@ -1,12 +1,10 @@
 ﻿using Lumpn.Profiling;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
     using Locations = IDictionary<int, Location>;
-    using Steps = List<Step>;
 
     public sealed class Crawler
     {

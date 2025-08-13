@@ -1,19 +1,19 @@
-namespace Lumpn.Dungeon2.Test
+namespace Lumpn.Dungeon.Scripts
 {
-    /// door that can be opened by consuming a key
+    /// a door that can be opened permanently by consuming a key
     public sealed class DoorScript : Script
     {
-        private const int doorLockedState = 0;
         private const int doorUnlockedState = 1;
 
-        private readonly VariableIdentifier keyIdentifier, doorStateIdentifier;
+        private readonly VariableIdentifier keyIdentifier, doorIdentifier, doorStateIdentifier;
 
-        public string Name { get { return "door"; } }
+        public string Name { get { return doorIdentifier.name; } }
 
-        public DoorScript(VariableLookup lookup)
+        public DoorScript(string keyName, string doorName, VariableLookup lookup)
         {
-            keyIdentifier = lookup.Resolve("key");
-            doorStateIdentifier = lookup.Unique("door state");
+            this.keyIdentifier = lookup.Resolve(keyName);
+            this.doorIdentifier = lookup.Resolve(doorName);
+            this.doorStateIdentifier = lookup.Unique("door state");
         }
 
         public ScriptResult Execute(State state, Memory buffer)
@@ -22,7 +22,7 @@ namespace Lumpn.Dungeon2.Test
             int doorState = state.Get(doorStateIdentifier);
             if (doorState == doorUnlockedState)
             {
-                return ScriptResult.Pass; 
+                return ScriptResult.Pass;
             }
 
             // has key?

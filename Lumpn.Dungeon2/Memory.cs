@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
     public sealed class Memory
     {

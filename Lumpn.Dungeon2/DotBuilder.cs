@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
     public sealed class DotBuilder
     {

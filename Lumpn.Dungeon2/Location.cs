@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
-    using Steps = Dictionary<State, Step>;
-
     public sealed class Location
     {
         private readonly int id;

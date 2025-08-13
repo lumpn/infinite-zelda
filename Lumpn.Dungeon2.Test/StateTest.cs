@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
-namespace Lumpn.Dungeon2.Test
+namespace Lumpn.Dungeon.Test
 {
     [TestFixture]
     public class StateTest

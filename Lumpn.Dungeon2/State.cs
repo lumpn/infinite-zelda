@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lumpn.Dungeon2
+namespace Lumpn.Dungeon
 {
     public struct State : IEquatable<State>
     {

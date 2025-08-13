@@ -1,6 +1,6 @@
-﻿namespace Lumpn.Dungeon2.Test
+﻿namespace Lumpn.Dungeon.Scripts
 {
-    public sealed class IdentityScript : Script
+    public sealed class NoOpScript : Script
     {
         public string Name { get { return string.Empty; } }
 

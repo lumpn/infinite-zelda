@@ -1,6 +1,7 @@
-﻿using Assert = NUnit.Framework.Legacy.ClassicAssert;
+﻿using Lumpn.Dungeon.Scripts;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
-namespace Lumpn.Dungeon2.Test
+namespace Lumpn.Dungeon.Test
 {
 
     [TestFixture]
@@ -10,14 +11,14 @@ namespace Lumpn.Dungeon2.Test
         private const string keyName = "key";
         private const string doorName = "door";
 
-        private static readonly IdentityScript identityScript = new IdentityScript();
+        private static readonly NoOpScript noOpScript = new NoOpScript();
 
         [Test]
         public void CrawlMinimal()
         {
             // 1 - 0
             var builder = new CrawlerBuilder();
-            builder.AddUndirectedTransition(1, 0, identityScript);
+            builder.AddUndirectedTransition(1, 0, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -39,8 +40,8 @@ namespace Lumpn.Dungeon2.Test
             //
             // 0
             var builder = new CrawlerBuilder();
-            builder.AddScript(1, identityScript);
-            builder.AddScript(0, identityScript);
+            builder.AddScript(1, noOpScript);
+            builder.AddScript(0, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -59,9 +60,9 @@ namespace Lumpn.Dungeon2.Test
         {
             // 1 - 2 - 3 - 0
             var builder = new CrawlerBuilder();
-            builder.AddUndirectedTransition(1, 2, identityScript);
-            builder.AddUndirectedTransition(2, 3, identityScript);
-            builder.AddUndirectedTransition(3, 0, identityScript);
+            builder.AddUndirectedTransition(1, 2, noOpScript);
+            builder.AddUndirectedTransition(2, 3, noOpScript);
+            builder.AddUndirectedTransition(3, 0, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -83,10 +84,10 @@ namespace Lumpn.Dungeon2.Test
             //  \ /
             //   3
             var builder = new CrawlerBuilder();
-            builder.AddUndirectedTransition(1, 2, identityScript);
-            builder.AddUndirectedTransition(2, 3, identityScript);
-            builder.AddUndirectedTransition(3, 1, identityScript);
-            builder.AddUndirectedTransition(2, 0, identityScript);
+            builder.AddUndirectedTransition(1, 2, noOpScript);
+            builder.AddUndirectedTransition(2, 3, noOpScript);
+            builder.AddUndirectedTransition(3, 1, noOpScript);
+            builder.AddUndirectedTransition(2, 0, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -108,9 +109,9 @@ namespace Lumpn.Dungeon2.Test
             //
             // 3
             var builder = new CrawlerBuilder();
-            builder.AddUndirectedTransition(1, 2, identityScript);
-            builder.AddUndirectedTransition(2, 0, identityScript);
-            builder.AddScript(3, identityScript);
+            builder.AddUndirectedTransition(1, 2, noOpScript);
+            builder.AddUndirectedTransition(2, 0, noOpScript);
+            builder.AddScript(3, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -133,9 +134,9 @@ namespace Lumpn.Dungeon2.Test
             //  \
             //   2 - 0
             var builder = new CrawlerBuilder();
-            builder.AddUndirectedTransition(1, 2, identityScript);
-            builder.AddUndirectedTransition(2, 0, identityScript);
-            builder.AddDirectedTransition(1, 3, identityScript);
+            builder.AddUndirectedTransition(1, 2, noOpScript);
+            builder.AddUndirectedTransition(2, 0, noOpScript);
+            builder.AddDirectedTransition(1, 3, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -159,11 +160,11 @@ namespace Lumpn.Dungeon2.Test
             // |     \ /
             // 0      4
             var builder = new CrawlerBuilder();
-            builder.AddDirectedTransition(1, 2, identityScript);
-            builder.AddUndirectedTransition(2, 3, identityScript);
-            builder.AddUndirectedTransition(3, 4, identityScript);
-            builder.AddUndirectedTransition(4, 2, identityScript);
-            builder.AddUndirectedTransition(1, 0, identityScript);
+            builder.AddDirectedTransition(1, 2, noOpScript);
+            builder.AddUndirectedTransition(2, 3, noOpScript);
+            builder.AddUndirectedTransition(3, 4, noOpScript);
+            builder.AddUndirectedTransition(4, 2, noOpScript);
+            builder.AddUndirectedTransition(1, 0, noOpScript);
             var crawler = builder.Build();
 
             var terminalSteps = crawler.Crawl(maxSteps);
@@ -279,14 +280,14 @@ namespace Lumpn.Dungeon2.Test
             Assert.AreEqual(2, terminalSteps.Count);
         }
 
-        private static KeyScript CreateKey(VariableLookup lookup)
+        private static ItemScript CreateKey(VariableLookup lookup)
         {
-            return new KeyScript(lookup);
+            return new ItemScript(keyName, lookup);
         }
 
         private static DoorScript CreateDoor(VariableLookup lookup)
         {
-            return new DoorScript(lookup);
+            return new DoorScript(keyName, doorName, lookup);
         }
     }
 }
