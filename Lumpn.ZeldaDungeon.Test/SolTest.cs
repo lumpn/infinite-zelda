@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Lumpn.Dungeon;
+﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
 using NUnit.Framework;
+using System.Linq;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.ZeldaDungeon.Test
@@ -26,28 +27,28 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 4, NoOpScript.instance);
             builder.AddUndirectedTransition(2, 5, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(5, 6, IdentityScript.Default);
-            builder.AddUndirectedTransition(6, 7, IdentityScript.Default);
-            builder.AddUndirectedTransition(7, 8, IdentityScript.Default);
-            builder.AddUndirectedTransition(7, 9, IdentityScript.Default);
-            builder.AddUndirectedTransition(9, 10, IdentityScript.Default);
-            builder.AddUndirectedTransition(9, 11, IdentityScript.Default);
-            builder.AddUndirectedTransition(11, 12, IdentityScript.Default);
-            builder.AddUndirectedTransition(11, 13, IdentityScript.Default);
+            builder.AddUndirectedTransition(5, 6, NoOpScript.instance);
+            builder.AddUndirectedTransition(6, 7, NoOpScript.instance);
+            builder.AddUndirectedTransition(7, 8, NoOpScript.instance);
+            builder.AddUndirectedTransition(7, 9, NoOpScript.instance);
+            builder.AddUndirectedTransition(9, 10, NoOpScript.instance);
+            builder.AddUndirectedTransition(9, 11, NoOpScript.instance);
+            builder.AddUndirectedTransition(11, 12, NoOpScript.instance);
+            builder.AddUndirectedTransition(11, 13, NoOpScript.instance);
             builder.AddUndirectedTransition(11, 14, CreateDoor(generator, lookup));
             builder.AddUndirectedTransition(14, 15, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(15, 16, IdentityScript.Default);
-            builder.AddUndirectedTransition(16, 17, IdentityScript.Default);
+            builder.AddUndirectedTransition(15, 16, NoOpScript.instance);
+            builder.AddUndirectedTransition(16, 17, NoOpScript.instance);
             builder.AddUndirectedTransition(15, 6, CreateObstacle(routeInfo, lookup));
             builder.AddUndirectedTransition(6, 18, CreateObstacle(clearance, lookup));
             builder.AddUndirectedTransition(4, 19, CreateObstacle(clearance, lookup));
-            builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
+            builder.AddUndirectedTransition(19, 20, NoOpScript.instance);
             builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
-            builder.AddUndirectedTransition(21, 0, IdentityScript.Default);
+            builder.AddUndirectedTransition(21, 0, NoOpScript.instance);
 
             builder.AddScript(4, CreateItem(solarPanel, lookup));
             builder.AddScript(12, CreateItem(generator, lookup));
@@ -115,28 +116,28 @@ namespace Lumpn.ZeldaDungeon.Test
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
 
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 4, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 4, NoOpScript.instance);
             builder.AddUndirectedTransition(2, 5, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(5, 6, IdentityScript.Default);
-            builder.AddUndirectedTransition(6, 7, IdentityScript.Default);
-            builder.AddUndirectedTransition(7, 8, IdentityScript.Default);
-            builder.AddUndirectedTransition(7, 9, IdentityScript.Default);
-            builder.AddUndirectedTransition(9, 10, IdentityScript.Default);
-            builder.AddUndirectedTransition(9, 11, IdentityScript.Default);
-            builder.AddUndirectedTransition(11, 12, IdentityScript.Default);
-            builder.AddUndirectedTransition(11, 13, IdentityScript.Default);
+            builder.AddUndirectedTransition(5, 6, NoOpScript.instance);
+            builder.AddUndirectedTransition(6, 7, NoOpScript.instance);
+            builder.AddUndirectedTransition(7, 8, NoOpScript.instance);
+            builder.AddUndirectedTransition(7, 9, NoOpScript.instance);
+            builder.AddUndirectedTransition(9, 10, NoOpScript.instance);
+            builder.AddUndirectedTransition(9, 11, NoOpScript.instance);
+            builder.AddUndirectedTransition(11, 12, NoOpScript.instance);
+            builder.AddUndirectedTransition(11, 13, NoOpScript.instance);
             builder.AddUndirectedTransition(11, 14, CreateDoor(generator, lookup));
             builder.AddUndirectedTransition(14, 15, CreateDoor(solarPanel, lookup));
-            builder.AddUndirectedTransition(15, 16, IdentityScript.Default);
-            builder.AddUndirectedTransition(16, 17, IdentityScript.Default);
+            builder.AddUndirectedTransition(15, 16, NoOpScript.instance);
+            builder.AddUndirectedTransition(16, 17, NoOpScript.instance);
             builder.AddUndirectedTransition(15, 6, CreateObstacle(routeInfo, lookup));
             builder.AddUndirectedTransition(6, 18, CreateObstacle(clearance, lookup));
             builder.AddUndirectedTransition(4, 19, CreateObstacle(clearance, lookup));
-            builder.AddUndirectedTransition(19, 20, IdentityScript.Default);
+            builder.AddUndirectedTransition(19, 20, NoOpScript.instance);
             builder.AddUndirectedTransition(20, 21, CreateObstacle(laser, lookup));
-            builder.AddUndirectedTransition(21, 0, IdentityScript.Default);
+            builder.AddUndirectedTransition(21, 0, NoOpScript.instance);
 
             builder.AddScript(1, CreateItem(drone, lookup));
             builder.AddScript(3, CreateTrade(drone, repairKit, lookup));
@@ -230,22 +231,22 @@ namespace Lumpn.ZeldaDungeon.Test
 
         private static ItemScript CreateItem(string item, VariableLookup lookup)
         {
-            return new ItemScript(lookup.Resolve(item), lookup);
+            return new ItemScript(item, lookup);
         }
 
         private static TradeScript CreateTrade(string item1, string item2, VariableLookup lookup)
         {
-            return new TradeScript(lookup.Resolve(item1), lookup.Resolve(item2), lookup, $"{item1} &rarr; {item2}");
+            return new TradeScript($"{item1} &rarr; {item2}", item1, item2, lookup);
         }
 
         private static DoorScript CreateDoor(string item, VariableLookup lookup)
         {
-            return new DoorScript(lookup.Resolve(item), lookup, $"Use {item}");
+            return new DoorScript($"Use {item}", item, lookup);
         }
 
         private static ObstacleScript CreateObstacle(string item, VariableLookup lookup)
         {
-            return new ObstacleScript(lookup.Resolve(item), $"Has {item}");
+            return new ObstacleScript($"Has {item}", item, lookup);
         }
     }
 }

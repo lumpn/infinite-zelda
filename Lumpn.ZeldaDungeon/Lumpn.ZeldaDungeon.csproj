@@ -25,6 +25,7 @@
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Dungeon.Scripts\Lumpn.Dungeon.Scripts.csproj" />
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
     <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
   </ItemGroup>

@@ -6,14 +6,15 @@ namespace Lumpn.Dungeon.Scripts
         private const int doorLockedState = 0;
         private const int doorUnlockedState = 1;
 
+        private readonly string doorName;
         private readonly VariableIdentifier keyIdentifier, doorIdentifier, doorStateIdentifier;
 
-        public string Name { get { return doorIdentifier.name; } }
+        public string Name { get { return doorName; } }
 
-        public DoorScript(string keyName, string doorName, VariableLookup lookup)
+        public DoorScript(string doorName, string keyName, VariableLookup lookup)
         {
+            this.doorName = doorName;
             this.keyIdentifier = lookup.Resolve(keyName);
-            this.doorIdentifier = lookup.Resolve(doorName);
             this.doorStateIdentifier = lookup.Unique("door state");
         }
 

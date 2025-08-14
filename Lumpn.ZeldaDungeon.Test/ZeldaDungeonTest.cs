@@ -1,4 +1,5 @@
 ﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
@@ -8,6 +9,8 @@ namespace Lumpn.ZeldaDungeon.Test
     public sealed class ZeldaDungeonTest
     {
         private const int maxSteps = 10000;
+        private const int redPistonState = 0;
+        private const int bluePistonState = 1;
 
         private static readonly VariableAssignment emptyVariables = new VariableAssignment();
 
@@ -16,7 +19,7 @@ namespace Lumpn.ZeldaDungeon.Test
         {
             // 1 - 0
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 0, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 0, NoOpScript.instance);
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -34,9 +37,9 @@ namespace Lumpn.ZeldaDungeon.Test
         {
             // 1 - 2 - 3 - 0
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
-            builder.AddUndirectedTransition(3, 0, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
+            builder.AddUndirectedTransition(3, 0, NoOpScript.instance);
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -56,10 +59,10 @@ namespace Lumpn.ZeldaDungeon.Test
             //  \ /
             //   3
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
-            builder.AddUndirectedTransition(3, 1, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 0, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
+            builder.AddUndirectedTransition(3, 1, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 0, NoOpScript.instance);
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -78,9 +81,9 @@ namespace Lumpn.ZeldaDungeon.Test
             //
             // 3
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 0, IdentityScript.Default);
-            builder.AddScript(3, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 0, NoOpScript.instance);
+            builder.AddScript(3, NoOpScript.instance);
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -99,9 +102,9 @@ namespace Lumpn.ZeldaDungeon.Test
             //  \
             //   2 - 0
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 0, IdentityScript.Default);
-            builder.AddDirectedTransition(1, 3, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 0, NoOpScript.instance);
+            builder.AddDirectedTransition(1, 3, NoOpScript.instance);
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -122,11 +125,11 @@ namespace Lumpn.ZeldaDungeon.Test
             // |     \ /
             // 0      4
             var builder = new ZeldaDungeonBuilder();
-            builder.AddUndirectedTransition(1, 0, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
-            builder.AddUndirectedTransition(3, 4, IdentityScript.Default);
-            builder.AddUndirectedTransition(4, 2, IdentityScript.Default);
-            builder.AddDirectedTransition(1, 2, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 0, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
+            builder.AddUndirectedTransition(3, 4, NoOpScript.instance);
+            builder.AddUndirectedTransition(4, 2, NoOpScript.instance);
+            builder.AddDirectedTransition(1, 2, NoOpScript.instance);
             var puzzle = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
@@ -199,9 +202,9 @@ namespace Lumpn.ZeldaDungeon.Test
             var lookup = builder.Lookup;
 
             // 1--7, 1--9, 2--3
-            builder.AddUndirectedTransition(1, 7, IdentityScript.Default);
-            builder.AddUndirectedTransition(1, 9, IdentityScript.Default);
-            builder.AddUndirectedTransition(2, 3, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 7, NoOpScript.instance);
+            builder.AddUndirectedTransition(1, 9, NoOpScript.instance);
+            builder.AddUndirectedTransition(2, 3, NoOpScript.instance);
 
             // Key: 3, Key: 7, Key: 8, Key: 9
             builder.AddScript(3, ZeldaScripts.CreateKey(0, lookup));
@@ -219,8 +222,8 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddScript(4, ZeldaScripts.CreateColorSwitch(0, lookup));
 
             // Piston: 0--7, Piston: 2--6
-            builder.AddUndirectedTransition(0, 7, ZeldaScripts.CreateColorPiston(0, ColorPistonScript.BluePistonState, lookup));
-            builder.AddUndirectedTransition(2, 6, ZeldaScripts.CreateColorPiston(0, ColorPistonScript.RedPistonState, lookup));
+            builder.AddUndirectedTransition(0, 7, ZeldaScripts.CreateColorPiston(0, bluePistonState, lookup));
+            builder.AddUndirectedTransition(2, 6, ZeldaScripts.CreateColorPiston(0, redPistonState, lookup));
 
             var crawler = builder.Build();
             var dot = new DotBuilder();

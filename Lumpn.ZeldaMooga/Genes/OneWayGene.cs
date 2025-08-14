@@ -1,4 +1,5 @@
-﻿using Lumpn.ZeldaDungeon;
+﻿using Lumpn.Dungeon.Scripts;
+using Lumpn.ZeldaDungeon;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -20,7 +21,7 @@ namespace Lumpn.ZeldaMooga
 
         public override void Express(ZeldaDungeonBuilder builder)
         {
-            builder.AddDirectedTransition(wayStart, wayEnd, IdentityScript.Default);
+            builder.AddDirectedTransition(wayStart, wayEnd, new NoOpScript());
         }
 
         public override string ToString()

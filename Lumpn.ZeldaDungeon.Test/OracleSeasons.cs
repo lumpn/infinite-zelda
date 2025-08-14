@@ -1,4 +1,5 @@
 ﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
 using Lumpn.ZeldaDungeon;
 using NUnit.Framework;
 using System.IO;
@@ -79,7 +80,7 @@ namespace ZeldaPuzzle.Test
 
             var builder = new ZeldaDungeonBuilder();
             var lookup = builder.Lookup;
-            builder.AddUndirectedTransition(1, 2, IdentityScript.Default);
+            builder.AddUndirectedTransition(1, 2, NoOpScript.instance);
             builder.AddScript(2, ZeldaScripts.CreateKey(smallKey, lookup));
             builder.AddUndirectedTransition(1, 3, ZeldaScripts.CreateDoor(smallKey, lookup));
             builder.AddUndirectedTransition(3, 4, ZeldaScripts.CreateColorPiston(train, 0, lookup));

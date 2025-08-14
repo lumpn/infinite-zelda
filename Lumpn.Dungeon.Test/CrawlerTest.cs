@@ -201,7 +201,7 @@ namespace Lumpn.Dungeon.Test
 
         private static DoorScript CreateDoor(VariableLookup lookup)
         {
-            return new DoorScript(keyName, doorName, lookup);
+            return new DoorScript(doorName, keyName, lookup);
         }
     }
 }
