@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     /// Combination of location and state.
     public struct Step : IEquatable<Step>

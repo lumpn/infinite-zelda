@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     public sealed class StepEqualityComparer : IEqualityComparer<Step>
     {

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
-namespace Lumpn.Dungeon.Test
+namespace Lumpn.Dungeon2.Test
 {
     [TestFixture]
     public class StateTest
     {
         [Test]
-        public void AllocateSetGet()
+        public void AllocateAndGet()
         {
             var lookup = new VariableLookup();
             var keyId = lookup.Resolve("key");

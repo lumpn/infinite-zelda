@@ -1,8 +1,9 @@
 ﻿using Lumpn.Profiling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     using Locations = IDictionary<int, Location>;
 
@@ -12,8 +13,7 @@ namespace Lumpn.Dungeon
         private const int exitId = 0;
 
         private readonly Locations locations;
-        private readonly Memory buffer;
-        private readonly Memory memory;
+        private readonly Memory memory, buffer;
 
         private readonly HashSet<State> states = new HashSet<State>(StateEqualityComparer.Default);
 
@@ -21,11 +21,11 @@ namespace Lumpn.Dungeon
         private readonly HashSet<Step> uniqueSteps = new HashSet<Step>(StepEqualityComparer.Default);
         private readonly List<KeyValuePair<int, int>> traceEdges = new List<KeyValuePair<int, int>>();
 
-        public Crawler(Locations locations, int stateSize, Memory buffer)
+        public Crawler(Locations locations, int stateSize)
         {
             this.locations = locations;
-            this.buffer = buffer;
             this.memory = new Memory(stateSize, 1000);
+            this.buffer = new Memory(stateSize, 1);
         }
 
         public void Express(DotBuilder builder)
@@ -55,7 +55,8 @@ namespace Lumpn.Dungeon
         public List<Step> Crawl(int maxSteps)
         {
             // initialize initial steps
-            var initialState = GetOrCreateState(buffer);
+            var initialStateBuilder = new StateBuilder(buffer);
+            var initialState = GetOrCreateState(initialStateBuilder);
             var initialSteps = new List<Step>();
             if (AddStep(entranceId, initialState, 0, out var initialStep))
             {
@@ -99,6 +100,7 @@ namespace Lumpn.Dungeon
             int visitedSteps = 0;
 
             // crawl!
+            var stateBuilder = new StateBuilder(buffer);
             var recorder = new Recorder("Execute");
             while (queue.Count > 0 && (visitedSteps < maxSteps))
             {
@@ -122,13 +124,13 @@ namespace Lumpn.Dungeon
                     // execute transition
                     var nextLocation = transition.destinationId;
                     recorder.Begin();
-                    var result = transition.Execute(state, buffer);
+                    var result = transition.Execute(state, stateBuilder);
                     recorder.End();
 
                     if (result == ScriptResult.Fail) continue; // transition impassable
 
                     // deduplicate state
-                    var nextState = (result == ScriptResult.Pass) ? state : GetOrCreateState(buffer);
+                    var nextState = (result == ScriptResult.Pass) ? state : GetOrCreateState(stateBuilder);
 
                     // deduplicate step
                     if (AddStep(nextLocation, nextState, nextDistanceFromEntrance, out var nextStep))
@@ -178,10 +180,10 @@ namespace Lumpn.Dungeon
             }
         }
 
-        private State GetOrCreateState(Memory buffer)
+        private State GetOrCreateState(StateBuilder builder)
         {
             // deduplicate
-            var tmpState = buffer.GetState(0);
+            var tmpState = builder.GetState();
             if (states.TryGetValue(tmpState, out var existingState))
             {
                 return existingState;

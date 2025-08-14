@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     using VariableIdentifiers = Dictionary<string, VariableIdentifier>;
 

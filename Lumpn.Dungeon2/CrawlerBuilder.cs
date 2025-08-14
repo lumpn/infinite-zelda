@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     using Locations = Dictionary<int, Location>;
 
@@ -32,8 +32,7 @@ namespace Lumpn.Dungeon
 
         public Crawler Build()
         {
-            var buffer = new Memory(lookup.numVariables, 1);
-            return new Crawler(locations, lookup.numVariables, buffer);
+            return new Crawler(locations, lookup.numVariables);
         }
 
         private Location GetOrCreateLocation(int id)

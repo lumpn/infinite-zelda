@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     public struct State : IEquatable<State>
     {
@@ -9,6 +9,9 @@ namespace Lumpn.Dungeon
 
         public State(Memory memory, int startIndex)
         {
+            //  https://learn.microsoft.com/en-us/dotnet/standard/memory-and-spans/memory-t-usage-guidelines#rule-1-for-a-synchronous-api-use-spant-instead-of-memoryt-as-a-parameter-if-possible
+            // TODO Jonas: can we use Span<T> or System.Buffers.Memory<T> to simplify?
+            // or even ArraySegment<byte>?
             this.memory = memory;
             this.startIndex = startIndex;
         }

@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// a blocker that prevents progress unless a switch is in the correct state
     public sealed class BlockerScript : Script
@@ -16,7 +16,7 @@ namespace Lumpn.Dungeon.Scripts
             this.blockerName = blockerName;
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // color correct?
             int switchColor = state.Get(switchIdentifier);

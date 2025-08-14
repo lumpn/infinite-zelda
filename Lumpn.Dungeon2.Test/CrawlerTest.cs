@@ -1,7 +1,7 @@
-﻿using Lumpn.Dungeon.Scripts;
+﻿using Lumpn.Dungeon2.Scripts;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
-namespace Lumpn.Dungeon.Test
+namespace Lumpn.Dungeon2.Test
 {
 
     [TestFixture]

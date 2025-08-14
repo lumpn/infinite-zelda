@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// a door that can be opened permanently by consuming a key
     public sealed class DoorScript : Script
@@ -16,7 +16,7 @@ namespace Lumpn.Dungeon.Scripts
             this.doorStateIdentifier = lookup.Unique("door state");
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // already unlocked?
             int doorState = state.Get(doorStateIdentifier);
@@ -33,7 +33,7 @@ namespace Lumpn.Dungeon.Scripts
             }
 
             // consume key & unlock
-            var builder = new StateBuilder(state, buffer);
+            builder.Initialize(state);
             builder.Set(keyIdentifier, numKeys - 1);
             builder.Set(doorStateIdentifier, doorUnlockedState);
             return ScriptResult.Modify;

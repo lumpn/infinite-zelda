@@ -1,4 +1,4 @@
-﻿namespace Lumpn.Dungeon.Scripts
+﻿namespace Lumpn.Dungeon2.Scripts
 {
     /// trading one item for another
     public sealed class TradeScript : Script
@@ -18,7 +18,7 @@
             this.outItemIdentifier = lookup.Resolve(outItemName);
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // already traded?
             int tradeState = state.Get(tradeStateIdentifier);
@@ -36,7 +36,7 @@
 
             // consume input, acquire output, conclude trade
             var numOut = state.Get(outItemIdentifier);
-            var builder = new StateBuilder(state, buffer);
+            builder.Initialize(state);
             builder.Set(inItemIdentifier, numIn - 1);
             builder.Set(outItemIdentifier, numOut + 1);
             builder.Set(tradeStateIdentifier, tradeConcludedState);

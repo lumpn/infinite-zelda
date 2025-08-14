@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// an item, e.g. a tool or a item for a door
     public sealed class ItemScript : Script
@@ -16,7 +16,7 @@ namespace Lumpn.Dungeon.Scripts
             this.itemStateIdentifier = lookup.Unique("item state");
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // already taken?
             int itemState = state.Get(itemStateIdentifier);
@@ -27,7 +27,7 @@ namespace Lumpn.Dungeon.Scripts
 
             // acquire item
             int numitems = state.Get(itemIdentifier);
-            var builder = new StateBuilder(state, buffer);
+            builder.Initialize(state);
             builder.Set(itemIdentifier, numitems + 1);
             builder.Set(itemStateIdentifier, itemTakenState);
             return ScriptResult.Modify;

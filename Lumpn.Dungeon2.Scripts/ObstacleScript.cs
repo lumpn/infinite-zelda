@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// permanent obstacle that can be overcome by using a tool
     public sealed class ObstacleScript : Script
@@ -14,7 +14,7 @@ namespace Lumpn.Dungeon.Scripts
             this.toolIdentifier = lookup.Resolve(toolName);
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // tool present?
             int numTools = state.Get(toolIdentifier);

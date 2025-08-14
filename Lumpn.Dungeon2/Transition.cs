@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     public struct Transition
     {
@@ -12,9 +12,9 @@ namespace Lumpn.Dungeon
             this.script = script;
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
-            return script.Execute(state, buffer);
+            return script.Execute(state, builder);
         }
 
         public void Express(DotBuilder builder)

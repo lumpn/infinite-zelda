@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon
+namespace Lumpn.Dungeon2
 {
     public enum ScriptResult
     {

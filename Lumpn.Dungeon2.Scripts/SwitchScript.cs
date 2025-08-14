@@ -1,4 +1,4 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// a switch that toggles between two states
     public sealed class SwitchScript : Script
@@ -15,12 +15,12 @@ namespace Lumpn.Dungeon.Scripts
             this.switchIdentifier = lookup.Resolve(switchName);
         }
 
-        public ScriptResult Execute(State state, Memory buffer)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             int switchState = state.Get(switchIdentifier);
             int nextSwitchState = (switchState == stateA) ? stateB : stateA;
 
-            var builder = new StateBuilder(state, buffer);
+            builder.Initialize(state);
             builder.Set(switchIdentifier, nextSwitchState);
             return ScriptResult.Modify;
         }
