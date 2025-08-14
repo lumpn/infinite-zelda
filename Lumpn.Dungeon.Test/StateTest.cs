@@ -1,4 +1,5 @@
-﻿using Assert = NUnit.Framework.Legacy.ClassicAssert;
+﻿using NUnit.Framework;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.Dungeon.Test
 {

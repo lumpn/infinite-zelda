@@ -1,9 +1,9 @@
 ﻿using Lumpn.Dungeon2.Scripts;
+using NUnit.Framework;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
 
 namespace Lumpn.Dungeon2.Test
 {
-
     [TestFixture]
     public sealed partial class CrawlerTest
     {
