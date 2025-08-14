@@ -2,24 +2,19 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release</OutputPath>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
-    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj" />
-    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj" />
-    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
-    <ProjectReference Include="..\Lumpn.ZeldaMooga\Lumpn.ZeldaMooga.csproj" />
-    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
+    <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
+    <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
+    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj" />
+    <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj" />
+    <ProjectReference Include="..\Lumpn.ZeldaMooga\Lumpn.ZeldaMooga.csproj" />
   </ItemGroup>
 </Project>

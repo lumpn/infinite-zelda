@@ -1,31 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <EnableNETAnalyzers>True</EnableNETAnalyzers>
-    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
-    <AnalysisLevel>latest-recommended</AnalysisLevel>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <NoWarn>CA1067, CA1834</NoWarn>
-    <WarningLevel>9999</WarningLevel>
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <NoWarn>CA1067, CA1834</NoWarn>
-    <WarningLevel>9999</WarningLevel>
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
   </ItemGroup>
-
 </Project>
