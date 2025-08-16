@@ -194,14 +194,14 @@ namespace Lumpn.Dungeon.Test
             Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
         }
 
-        private static ItemScript CreateKey(VariableLookup lookup)
+        private static AcquireScript CreateKey(VariableLookup lookup)
         {
-            return new ItemScript(keyName, lookup);
+            return new AcquireScript(keyName, lookup);
         }
 
-        private static DoorScript CreateDoor(VariableLookup lookup)
+        private static ConsumeScript CreateDoor(VariableLookup lookup)
         {
-            return new DoorScript(doorName, keyName, lookup);
+            return new ConsumeScript(doorName, keyName, lookup);
         }
     }
 }

@@ -229,9 +229,9 @@ namespace Lumpn.ZeldaDungeon.Test
             dot.End();
         }
 
-        private static ItemScript CreateItem(string item, VariableLookup lookup)
+        private static AcquireScript CreateItem(string item, VariableLookup lookup)
         {
-            return new ItemScript(item, lookup);
+            return new AcquireScript(item, lookup);
         }
 
         private static TradeScript CreateTrade(string item1, string item2, VariableLookup lookup)
@@ -239,14 +239,14 @@ namespace Lumpn.ZeldaDungeon.Test
             return new TradeScript($"{item1} &rarr; {item2}", item1, item2, lookup);
         }
 
-        private static DoorScript CreateDoor(string item, VariableLookup lookup)
+        private static ConsumeScript CreateDoor(string item, VariableLookup lookup)
         {
-            return new DoorScript($"Use {item}", item, lookup);
+            return new ConsumeScript($"Use {item}", item, lookup);
         }
 
-        private static ObstacleScript CreateObstacle(string item, VariableLookup lookup)
+        private static GreaterThanScript CreateObstacle(string item, VariableLookup lookup)
         {
-            return new ObstacleScript($"Has {item}", item, lookup);
+            return new GreaterThanScript(0, $"Has {item}", item, lookup);
         }
     }
 }

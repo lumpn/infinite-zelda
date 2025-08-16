@@ -11,38 +11,38 @@ namespace Lumpn.ZeldaDungeon
 
         private static readonly string[] keys = { "small key", "bomb" };
         private static readonly string[] doors = { "door", "crack" };
-        private static readonly string[] tools = { "sword", "shield", "boomerang", "bow", "flippers", "feather", "ember seed", "teleporter", "boss key" };
-        private static readonly string[] obstacles = { "bush", "trap", "orb", "statue", "water", "gap", "torch", "teleporter", "boss door" };
+        private static readonly string[] tools = { "sword", "shield", "boomerang", "bow", "flippers", "feather", "ember seed", "teleporter", "boss key", "long hook" };
+        private static readonly string[] obstacles = { "bush", "trap", "orb", "statue", "water", "gap", "torch", "teleporter", "boss door", "long gap" };
 
-        public static ItemScript CreateKey(int type, VariableLookup lookup)
+        public static AcquireScript CreateKey(int type, VariableLookup lookup)
         {
-            return new ItemScript(keys[type], lookup);
+            return new AcquireScript(keys[type], lookup);
         }
 
-        public static DoorScript CreateDoor(int type, VariableLookup lookup)
+        public static ConsumeScript CreateDoor(int type, VariableLookup lookup)
         {
-            return new DoorScript(doors[type], keys[type], lookup);
+            return new ConsumeScript(doors[type], keys[type], lookup);
         }
 
-        public static SwitchScript CreateColorSwitch(int type, VariableLookup lookup)
+        public static ToggleScript CreateColorSwitch(int type, VariableLookup lookup)
         {
-            return new SwitchScript(switches[type], lookup);
+            return new ToggleScript(switches[type], lookup);
         }
 
-        public static BlockerScript CreateColorPiston(int type, int color, VariableLookup lookup)
+        public static EqualsScript CreateColorPiston(int type, int color, VariableLookup lookup)
         {
             var pistons = (color == 0) ? redPistons : bluePistons;
-            return new BlockerScript(color, pistons[type], switches[type], lookup);
+            return new EqualsScript(color, pistons[type], switches[type], lookup);
         }
 
-        public static ItemScript CreateTool(int type, VariableLookup lookup)
+        public static AcquireScript CreateTool(int type, VariableLookup lookup)
         {
-            return new ItemScript(tools[type], lookup);
+            return new AcquireScript(tools[type], lookup);
         }
 
-        public static ObstacleScript CreateObstacle(int type, VariableLookup lookup)
+        public static GreaterThanScript CreateObstacle(int type, VariableLookup lookup)
         {
-            return new ObstacleScript(obstacles[type], tools[type], lookup);
+            return new GreaterThanScript(0, obstacles[type], tools[type], lookup);
         }
     }
 }

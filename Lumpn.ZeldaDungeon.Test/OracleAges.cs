@@ -1,0 +1,124 @@
+﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
+using NUnit.Framework;
+using System.IO;
+using Assert = NUnit.Framework.Legacy.ClassicAssert;
+
+namespace Lumpn.ZeldaDungeon.Test
+{
+    [TestFixture]
+    public sealed class OracleAges
+    {
+        private const int maxSteps = 10000;
+
+        private const int smallKey = 0;
+        private const int bossKey = 8;
+        private const int longHook = 10;
+
+        [Test]
+        public void JabuJabuBelly()
+        {
+            // https://www.zeldadungeon.net/oracle-of-ages-walkthrough/jabu-jabus-belly/#c7_5
+
+            var builder = new ZeldaDungeonBuilder();
+            var lookup = builder.Lookup;
+
+            var noOp = NoOpScript.instance;
+            var setWater1 = new SetScript(0, "waterLevel", lookup);
+            var setWater2 = new SetScript(1, "waterLevel", lookup);
+            var setWater3 = new SetScript(2, "waterLevel", lookup);
+            var water1 = new EqualsScript(0, "water (1)", "waterLevel", lookup);
+            var water2 = new EqualsScript(1, "water (2)", "waterLevel", lookup);
+            var water3 = new EqualsScript(2, "water (3)", "waterLevel", lookup);
+            var water12 = new LessThanScript(2, "water (1/2)", "waterLevel", lookup);
+            var water23 = new GreaterThanScript(0, "water (2/3)", "waterLevel", lookup);
+            var longHook = new AcquireScript("longHook", lookup);
+            var longGap = new GreaterThanScript(0, "longGap", "longHook", lookup);
+            var bossKey = new AcquireScript("bossKey", lookup);
+            var bossDoor = new GreaterThanScript(0, "bossDoor", "bossKey", lookup);
+
+            builder.AddUndirectedTransition(11, 12, noOp);
+            builder.AddDirectedTransition(12, 13, noOp);
+            builder.AddDirectedTransition(13, 11, noOp);
+            builder.AddUndirectedTransition(13, 2, water23);
+            builder.AddUndirectedTransition(2, 14, noOp);
+            builder.AddUndirectedTransition(14, 15, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddScript(15, longHook);
+            builder.AddDirectedTransition(14, 12, noOp);
+            builder.AddUndirectedTransition(11, 3, water23);
+            builder.AddDirectedTransition(3, 4, longGap);
+            builder.AddDirectedTransition(4, 3, noOp);
+            builder.AddUndirectedTransition(4, 16, noOp);
+            builder.AddScript(16, ZeldaScripts.CreateKey(smallKey, lookup));
+            builder.AddDirectedTransition(16, 17, noOp);
+            builder.AddDirectedTransition(17, 11, water1);
+
+            builder.AddUndirectedTransition(21, 22, water23);
+            builder.AddUndirectedTransition(21, 22, longGap);
+            builder.AddUndirectedTransition(21, 201, water23);
+            builder.AddUndirectedTransition(22, 201, water23);
+            builder.AddUndirectedTransition(201, 202, water3);
+            builder.AddScript(202, ZeldaScripts.CreateKey(smallKey, lookup));
+            builder.AddUndirectedTransition(22, 23, water12);
+            builder.AddDirectedTransition(23, 22, noOp);
+            builder.AddUndirectedTransition(23, 24, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddUndirectedTransition(21, 26, longGap);
+            builder.AddDirectedTransition(26, 21, noOp);
+            builder.AddUndirectedTransition(26, 27, water23);
+            builder.AddUndirectedTransition(26, 25, water23);
+            builder.AddUndirectedTransition(25, 27, water23);
+            builder.AddScript(27, ZeldaScripts.CreateKey(smallKey, lookup));
+            builder.AddUndirectedTransition(28, 0, bossDoor);
+            builder.AddDirectedTransition(28, 25, noOp);
+            builder.AddDirectedTransition(28, 26, noOp);
+
+            builder.AddUndirectedTransition(17, 21, water23);
+            builder.AddUndirectedTransition(11, 21, water2);
+            builder.AddDirectedTransition(22, 11, noOp);
+            builder.AddUndirectedTransition(13, 28, water3);
+            builder.AddUndirectedTransition(13, 25, water23);
+            builder.AddUndirectedTransition(12, 25, noOp);
+
+            builder.AddUndirectedTransition(32, 33, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddDirectedTransition(32, 34, longGap);
+            builder.AddDirectedTransition(34, 32, noOp);
+            builder.AddUndirectedTransition(34, 35, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddUndirectedTransition(35, 36, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddUndirectedTransition(36, 37, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddUndirectedTransition(37, 38, ZeldaScripts.CreateDoor(smallKey, lookup));
+            builder.AddScript(38, bossKey);
+            builder.AddDirectedTransition(38, 34, noOp);
+            builder.AddUndirectedTransition(32, 39, water3);
+            builder.AddScript(39, ZeldaScripts.CreateKey(smallKey, lookup));
+            builder.AddDirectedTransition(35, 31, noOp);
+            builder.AddScript(31, setWater1);
+            builder.AddScript(33, setWater2);
+            builder.AddScript(35, setWater3);
+
+            builder.AddUndirectedTransition(24, 31, noOp);
+            builder.AddUndirectedTransition(25, 32, noOp);
+
+            var initialVariables = new VariableAssignment();
+            initialVariables.Assign("waterLevel", 1);
+
+            var crawler = builder.Build();
+            PrintMission(crawler, lookup, 6);
+
+            var initialState = initialVariables.ToState(lookup);
+            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+
+            Assert.IsNotEmpty(terminalSteps);
+
+            PrintMission(crawler, lookup, 6);
+        }
+
+        private static void PrintMission(Crawler crawler, VariableLookup lookup, int dungeonId)
+        {
+            using (var writer = File.CreateText($"dungeon{dungeonId}-mission.dot"))
+            {
+                var dot = new DotBuilder(writer);
+                crawler.Express(dot);
+            }
+        }
+    }
+}
