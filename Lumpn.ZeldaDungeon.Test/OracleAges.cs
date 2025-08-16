@@ -30,14 +30,19 @@ namespace Lumpn.ZeldaDungeon.Test
             var water3 = new EqualsScript(3, "water (3)", "waterLevel", lookup);
             var water12 = new LessThanScript(3, "water (1/2)", "waterLevel", lookup);
             var water23 = new GreaterThanScript(1, "water (2/3)", "waterLevel", lookup);
-            var longHook = new AcquireScript("longHook", lookup);
-            var longGap = new GreaterThanScript(0, "longGap", "longHook", lookup);
-            var bossKey = new AcquireScript("bossKey", lookup);
+            var getLongHook = new AcquireScript("longHook", lookup);
+            var longHook = new GreaterThanScript(0, "longGap", "longHook", lookup);
+            var getBossKey = new AcquireScript("bossKey", lookup);
             var bossDoor = new GreaterThanScript(0, "bossDoor", "bossKey", lookup);
+            var longHookAndWater1 = new AndScript(longHook, water1);
+            var longHookAndWater3 = new AndScript(longHook, water3);
 
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 11, noOp);
-            builder.AddUndirectedTransition(11, 12, noOp);
+            builder.AddScript(11, ZeldaScripts.CreateKey(smallKey, lookup));
+            builder.AddDirectedTransition(11, 12, water1);
+            builder.AddDirectedTransition(11, 12, longHook);
+            builder.AddDirectedTransition(12, 11, noOp);
             builder.AddDirectedTransition(12, 13, noOp);
             builder.AddDirectedTransition(13, 11, noOp);
             builder.AddUndirectedTransition(13, 92, water23);
@@ -45,10 +50,10 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(92, 14, ZeldaScripts.CreateObstacle(teleporter, lookup));
             builder.AddDirectedTransition(14, 92, noOp);
             builder.AddUndirectedTransition(14, 15, ZeldaScripts.CreateDoor(smallKey, lookup));
-            builder.AddScript(15, longHook);
+            builder.AddScript(15, getLongHook);
             builder.AddDirectedTransition(14, 12, noOp);
             builder.AddUndirectedTransition(11, 91, water23);
-            builder.AddDirectedTransition(91, 94, longGap);
+            builder.AddDirectedTransition(91, 94, longHook);
             builder.AddDirectedTransition(94, 91, noOp);
             builder.AddUndirectedTransition(94, 16, noOp);
             builder.AddScript(16, ZeldaScripts.CreateKey(smallKey, lookup));
@@ -56,12 +61,12 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(17, 11, water1);
             builder.AddUndirectedTransition(11, 18, water1);
             builder.AddScript(18, ZeldaScripts.CreateKey(smallKey, lookup));
-            builder.AddUndirectedTransition(11, 19, longGap);
+            builder.AddUndirectedTransition(11, 19, longHookAndWater1);
             builder.AddScript(19, ZeldaScripts.CreateKey(smallKey, lookup));
             builder.AddUndirectedTransition(11, 13, ZeldaScripts.CreateObstacle(teleporter, lookup));
 
             builder.AddUndirectedTransition(21, 22, water23);
-            builder.AddUndirectedTransition(21, 22, longGap);
+            builder.AddUndirectedTransition(21, 22, longHook);
             builder.AddUndirectedTransition(21, 201, water23);
             builder.AddUndirectedTransition(22, 201, water23);
             builder.AddUndirectedTransition(201, 202, water3);
@@ -69,7 +74,7 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(22, 23, water12);
             builder.AddDirectedTransition(23, 22, noOp);
             builder.AddUndirectedTransition(23, 24, ZeldaScripts.CreateDoor(smallKey, lookup));
-            builder.AddUndirectedTransition(21, 26, longGap);
+            builder.AddUndirectedTransition(21, 26, longHook);
             builder.AddDirectedTransition(26, 21, noOp);
             builder.AddUndirectedTransition(25, 27, water23);
             builder.AddUndirectedTransition(25, 26, water23);
@@ -96,15 +101,15 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(27, 12, water1);
 
             builder.AddUndirectedTransition(32, 33, ZeldaScripts.CreateDoor(smallKey, lookup));
-            builder.AddDirectedTransition(32, 34, longGap);
+            builder.AddDirectedTransition(32, 34, longHook);
             builder.AddDirectedTransition(34, 32, noOp);
             builder.AddUndirectedTransition(34, 35, ZeldaScripts.CreateDoor(smallKey, lookup));
             builder.AddUndirectedTransition(35, 36, ZeldaScripts.CreateDoor(smallKey, lookup));
             builder.AddUndirectedTransition(36, 37, ZeldaScripts.CreateDoor(smallKey, lookup));
             builder.AddUndirectedTransition(37, 38, ZeldaScripts.CreateDoor(smallKey, lookup));
-            builder.AddScript(38, bossKey);
+            builder.AddScript(38, getBossKey);
             builder.AddDirectedTransition(38, 34, noOp);
-            builder.AddUndirectedTransition(32, 39, water3);
+            builder.AddUndirectedTransition(32, 39, longHookAndWater3);
             builder.AddScript(39, ZeldaScripts.CreateKey(smallKey, lookup));
             builder.AddDirectedTransition(35, 31, noOp);
             builder.AddScript(31, setWater1);
@@ -113,7 +118,7 @@ namespace Lumpn.ZeldaDungeon.Test
 
             builder.AddUndirectedTransition(24, 31, noOp);
             builder.AddUndirectedTransition(25, 32, noOp);
-            PrintMission(builder, lookup, 6);
+            //PrintMission(builder, lookup, 6);
 
             var initialVariables = new VariableAssignment();
             initialVariables.Assign("waterLevel", 2);
@@ -122,10 +127,10 @@ namespace Lumpn.ZeldaDungeon.Test
             var initialState = initialVariables.ToState(lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.IsNotEmpty(terminalSteps);
+            //PrintStates(crawler, lookup, 6);
+            //PrintTrace(crawler, lookup, 6);
 
-            PrintStates(crawler, lookup, 6);
-            PrintTrace(crawler, lookup, 6);
+            Assert.IsNotEmpty(terminalSteps);
         }
 
         private static void PrintMission(CrawlerBuilder crawler, VariableLookup lookup, int dungeonId)
