@@ -1,6 +1,6 @@
-﻿using System;
-using Lumpn.Dungeon;
+﻿using Lumpn.Dungeon;
 using Lumpn.ZeldaDungeon;
+using System;
 
 namespace Lumpn.ZeldaMooga
 {

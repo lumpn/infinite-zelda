@@ -13,7 +13,7 @@ namespace Lumpn.Dungeon.Scripts
             this.variableIdentifier = lookup.Resolve(variableName);
         }
 
-        public string Name { get { return variableIdentifier.name; } }
+        public string Name { get { return $"{variableIdentifier.name}:={targetValue}"; } }
 
         public State Execute(State state)
         {

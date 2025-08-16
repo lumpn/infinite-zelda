@@ -40,5 +40,10 @@ namespace Lumpn.Dungeon
         {
             writer.WriteLine("loc{0} -> loc{1} [label=\"{2}\"];", start, end, label);
         }
+
+        public void AddUndirectedEdge(int start, int end, string label)
+        {
+            writer.WriteLine("loc{0} -> loc{1} [dir=\"none\", label=\"{2}\"];", start, end, label);
+        }
     }
 }

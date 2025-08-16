@@ -1,5 +1,4 @@
-﻿using Lumpn.Utils;
-using Lumpn.ZeldaDungeon;
+﻿using Lumpn.ZeldaDungeon;
 
 namespace Lumpn.ZeldaMooga
 {

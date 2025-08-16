@@ -18,11 +18,12 @@ namespace Lumpn.Dungeon.Test
         public void CrawlMinimal()
         {
             // 1 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 0, noOpScript);
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.IsNotEmpty(terminalSteps);
@@ -36,13 +37,14 @@ namespace Lumpn.Dungeon.Test
         public void CrawlLinear()
         {
             // 1 - 2 - 3 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
             builder.AddUndirectedTransition(3, 0, noOpScript);
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(1, initialState));
@@ -58,6 +60,7 @@ namespace Lumpn.Dungeon.Test
             // 1 - 2 - 0
             //  \ /
             //   3
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
@@ -65,7 +68,7 @@ namespace Lumpn.Dungeon.Test
             builder.AddUndirectedTransition(2, 0, noOpScript);
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(1, initialState));
@@ -80,13 +83,14 @@ namespace Lumpn.Dungeon.Test
             // 1 - 2 - 0
             //
             // 3
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 0, noOpScript);
             builder.AddScript(3, noOpScript);
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(1, initialState));
@@ -102,13 +106,14 @@ namespace Lumpn.Dungeon.Test
             // 1 -> 3
             //  \
             //   2 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 0, noOpScript);
             builder.AddDirectedTransition(1, 3, noOpScript);
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(crawler.DebugGetStep(1, initialState));
@@ -125,6 +130,7 @@ namespace Lumpn.Dungeon.Test
             // 1 -> 2 - 3
             // |     \ /
             // 0      4
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 0, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
@@ -133,7 +139,7 @@ namespace Lumpn.Dungeon.Test
             builder.AddDirectedTransition(1, 2, noOpScript);
             var puzzle = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             puzzle.Crawl(new[] { initialState }, maxSteps);
 
             Assert.NotNull(puzzle.DebugGetStep(1, initialState));
@@ -153,9 +159,8 @@ namespace Lumpn.Dungeon.Test
         {
             // 1 -d- 2 -d- 3 -d- 0
             // k     k     k
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddUndirectedTransition(2, 3, CreateDoor(lookup));
             builder.AddUndirectedTransition(3, 0, CreateDoor(lookup));
@@ -164,7 +169,7 @@ namespace Lumpn.Dungeon.Test
             builder.AddScript(3, CreateKey(lookup));
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
@@ -176,9 +181,8 @@ namespace Lumpn.Dungeon.Test
         {
             //  1 -d- 2 -d- 3 -d- 1
             // kkk
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddUndirectedTransition(2, 3, CreateDoor(lookup));
             builder.AddUndirectedTransition(3, 0, CreateDoor(lookup));
@@ -187,7 +191,7 @@ namespace Lumpn.Dungeon.Test
             builder.AddScript(1, CreateKey(lookup));
             var crawler = builder.Build();
 
-            var initialState = emptyVariables.ToState(builder.Lookup);
+            var initialState = emptyVariables.ToState(lookup);
             crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
