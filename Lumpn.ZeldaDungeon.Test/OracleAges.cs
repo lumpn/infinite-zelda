@@ -1,6 +1,7 @@
 ﻿using Lumpn.Dungeon;
 using Lumpn.Dungeon.Scripts;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Assert = NUnit.Framework.Legacy.ClassicAssert;
@@ -85,6 +86,8 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddDirectedTransition(28, 26, noOp);
 
             builder.AddUndirectedTransition(17, 21, water23);
+            builder.AddUndirectedTransition(17, 22, water23);
+            builder.AddUndirectedTransition(17, 201, water23);
             builder.AddUndirectedTransition(11, 21, water2);
             builder.AddDirectedTransition(22, 11, noOp);
             builder.AddUndirectedTransition(13, 28, water3);
@@ -118,7 +121,10 @@ namespace Lumpn.ZeldaDungeon.Test
 
             builder.AddUndirectedTransition(24, 31, noOp);
             builder.AddUndirectedTransition(25, 32, noOp);
-            //PrintMission(builder, lookup, 6);
+            PrintMission(builder, lookup, 6);
+
+            builder.MergeNodes(noOp);
+            PrintMission(builder, lookup, 61);
 
             var initialVariables = new VariableAssignment();
             initialVariables.Assign("waterLevel", 2);
@@ -127,8 +133,8 @@ namespace Lumpn.ZeldaDungeon.Test
             var initialState = initialVariables.ToState(lookup);
             var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            //PrintStates(crawler, lookup, 6);
-            //PrintTrace(crawler, lookup, 6);
+            PrintStates(crawler, lookup, 61);
+            PrintTrace(crawler, lookup, 61);
 
             Assert.IsNotEmpty(terminalSteps);
         }
@@ -138,7 +144,7 @@ namespace Lumpn.ZeldaDungeon.Test
             using (var writer = File.CreateText($"dungeon{dungeonId}-mission.dot"))
             {
                 var dot = new DotBuilder(writer);
-                crawler.Express(dot);
+                crawler.Express(dot, NoOpScript.instance);
             }
         }
 
@@ -155,8 +161,8 @@ namespace Lumpn.ZeldaDungeon.Test
                 for (int i = 0; i < states.Length; i++)
                 {
                     var state = states[i];
-                    var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-                    dot.AddNode(i, string.Join("\\n", vars));
+                    var vars = allVariables.Select(p => KeyValuePair.Create(p, state.Get(p, 0))).Where(p => p.Value != 0);
+                    dot.AddNode(i, string.Join("\\n", vars.Select(p => $"{p.Key}: {p.Value}")));
                 }
 
                 foreach (var step in steps)
@@ -191,10 +197,10 @@ namespace Lumpn.ZeldaDungeon.Test
                     var step = steps[i];
 
                     var state = step.State;
-                    var vars = allVariables.Where(p => state.Get(p, 0) > 0);
+                    var vars = allVariables.Select(p => KeyValuePair.Create(p, state.Get(p, 0))).Where(p => p.Value != 0);
 
                     var shape = (step.DistanceFromExit == 0) ? "\", shape=\"box" : string.Empty;
-                    dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars)}{shape}");
+                    dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars.Select(p => $"{p.Key}: {p.Value}"))}{shape}");
 
                     foreach (var succ in step.Successors)
                     {
