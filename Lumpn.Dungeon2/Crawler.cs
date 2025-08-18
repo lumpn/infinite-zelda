@@ -7,6 +7,7 @@ using System.Threading.Tasks.Sources;
 namespace Lumpn.Dungeon2
 {
     using Locations = IDictionary<int, Location>;
+    using TraceEdge = KeyValuePair<int, int>;
 
     public sealed class Crawler
     {
@@ -23,7 +24,7 @@ namespace Lumpn.Dungeon2
 
         private readonly List<Step> steps = new List<Step>(initialCapacitySteps);
         private readonly HashSet<Step> uniqueSteps = new HashSet<Step>(initialCapacitySteps, StepEqualityComparer.Default);
-        private readonly List<KeyValuePair<int, int>> traceEdges = new List<KeyValuePair<int, int>>(initialCapacitySteps);
+        private readonly List<TraceEdge> traceEdges = new List<TraceEdge>(initialCapacitySteps);
 
         public Crawler(Locations locations, int stateSize)
         {
@@ -163,7 +164,19 @@ namespace Lumpn.Dungeon2
         {
             // compute predecessor lookup
             Profiler.BeginSample("Lookup");
-            var predecessors = traceEdges.ToLookup(p => p.Value, p => p.Key);
+            traceEdges.Sort(ByDestination);
+            var groups = new int[steps.Count + 1];
+            var currentGroup = -1;
+            for (int i = 0; i < traceEdges.Count; i++)
+            {
+                var group = traceEdges[i].Value;
+                if (group != currentGroup)
+                {
+                    groups[group] = i;
+                    currentGroup = group;
+                }
+            }
+            groups[currentGroup + 1] = traceEdges.Count;
             Profiler.EndSample();
 
             // initialize BFS
@@ -181,10 +194,11 @@ namespace Lumpn.Dungeon2
 
                 // try every predecessor
                 int prevDistanceFromExit = step.distanceFromExit + 1;
-                var prevSteps = predecessors[step.id];
-                for (var iter = prevSteps.GetEnumerator(); iter.MoveNext(); )
+                var start = groups[step.id];
+                var end = groups[step.id + 1];
+                for (var i = start; i < end; i++)
                 {
-                    var prevStepId = iter.Current;
+                    var prevStepId = traceEdges[i].Key;
                     var prevStep = steps[prevStepId];
                     if (prevStep.HasDistanceFromExit) continue;
 
@@ -194,6 +208,11 @@ namespace Lumpn.Dungeon2
                     queue.Enqueue(prevStep);
                 }
             }
+        }
+
+        private static int ByDestination(TraceEdge a, TraceEdge b)
+        {
+            return (a.Value - b.Value);
         }
 
         private State GetOrCreateState(State tmpState)
