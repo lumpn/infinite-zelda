@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks.Sources;
 
 namespace Lumpn.Dungeon2
 {
@@ -9,22 +10,25 @@ namespace Lumpn.Dungeon2
 
     public sealed class Crawler
     {
+        private const int initialCapacityStates = 1000;
+        private const int initialCapacitySteps = 10000;
+
         private const int entranceId = 1;
         private const int exitId = 0;
 
         private readonly Locations locations;
         private readonly Memory memory, buffer;
 
-        private readonly HashSet<State> states = new HashSet<State>(StateEqualityComparer.Default);
+        private readonly HashSet<State> states = new HashSet<State>(initialCapacityStates, StateEqualityComparer.Default);
 
-        private readonly List<Step> steps = new List<Step>();
-        private readonly HashSet<Step> uniqueSteps = new HashSet<Step>(StepEqualityComparer.Default);
-        private readonly List<KeyValuePair<int, int>> traceEdges = new List<KeyValuePair<int, int>>();
+        private readonly List<Step> steps = new List<Step>(initialCapacitySteps);
+        private readonly HashSet<Step> uniqueSteps = new HashSet<Step>(initialCapacitySteps, StepEqualityComparer.Default);
+        private readonly List<KeyValuePair<int, int>> traceEdges = new List<KeyValuePair<int, int>>(initialCapacitySteps);
 
         public Crawler(Locations locations, int stateSize)
         {
             this.locations = locations;
-            this.memory = new Memory(stateSize, 1000);
+            this.memory = new Memory(stateSize, initialCapacityStates);
             this.buffer = new Memory(stateSize, 1);
         }
 
@@ -99,10 +103,14 @@ namespace Lumpn.Dungeon2
         private List<Step> CrawlForward(List<Step> initialSteps, int maxSteps)
         {
             // keep track of terminals
-            var terminalSteps = new List<Step>();
+            var terminalSteps = new List<Step>(10);
 
             // initialize BFS
-            var queue = new Queue<Step>(initialSteps);
+            var queue = new Queue<Step>(1000);
+            foreach (var step in initialSteps)
+            {
+                queue.Enqueue(step);
+            }
             int visitedSteps = 0;
 
             // crawl!
@@ -124,8 +132,10 @@ namespace Lumpn.Dungeon2
                 var location = locations[locationId];
                 var state = step.state;
                 int nextDistanceFromEntrance = step.distanceFromEntrance + 1;
-                foreach (var transition in location.Transitions)
+                for (var iter = location.Transitions; iter.MoveNext();)
                 {
+                    var transition = iter.Current;
+
                     // execute transition
                     var nextLocation = transition.destinationId;
                     var result = transition.Execute(state, stateBuilder);
@@ -157,7 +167,11 @@ namespace Lumpn.Dungeon2
             Profiler.EndSample();
 
             // initialize BFS
-            var queue = new Queue<Step>(terminalSteps);
+            var queue = new Queue<Step>(1000);
+            foreach (var step in terminalSteps)
+            {
+                queue.Enqueue(step);
+            }
 
             // crawl
             while (queue.Count > 0)
@@ -168,8 +182,9 @@ namespace Lumpn.Dungeon2
                 // try every predecessor
                 int prevDistanceFromExit = step.distanceFromExit + 1;
                 var prevSteps = predecessors[step.id];
-                foreach (var prevStepId in prevSteps)
+                for (var iter = prevSteps.GetEnumerator(); iter.MoveNext(); )
                 {
+                    var prevStepId = iter.Current;
                     var prevStep = steps[prevStepId];
                     if (prevStep.HasDistanceFromExit) continue;
 
@@ -201,10 +216,13 @@ namespace Lumpn.Dungeon2
         private bool AddStep(int locationId, State state, int distanceFromEntrance, out Step step)
         {
             var tmpStep = new Step(steps.Count, locationId, state, distanceFromEntrance);
-            if (uniqueSteps.TryGetValue(tmpStep, out var existingStep))
+            if (uniqueSteps.Contains(tmpStep))
             {
-                step = existingStep;
-                return false;
+                if (uniqueSteps.TryGetValue(tmpStep, out var existingStep))
+                {
+                    step = existingStep;
+                    return false;
+                }
             }
             uniqueSteps.Add(tmpStep);
             steps.Add(tmpStep);

@@ -123,7 +123,7 @@ namespace Lumpn.ZeldaDungeon.Test
 
             builder.AddUndirectedTransition(24, 31, noOp);
             builder.AddUndirectedTransition(25, 32, noOp);
-            PrintMission(builder, lookup, 6);
+            //PrintMission(builder, lookup, 6);
 
             builder.MergeNodes(noOp);
             //PrintMission(builder, lookup, 61);

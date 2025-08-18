@@ -11,6 +11,9 @@ namespace Lumpn.Dungeon2
         public readonly int locationId;
         public readonly State state;
 
+        /// cached hashCode
+        private readonly int hashCode;
+
         /// cached distances
         public int distanceFromEntrance;
         public int distanceFromExit;
@@ -24,6 +27,11 @@ namespace Lumpn.Dungeon2
             this.state = state;
             this.distanceFromEntrance = distanceFromEntrance;
             this.distanceFromExit = infiniteDistance;
+
+            unchecked
+            {
+                this.hashCode = locationId * 31 + state.GetHashCode();
+            }
         }
 
         public void Print(DotBuilder builder)
@@ -46,7 +54,7 @@ namespace Lumpn.Dungeon2
         {
             unchecked
             {
-                return locationId * 31 + state.GetHashCode();
+                return hashCode;
             }
         }
 

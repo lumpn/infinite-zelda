@@ -24,7 +24,10 @@ namespace Lumpn.ZeldaDungeon.Benchmark
 
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
+            var inst = new Program();
+            inst.Jabu();
+            inst.Jabu2();
+            //var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
         }
     }
 }

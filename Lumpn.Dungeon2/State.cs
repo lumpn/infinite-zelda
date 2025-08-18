@@ -33,7 +33,7 @@ namespace Lumpn.Dungeon2
 
         public bool Equals(State other)
         {
-            return memory.AreEqual(startIndex, other.memory, other.startIndex); ;
+            return memory.AreEqual(startIndex, other.memory, other.startIndex);
         }
 
         override public int GetHashCode()

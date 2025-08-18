@@ -10,7 +10,7 @@ namespace Lumpn.Dungeon2
         private readonly List<Transition> transitions = new List<Transition>();
 
         public int Id { get { return id; } }
-        public IEnumerable<Transition> Transitions { get { return transitions; } }
+        public List<Transition>.Enumerator Transitions { get { return transitions.GetEnumerator(); } }
 
         public Location(int id)
         {
