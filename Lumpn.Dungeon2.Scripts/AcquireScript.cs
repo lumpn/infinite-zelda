@@ -1,7 +1,7 @@
 namespace Lumpn.Dungeon2.Scripts
 {
-    /// an item, e.g. a tool or a item for a door
-    public sealed class ItemScript : Script
+    /// acquire an item, e.g. a tool or a key for a door
+    public sealed class AcquireScript : Script
     {
         public const int itemAvailableState = 0;
         public const int itemTakenState = 1;
@@ -10,7 +10,7 @@ namespace Lumpn.Dungeon2.Scripts
 
         public string Name { get { return itemIdentifier.name; } }
 
-        public ItemScript(string itemName, VariableLookup lookup)
+        public AcquireScript(string itemName, VariableLookup lookup)
         {
             this.itemIdentifier = lookup.Resolve(itemName);
             this.itemStateIdentifier = lookup.Unique("item state");

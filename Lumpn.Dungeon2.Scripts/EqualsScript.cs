@@ -1,10 +1,8 @@
-namespace Lumpn.Dungeon.Scripts
+namespace Lumpn.Dungeon2.Scripts
 {
     /// a blocker that prevents progress unless a variable equals the target value
     public sealed class EqualsScript : Script
     {
-        private const int defaultValue = 0;
-
         private readonly int targetValue;
         private readonly string blockerName;
         private readonly VariableIdentifier variableIdentifier;
@@ -18,16 +16,16 @@ namespace Lumpn.Dungeon.Scripts
             this.variableIdentifier = lookup.Resolve(variableName);
         }
 
-        public State Execute(State state)
+        public ScriptResult Execute(State state, StateBuilder builder)
         {
             // state correct?
-            int value = state.Get(variableIdentifier, defaultValue);
+            int value = state.Get(variableIdentifier);
             if (value == targetValue)
             {
-                return state; // pass
+                return ScriptResult.Pass;
             }
 
-            return null; // you shall not pass!
+            return ScriptResult.Fail;
         }
     }
 }

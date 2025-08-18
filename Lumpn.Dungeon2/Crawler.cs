@@ -54,11 +54,17 @@ namespace Lumpn.Dungeon2
 
         public List<Step> Crawl(int maxSteps)
         {
-            // initialize initial steps
             var initialStateBuilder = new StateBuilder(buffer);
-            var initialState = GetOrCreateState(initialStateBuilder);
+            var initialState = initialStateBuilder.GetState();
+            return Crawl(initialState, maxSteps);
+        }
+
+        public List<Step> Crawl(State initialState, int maxSteps)
+        {
+            // initialize initial steps
+            var internalInitialState = GetOrCreateState(initialState);
             var initialSteps = new List<Step>();
-            if (AddStep(entranceId, initialState, 0, out var initialStep))
+            if (AddStep(entranceId, internalInitialState, 0, out var initialStep))
             {
                 initialSteps.Add(initialStep);
             }
@@ -101,7 +107,6 @@ namespace Lumpn.Dungeon2
 
             // crawl!
             var stateBuilder = new StateBuilder(buffer);
-            var recorder = new Recorder("Execute");
             while (queue.Count > 0 && (visitedSteps < maxSteps))
             {
                 // fetch step
@@ -123,14 +128,12 @@ namespace Lumpn.Dungeon2
                 {
                     // execute transition
                     var nextLocation = transition.destinationId;
-                    recorder.Begin();
                     var result = transition.Execute(state, stateBuilder);
-                    recorder.End();
 
                     if (result == ScriptResult.Fail) continue; // transition impassable
 
                     // deduplicate state
-                    var nextState = (result == ScriptResult.Pass) ? state : GetOrCreateState(stateBuilder);
+                    var nextState = (result == ScriptResult.Pass) ? state : GetOrCreateState(stateBuilder.GetState());
 
                     // deduplicate step
                     if (AddStep(nextLocation, nextState, nextDistanceFromEntrance, out var nextStep))
@@ -143,7 +146,6 @@ namespace Lumpn.Dungeon2
                     Connect(step, nextStep);
                 }
             }
-            recorder.Submit();
 
             return terminalSteps;
         }
@@ -180,10 +182,9 @@ namespace Lumpn.Dungeon2
             }
         }
 
-        private State GetOrCreateState(StateBuilder builder)
+        private State GetOrCreateState(State tmpState)
         {
             // deduplicate
-            var tmpState = builder.GetState();
             if (states.TryGetValue(tmpState, out var existingState))
             {
                 return existingState;

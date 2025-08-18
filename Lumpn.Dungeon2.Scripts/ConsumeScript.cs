@@ -1,18 +1,19 @@
 namespace Lumpn.Dungeon2.Scripts
 {
-    /// a door that can be opened permanently by consuming a key
-    public sealed class DoorScript : Script
+    /// consume an item to permanently unlock a path
+    public sealed class ConsumeScript : Script
     {
         private const int doorUnlockedState = 1;
 
-        private readonly VariableIdentifier keyIdentifier, doorIdentifier, doorStateIdentifier;
+        private readonly string doorName;
+        private readonly VariableIdentifier keyIdentifier, doorStateIdentifier;
 
-        public string Name { get { return doorIdentifier.name; } }
+        public string Name { get { return doorName; } }
 
-        public DoorScript(string keyName, string doorName, VariableLookup lookup)
+        public ConsumeScript(string keyName, string doorName, VariableLookup lookup)
         {
+            this.doorName = doorName;
             this.keyIdentifier = lookup.Resolve(keyName);
-            this.doorIdentifier = lookup.Resolve(doorName);
             this.doorStateIdentifier = lookup.Unique("door state");
         }
 

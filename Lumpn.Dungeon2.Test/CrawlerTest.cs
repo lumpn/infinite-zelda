@@ -17,9 +17,10 @@ namespace Lumpn.Dungeon2.Test
         public void CrawlMinimal()
         {
             // 1 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 0, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -39,10 +40,11 @@ namespace Lumpn.Dungeon2.Test
             // 1
             //
             // 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddScript(1, noOpScript);
             builder.AddScript(0, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -59,11 +61,12 @@ namespace Lumpn.Dungeon2.Test
         public void CrawlLinear()
         {
             // 1 - 2 - 3 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
             builder.AddUndirectedTransition(3, 0, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -83,12 +86,13 @@ namespace Lumpn.Dungeon2.Test
             // 1 - 2 - 0
             //  \ /
             //   3
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
             builder.AddUndirectedTransition(3, 1, noOpScript);
             builder.AddUndirectedTransition(2, 0, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -108,11 +112,12 @@ namespace Lumpn.Dungeon2.Test
             // 1 - 2 - 0
             //
             // 3
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 0, noOpScript);
             builder.AddScript(3, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -129,15 +134,15 @@ namespace Lumpn.Dungeon2.Test
         [Test]
         public void CrawlDeadEnd()
         {
-
             // 1 -> 3
             //  \
             //   2 - 0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddUndirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 0, noOpScript);
             builder.AddDirectedTransition(1, 3, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -159,13 +164,14 @@ namespace Lumpn.Dungeon2.Test
             // 1 -> 2 - 3
             // |     \ /
             // 0      4
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
             builder.AddDirectedTransition(1, 2, noOpScript);
             builder.AddUndirectedTransition(2, 3, noOpScript);
             builder.AddUndirectedTransition(3, 4, noOpScript);
             builder.AddUndirectedTransition(4, 2, noOpScript);
             builder.AddUndirectedTransition(1, 0, noOpScript);
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -189,16 +195,15 @@ namespace Lumpn.Dungeon2.Test
         {
             // 1 -d- 2 -d- 3 -d- 0
             // k     k     k
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddUndirectedTransition(2, 3, CreateDoor(lookup));
             builder.AddUndirectedTransition(3, 0, CreateDoor(lookup));
             builder.AddScript(1, CreateKey(lookup));
             builder.AddScript(2, CreateKey(lookup));
             builder.AddScript(3, CreateKey(lookup));
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -213,16 +218,15 @@ namespace Lumpn.Dungeon2.Test
         {
             //  1 -d- 2 -d- 3 -d- 0
             // kkk
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddUndirectedTransition(2, 3, CreateDoor(lookup));
             builder.AddUndirectedTransition(3, 0, CreateDoor(lookup));
             builder.AddScript(1, CreateKey(lookup));
             builder.AddScript(1, CreateKey(lookup));
             builder.AddScript(1, CreateKey(lookup));
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -237,13 +241,12 @@ namespace Lumpn.Dungeon2.Test
         {
             //  0 -d- 1 -d- 2
             //        k
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(0, 1, CreateDoor(lookup));
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddScript(1, CreateKey(lookup));
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -262,14 +265,13 @@ namespace Lumpn.Dungeon2.Test
             //    d
             //     \
             //      0
+            var lookup = new VariableLookup();
             var builder = new CrawlerBuilder();
-            var lookup = builder.Lookup;
-
             builder.AddUndirectedTransition(0, 1, CreateDoor(lookup));
             builder.AddUndirectedTransition(1, 2, CreateDoor(lookup));
             builder.AddScript(1, CreateKey(lookup));
             builder.AddScript(2, CreateKey(lookup));
-            var crawler = builder.Build();
+            var crawler = builder.Build(lookup);
 
             var terminalSteps = crawler.Crawl(maxSteps);
             var deadEndSteps = crawler.GetDeadEnds();
@@ -280,14 +282,14 @@ namespace Lumpn.Dungeon2.Test
             Assert.AreEqual(2, terminalSteps.Count);
         }
 
-        private static ItemScript CreateKey(VariableLookup lookup)
+        private static AcquireScript CreateKey(VariableLookup lookup)
         {
-            return new ItemScript(keyName, lookup);
+            return new AcquireScript(keyName, lookup);
         }
 
-        private static DoorScript CreateDoor(VariableLookup lookup)
+        private static ConsumeScript CreateDoor(VariableLookup lookup)
         {
-            return new DoorScript(keyName, doorName, lookup);
+            return new ConsumeScript(keyName, doorName, lookup);
         }
     }
 }

@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lumpn.Dungeon.Scripts\Lumpn.Dungeon.Scripts.csproj" />
+    <ProjectReference Include="..\Lumpn.Dungeon2.Scripts\Lumpn.Dungeon2.Scripts.csproj" />
+    <ProjectReference Include="..\Lumpn.Dungeon2\Lumpn.Dungeon2.csproj" />
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
     <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
   </ItemGroup>
