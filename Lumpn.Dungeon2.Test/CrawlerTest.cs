@@ -289,7 +289,7 @@ namespace Lumpn.Dungeon2.Test
 
         private static ConsumeScript CreateDoor(VariableLookup lookup)
         {
-            return new ConsumeScript(keyName, doorName, lookup);
+            return new ConsumeScript(doorName, keyName, lookup);
         }
     }
 }

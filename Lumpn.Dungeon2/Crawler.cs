@@ -129,7 +129,6 @@ namespace Lumpn.Dungeon2
                     // execute transition
                     var nextLocation = transition.destinationId;
                     var result = transition.Execute(state, stateBuilder);
-
                     if (result == ScriptResult.Fail) continue; // transition impassable
 
                     // deduplicate state

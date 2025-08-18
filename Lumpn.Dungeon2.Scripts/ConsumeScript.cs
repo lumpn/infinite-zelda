@@ -10,7 +10,7 @@ namespace Lumpn.Dungeon2.Scripts
 
         public string Name { get { return doorName; } }
 
-        public ConsumeScript(string keyName, string doorName, VariableLookup lookup)
+        public ConsumeScript(string doorName, string keyName, VariableLookup lookup)
         {
             this.doorName = doorName;
             this.keyIdentifier = lookup.Resolve(keyName);

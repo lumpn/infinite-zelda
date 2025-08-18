@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon.Scripts", "Lu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.Dungeon2.Scripts", "Lumpn.Dungeon2.Scripts\Lumpn.Dungeon2.Scripts.csproj", "{BB4DE570-6F8F-4F75-AF0A-002BC461BAE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumpn.ZeldaDungeon.Benchmark", "Lumpn.ZeldaDungeon.Benchmark\Lumpn.ZeldaDungeon.Benchmark.csproj", "{9A6F6419-4CA1-48B3-B780-315E04BB2FAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{BB4DE570-6F8F-4F75-AF0A-002BC461BAE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB4DE570-6F8F-4F75-AF0A-002BC461BAE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB4DE570-6F8F-4F75-AF0A-002BC461BAE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A6F6419-4CA1-48B3-B780-315E04BB2FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A6F6419-4CA1-48B3-B780-315E04BB2FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A6F6419-4CA1-48B3-B780-315E04BB2FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A6F6419-4CA1-48B3-B780-315E04BB2FAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

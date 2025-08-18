@@ -4,7 +4,7 @@ namespace Lumpn.ZeldaDungeon
 {
     public sealed class ZeldaDungeonBuilder
     {
-        private readonly CrawlerBuilder crawlerBuilder;
+        private readonly CrawlerBuilder crawlerBuilder = new CrawlerBuilder();
 
         private readonly VariableLookup lookup = new VariableLookup();
 
