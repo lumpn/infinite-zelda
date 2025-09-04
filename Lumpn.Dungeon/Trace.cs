@@ -60,6 +60,26 @@ namespace Lumpn.Dungeon
             return (double)numSteps / (numLocations + 1);
         }
 
+        public double CalcBranchFactor()
+        {
+            int numSteps = 0;
+            int numBranches = 0;
+            foreach (var step in locations.SelectMany(p => p.DebugGetSteps()))
+            {
+                numBranches += step.Successors.Count();
+                numSteps++;
+            }
+
+            return (double)numBranches / (numSteps + 1);
+        }
+
+        public int CalcShortestPathLength(int locationId)
+        {
+            return locations.Where(p => p.Id == locationId)
+                            .SelectMany(p => p.DebugGetSteps())
+                            .Select(p => p.DistanceFromEntrance)
+                            .MinOrFallback(-1);
+        }
 
         public bool AddStep(Location location, State state, int distanceFromEntrance, out Step step)
         {
@@ -158,7 +178,6 @@ namespace Lumpn.Dungeon
             dot.End();
         }
 
-
         public void PrintSteps(VariableLookup lookup)
         {
             PrintSteps(lookup, Console.Out);
@@ -208,161 +227,5 @@ namespace Lumpn.Dungeon
             }
             dot.End();
         }
-
-        public double CalcBranchFactor()
-        {
-            int numSteps = 0;
-            int numBranches = 0;
-            foreach (var step in locations.SelectMany(p => p.DebugGetSteps()))
-            {
-                numBranches += step.Successors.Count();
-                numSteps++;
-            }
-
-            return (double)numBranches / (numSteps + 1);
-        }
-
-        public int CalcShortestPathLength(int locationId)
-        {
-            return locations.Where(p => p.Id == locationId)
-                            .SelectMany(p => p.DebugGetSteps())
-                            .Select(p => p.DistanceFromEntrance)
-                            .MinOrFallback(-1);
-        }
-
-        //private static void PrintStates(Crawler crawler, VariableLookup lookup, int dungeonId)
-        //{
-        //    var steps = crawler.DebugGetSteps().ToArray();
-        //    var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
-        //    var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-        //    using (var writer = File.CreateText($"dungeon{dungeonId}-states.dot"))
-        //    {
-        //        var dot = new DotBuilder(writer);
-        //        dot.Begin();
-        //        for (int i = 0; i < states.Length; i++)
-        //        {
-        //            var state = states[i];
-        //            var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-        //            dot.AddNode(i, string.Join("\\n", vars));
-        //        }
-
-        //        foreach (var step in steps)
-        //        {
-        //            var state = step.State;
-        //            foreach (var succ in step.Successors)
-        //            {
-        //                var succState = succ.State;
-        //                if (state.Equals(succState)) continue;
-
-        //                var id1 = System.Array.IndexOf(states, state);
-        //                var id2 = System.Array.IndexOf(states, succState);
-
-        //                dot.AddEdge(id1, id2, $"{step.Location} &rarr; {succ.Location}");
-        //            }
-        //        }
-        //        dot.End();
-        //    }
-        //}
-
-        //private static void PrintTrace(Crawler crawler, VariableLookup lookup, int dungeonId)
-        //{
-        //    var steps = crawler.DebugGetSteps().ToArray();
-        //    var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-        //    using (var writer = File.CreateText($"dungeon{dungeonId}-trace.dot"))
-        //    {
-        //        var dot = new DotBuilder(writer);
-        //        dot.Begin();
-        //        for (int i = 0; i < steps.Length; i++)
-        //        {
-        //            var step = steps[i];
-
-        //            var state = step.State;
-        //            var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-
-        //            var shape = (step.DistanceFromExit == 0) ? "\", shape=\"box" : string.Empty;
-        //            dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars)}{shape}");
-
-        //            foreach (var succ in step.Successors)
-        //            {
-        //                var succIndex = System.Array.IndexOf(steps, succ);
-        //                var succState = succ.State;
-        //                var label = string.Empty;
-        //                if (!state.Equals(succState))
-        //                {
-        //                    label = "\", style=bold, color=\"maroon";
-        //                }
-        //                dot.AddEdge(i, succIndex, label);
-        //            }
-        //        }
-        //        dot.End();
-        //    }
-        //}
-
-
-
-        //private static void PrintStates(Crawler crawler, VariableLookup lookup)
-        //{
-        //    var steps = crawler.DebugGetSteps().ToArray();
-        //    var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
-        //    var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-        //    var dot = new DotBuilder();
-        //    dot.Begin();
-        //    for (int i = 0; i < states.Length; i++)
-        //    {
-        //        var state = states[i];
-        //        var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-        //        dot.AddNode(i, string.Join("\\n", vars));
-        //    }
-
-        //    foreach (var step in steps)
-        //    {
-        //        var state = step.State;
-        //        foreach (var succ in step.Successors)
-        //        {
-        //            var succState = succ.State;
-        //            if (state.Equals(succState)) continue;
-
-        //            var id1 = System.Array.IndexOf(states, state);
-        //            var id2 = System.Array.IndexOf(states, succState);
-
-        //            dot.AddEdge(id1, id2, $"{step.Location} &rarr; {succ.Location}");
-        //        }
-        //    }
-        //    dot.End();
-        //}
-
-        //private static void PrintSteps(Crawler crawler, VariableLookup lookup)
-        //{
-        //    var steps = crawler.DebugGetSteps().ToArray();
-        //    var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-        //    var dot = new DotBuilder();
-        //    dot.Begin();
-        //    for (int i = 0; i < steps.Length; i++)
-        //    {
-        //        var step = steps[i];
-
-        //        var state = step.State;
-        //        var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-
-        //        dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars)}");
-
-        //        foreach (var succ in step.Successors)
-        //        {
-        //            var succIndex = System.Array.IndexOf(steps, succ);
-        //            var succState = succ.State;
-        //            var label = string.Empty;
-        //            if (!state.Equals(succState))
-        //            {
-        //                label = "\", style=bold, color=\"maroon";
-        //            }
-        //            dot.AddEdge(i, succIndex, label);
-        //        }
-        //    }
-        //    dot.End();
-        //}
     }
 }
