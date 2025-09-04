@@ -23,13 +23,13 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.IsNotEmpty(terminalSteps);
-            Assert.NotNull(crawler.DebugGetStep(1, initialState));
-            Assert.NotNull(crawler.DebugGetStep(0, initialState));
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
-            Assert.True(crawler.DebugGetStep(0, initialState).HasDistanceFromExit);
+            Assert.NotZero(trace.CountSteps(0));
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
+            Assert.IsTrue(trace.HasDistanceFromExit(1, initialState));
+            Assert.IsTrue(trace.HasDistanceFromExit(0, initialState));
         }
 
         [Test]
@@ -43,12 +43,12 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.NotNull(crawler.DebugGetStep(1, initialState));
-            Assert.NotNull(crawler.DebugGetStep(2, initialState));
-            Assert.NotNull(crawler.DebugGetStep(3, initialState));
-            Assert.NotNull(crawler.DebugGetStep(0, initialState));
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(2, initialState));
+            Assert.IsTrue(trace.ContainsStep(3, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
         }
 
         [Test]
@@ -66,12 +66,12 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.NotNull(crawler.DebugGetStep(1, initialState));
-            Assert.NotNull(crawler.DebugGetStep(2, initialState));
-            Assert.NotNull(crawler.DebugGetStep(3, initialState));
-            Assert.NotNull(crawler.DebugGetStep(0, initialState));
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(2, initialState));
+            Assert.IsTrue(trace.ContainsStep(3, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
         }
 
         [Test]
@@ -87,12 +87,12 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.NotNull(crawler.DebugGetStep(1, initialState));
-            Assert.NotNull(crawler.DebugGetStep(2, initialState));
-            Assert.NotNull(crawler.DebugGetStep(0, initialState));
-            Assert.Null(crawler.DebugGetStep(3, initialState));
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(2, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
+            Assert.False(trace.ContainsStep(3, initialState));
         }
 
         [Test]
@@ -108,14 +108,14 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.NotNull(crawler.DebugGetStep(1, initialState));
-            Assert.NotNull(crawler.DebugGetStep(2, initialState));
-            Assert.NotNull(crawler.DebugGetStep(3, initialState));
-            Assert.NotNull(crawler.DebugGetStep(0, initialState));
-            Assert.IsEmpty(crawler.DebugGetStep(3, initialState).Successors);
-            Assert.False(crawler.DebugGetStep(3, initialState).HasDistanceFromExit);
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(2, initialState));
+            Assert.IsTrue(trace.ContainsStep(3, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
+            Assert.Zero(trace.CountSuccessors(3, initialState));
+            Assert.IsFalse(trace.HasDistanceFromExit(3, initialState));
         }
 
         [Test]
@@ -130,21 +130,21 @@ namespace Lumpn.ZeldaDungeon.Test
             builder.AddUndirectedTransition(3, 4, NoOpScript.instance);
             builder.AddUndirectedTransition(4, 2, NoOpScript.instance);
             builder.AddDirectedTransition(1, 2, NoOpScript.instance);
-            var puzzle = builder.Build();
+            var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            puzzle.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
-            Assert.NotNull(puzzle.DebugGetStep(1, initialState));
-            Assert.NotNull(puzzle.DebugGetStep(2, initialState));
-            Assert.NotNull(puzzle.DebugGetStep(3, initialState));
-            Assert.NotNull(puzzle.DebugGetStep(4, initialState));
-            Assert.NotNull(puzzle.DebugGetStep(0, initialState));
-            Assert.True(puzzle.DebugGetStep(1, initialState).HasDistanceFromExit);
-            Assert.False(puzzle.DebugGetStep(2, initialState).HasDistanceFromExit);
-            Assert.False(puzzle.DebugGetStep(3, initialState).HasDistanceFromExit);
-            Assert.False(puzzle.DebugGetStep(4, initialState).HasDistanceFromExit);
-            Assert.True(puzzle.DebugGetStep(0, initialState).HasDistanceFromExit);
+            Assert.IsTrue(trace.ContainsStep(1, initialState));
+            Assert.IsTrue(trace.ContainsStep(2, initialState));
+            Assert.IsTrue(trace.ContainsStep(3, initialState));
+            Assert.IsTrue(trace.ContainsStep(4, initialState));
+            Assert.IsTrue(trace.ContainsStep(0, initialState));
+            Assert.IsTrue(trace.HasDistanceFromExit(1, initialState));
+            Assert.IsFalse(trace.HasDistanceFromExit(2, initialState));
+            Assert.IsFalse(trace.HasDistanceFromExit(3, initialState));
+            Assert.IsFalse(trace.HasDistanceFromExit(4, initialState));
+            Assert.IsTrue(trace.HasDistanceFromExit(0, initialState));
         }
 
         [Test]
@@ -164,10 +164,10 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+            Assert.IsTrue(trace.HasDistanceFromExit(1, initialState));
         }
 
         [Test]
@@ -187,10 +187,10 @@ namespace Lumpn.ZeldaDungeon.Test
             var crawler = builder.Build();
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+            Assert.IsTrue(trace.HasDistanceFromExit(1, initialState));
         }
 
         [Test]
@@ -230,10 +230,10 @@ namespace Lumpn.ZeldaDungeon.Test
             crawler.Express(dot);
 
             var initialState = emptyVariables.ToState(builder.Lookup);
-            crawler.Crawl(new[] { initialState }, 10000);
+            var trace = crawler.Crawl(new[] { initialState }, 10000);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+            Assert.IsTrue(trace.HasDistanceFromExit(1, initialState));
         }
     }
 }

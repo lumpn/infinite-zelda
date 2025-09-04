@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lumpn.ZeldaMooga
+﻿namespace Lumpn.ZeldaMooga
 {
     public static class OptimizationUtils
     {

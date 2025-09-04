@@ -131,13 +131,13 @@ namespace Lumpn.ZeldaDungeon.Test
             stateBuilder.Set(lookup.Resolve("waterLevel"), 2);
 
             var crawler = builder.Build(lookup);
-            var terminalSteps = crawler.Crawl(stateBuilder.GetState(), maxSteps);
+            var trace = crawler.Crawl(stateBuilder.GetState(), maxSteps);
 
             //PrintStates(crawler, lookup, 61);
             //PrintTrace(crawler, lookup, 61);
 
-            Assert.IsNotEmpty(terminalSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.NotZero(trace.CountSteps(0));
+            Assert.AreEqual(1, trace.CountSteps(0));
         }
 
         private static Script CreateKey(VariableLookup lookup)

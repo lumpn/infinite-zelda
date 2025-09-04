@@ -39,16 +39,16 @@ namespace Lumpn.ZeldaMooga
 
             // crawl puzzle
             Profiler.BeginSample("Crawl");
-            var terminalSteps = crawler.Crawl(initialStates, maxSteps);
+            var trace = crawler.Crawl(initialStates, maxSteps);
             Profiler.EndSample();
 
             // evaluate puzzle
             Profiler.BeginSample("Assess");
-            int numSteps = crawler.DebugGetSteps().Count();
-            int numDeadEnds = ErrorCounter.CountDeadEnds(crawler);
-            int shortestPathLength = PathFinder.CalcShortestPathLength(terminalSteps);
-            double revisitFactor = PathFinder.CalcRevisitFactor(crawler);
-            double branchFactor = PathFinder.CalcBranchFactor(crawler);
+            int numSteps = trace.CountSteps();
+            int numDeadEnds = trace.CountDeadEnds();
+            int shortestPathLength = trace.CalcShortestPathLength(0);
+            double revisitFactor = trace.CalcRevisitFactor();
+            double branchFactor = trace.CalcBranchFactor();
             Profiler.EndSample();
 
             // create individual

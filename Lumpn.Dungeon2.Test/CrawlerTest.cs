@@ -22,12 +22,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddUndirectedTransition(1, 0, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
             //Assert.True(crawler.DebugGetStep(0, initialState).HasDistanceFromExit);
@@ -46,10 +46,10 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(0, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsEmpty(terminalSteps);
+            Assert.Zero(trace.CountSteps(0));
             Assert.IsNotEmpty(deadEndSteps);
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
@@ -68,12 +68,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddUndirectedTransition(3, 0, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
             //Assert.NotNull(crawler.DebugGetStep(2, initialState));
@@ -94,12 +94,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddUndirectedTransition(2, 0, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
             //Assert.NotNull(crawler.DebugGetStep(2, initialState));
@@ -119,12 +119,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(3, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
             //Assert.NotNull(crawler.DebugGetStep(2, initialState));
@@ -144,12 +144,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddDirectedTransition(1, 3, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsNotEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(crawler.DebugGetStep(0, initialState));
             //Assert.NotNull(crawler.DebugGetStep(1, initialState));
             //Assert.NotNull(crawler.DebugGetStep(2, initialState));
@@ -173,12 +173,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddUndirectedTransition(1, 0, noOpScript);
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsNotEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
             //Assert.NotNull(puzzle.DebugGetStep(0, initialState));
             //Assert.NotNull(puzzle.DebugGetStep(1, initialState));
             //Assert.NotNull(puzzle.DebugGetStep(2, initialState));
@@ -205,12 +205,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(3, CreateKey(lookup));
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
         }
 
         [Test]
@@ -228,12 +228,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(1, CreateKey(lookup));
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
         }
 
         [Test]
@@ -248,12 +248,12 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(1, CreateKey(lookup));
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsNotEmpty(deadEndSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.AreEqual(1, trace.CountSteps(0));
         }
 
         [Test]
@@ -273,13 +273,13 @@ namespace Lumpn.Dungeon2.Test
             builder.AddScript(2, CreateKey(lookup));
             var crawler = builder.Build(lookup);
 
-            var terminalSteps = crawler.Crawl(maxSteps);
-            var deadEndSteps = crawler.GetDeadEnds();
-            crawler.PrintTrace(new DotBuilder());
+            var trace = crawler.Crawl(maxSteps);
+            var deadEndSteps = trace.GetDeadEnds();
+            trace.PrintTrace(new DotBuilder());
 
-            Assert.IsNotEmpty(terminalSteps);
+            Assert.NotZero(trace.CountSteps(0));
             Assert.IsEmpty(deadEndSteps);
-            Assert.AreEqual(2, terminalSteps.Count);
+            Assert.AreEqual(2, trace.CountSteps(0));
         }
 
         private static AcquireScript CreateKey(VariableLookup lookup)

@@ -133,13 +133,13 @@ namespace Lumpn.ZeldaDungeon.Test
 
             var crawler = builder.Build();
             var initialState = initialVariables.ToState(lookup);
-            var terminalSteps = crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             //PrintStates(crawler, lookup, 61);
             //PrintTrace(crawler, lookup, 61);
 
-            Assert.IsNotEmpty(terminalSteps);
-            Assert.AreEqual(1, terminalSteps.Count);
+            Assert.NotZero(trace.CountSteps(0));
+            Assert.AreEqual(1, trace.CountSteps(0));
         }
 
         private static Script CreateKey(VariableLookup lookup)
@@ -158,76 +158,6 @@ namespace Lumpn.ZeldaDungeon.Test
             {
                 var dot = new DotBuilder(writer);
                 crawler.Express(dot, NoOpScript.instance);
-            }
-        }
-
-        private static void PrintStates(Crawler crawler, VariableLookup lookup, int dungeonId)
-        {
-            var steps = crawler.DebugGetSteps().ToArray();
-            var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-            using (var writer = File.CreateText($"dungeon{dungeonId}-states.dot"))
-            {
-                var dot = new DotBuilder(writer);
-                dot.Begin();
-                for (int i = 0; i < states.Length; i++)
-                {
-                    var state = states[i];
-                    var vars = allVariables.Select(p => KeyValuePair.Create(p, state.Get(p, 0))).Where(p => p.Value != 0);
-                    dot.AddNode(i, string.Join("\\n", vars.Select(p => $"{p.Key}: {p.Value}")));
-                }
-
-                foreach (var step in steps)
-                {
-                    var state = step.State;
-                    foreach (var succ in step.Successors)
-                    {
-                        var succState = succ.State;
-                        if (state.Equals(succState)) continue;
-
-                        var id1 = System.Array.IndexOf(states, state);
-                        var id2 = System.Array.IndexOf(states, succState);
-
-                        dot.AddEdge(id1, id2, $"{step.Location} &rarr; {succ.Location}");
-                    }
-                }
-                dot.End();
-            }
-        }
-
-        private static void PrintTrace(Crawler crawler, VariableLookup lookup, int dungeonId)
-        {
-            var steps = crawler.DebugGetSteps().ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-            using (var writer = File.CreateText($"dungeon{dungeonId}-trace.dot"))
-            {
-                var dot = new DotBuilder(writer);
-                dot.Begin();
-                for (int i = 0; i < steps.Length; i++)
-                {
-                    var step = steps[i];
-
-                    var state = step.State;
-                    var vars = allVariables.Select(p => KeyValuePair.Create(p, state.Get(p, 0))).Where(p => p.Value != 0);
-
-                    var shape = (step.DistanceFromExit == 0) ? "\", shape=\"box" : string.Empty;
-                    dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars.Select(p => $"{p.Key}: {p.Value}"))}{shape}");
-
-                    foreach (var succ in step.Successors)
-                    {
-                        var succIndex = System.Array.IndexOf(steps, succ);
-                        var succState = succ.State;
-                        var label = string.Empty;
-                        if (!state.Equals(succState))
-                        {
-                            label = "\", style=bold, color=\"maroon";
-                        }
-                        dot.AddEdge(i, succIndex, label);
-                    }
-                }
-                dot.End();
             }
         }
     }

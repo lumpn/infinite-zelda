@@ -19,43 +19,39 @@ namespace Lumpn.Dungeon
             this.locations = locations;
         }
 
-        public List<Step> Crawl(IEnumerable<State> initialStates, int maxSteps)
+        public Trace Crawl(IEnumerable<State> initialStates, int maxSteps)
         {
+            var trace = new Trace();
+
             // find entrance & exit
             var entrance = locations.GetOrFallback(entranceId, null);
             var exit = locations.GetOrFallback(exitId, null);
-            if (entrance == null) return new List<Step>();
+            if (entrance == null) return trace;
 
             // initialize initial steps
             var initialSteps = new List<Step>();
             foreach (var state in initialStates)
             {
-                if (entrance.AddStep(state, 0, out Step step))
+                if (trace.AddStep(entrance, state, 0, out var step))
                 {
                     initialSteps.Add(step);
                 }
             }
 
             // forward pass
-            Profiler.BeginSample("CrawlForward");
-            var terminalSteps = CrawlForward(initialSteps, maxSteps, exit);
+            Profiler.BeginSample("Forward");
+            var terminalSteps = Crawl(trace, initialSteps, maxSteps, exit);
             Profiler.EndSample();
-
-            // initialize distance from exit
-            foreach (var step in terminalSteps)
-            {
-                step.SetDistanceFromExit(0);
-            }
 
             // backward pass
-            Profiler.BeginSample("CrawBackward");
-            CrawlBackward(terminalSteps);
+            Profiler.BeginSample("Backward");
+            trace.Finalize(terminalSteps);
             Profiler.EndSample();
 
-            return terminalSteps;
+            return trace;
         }
 
-        private static List<Step> CrawlForward(List<Step> initialSteps, int maxSteps, Location exit)
+        private static List<Step> Crawl(Trace trace, List<Step> initialSteps, int maxSteps, Location exit)
         {
             // keep track of terminals
             var terminalSteps = new List<Step>();
@@ -89,42 +85,17 @@ namespace Lumpn.Dungeon
                     if (nextState == null) continue; // transition impassable
 
                     // location reached with new state -> enqueue
-                    if (nextLocation.AddStep(nextState, nextDistanceFromEntrance, out Step nextStep))
+                    if (trace.AddStep(nextLocation, nextState, nextDistanceFromEntrance, out Step nextStep))
                     {
                         queue.Enqueue(nextStep);
                     }
 
                     // connect steps
-                    nextStep.AddPredecessor(step);
-                    step.AddSuccessor(nextStep);
+                    trace.Connect(step, nextStep);
                 }
             }
 
             return terminalSteps;
-        }
-
-        private static void CrawlBackward(List<Step> terminalSteps)
-        {
-            // initialize BFS
-            var queue = new Queue<Step>(terminalSteps);
-
-            // crawl
-            while (queue.Count > 0)
-            {
-                // fetch step
-                var step = queue.Dequeue();
-
-                // try every predecessor
-                int prevDistanceFromExit = step.DistanceFromExit + 1;
-                foreach (var prevStep in step.Predecessors)
-                {
-                    if (prevStep.HasDistanceFromExit) continue;
-
-                    // unseen step reached -> enqueue
-                    prevStep.SetDistanceFromExit(prevDistanceFromExit);
-                    queue.Enqueue(prevStep);
-                }
-            }
         }
 
         public void Express(DotBuilder builder)
@@ -135,22 +106,6 @@ namespace Lumpn.Dungeon
                 location.Express(builder);
             }
             builder.End();
-        }
-
-        public Step DebugGetStep(int locationId, State state)
-        {
-            var location = locations.GetOrFallback(locationId, null);
-            return location?.DebugGetStep(state);
-        }
-
-        public IEnumerable<Step> DebugGetSteps()
-        {
-            return locations.SelectMany(p => p.Value.DebugGetSteps());
-        }
-
-        public IEnumerable<Location> DebugGetLocations()
-        {
-            return locations.Select(p => p.Value);
         }
     }
 }

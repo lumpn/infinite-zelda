@@ -59,14 +59,14 @@ namespace Lumpn.ZeldaDungeon.Test
 
             var crawler = builder.Build();
             var initialState = emptyVariables.ToState(lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             PrintMission(crawler, lookup);
-            PrintStates(crawler, lookup);
-            PrintSteps(crawler, lookup);
+            trace.PrintStates(lookup);
+            trace.PrintSteps(lookup);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+            Assert.True(trace.HasDistanceFromExit(1, initialState));
         }
 
         [Test]
@@ -100,14 +100,14 @@ namespace Lumpn.ZeldaDungeon.Test
 
             var crawler = builder.Build();
             var initialState = emptyVariables.ToState(lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             PrintMission(crawler, lookup);
-            PrintStates(crawler, lookup);
-            PrintSteps(crawler, lookup);
+            trace.PrintStates(lookup);
+            trace.PrintSteps(lookup);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+             Assert.True(trace.HasDistanceFromExit(1, initialState));
         }
 
         [Test]
@@ -150,14 +150,14 @@ namespace Lumpn.ZeldaDungeon.Test
 
             var crawler = builder.Build();
             var initialState = emptyVariables.ToState(lookup);
-            crawler.Crawl(new[] { initialState }, maxSteps);
+            var trace = crawler.Crawl(new[] { initialState }, maxSteps);
 
             PrintMission(crawler, lookup);
-            PrintStates(crawler, lookup);
-            PrintSteps(crawler, lookup);
+            trace.PrintStates(lookup);
+            trace.PrintSteps( lookup);
 
             // test for exit reached
-            Assert.True(crawler.DebugGetStep(1, initialState).HasDistanceFromExit);
+             Assert.True(trace.HasDistanceFromExit(1, initialState));
         }
 
         private static void PrintMission(Crawler crawler, VariableLookup lookup)
@@ -166,68 +166,6 @@ namespace Lumpn.ZeldaDungeon.Test
             crawler.Express(dot);
         }
 
-        private static void PrintStates(Crawler crawler, VariableLookup lookup)
-        {
-            var steps = crawler.DebugGetSteps().ToArray();
-            var states = steps.Select(p => p.State).Distinct(StateEqualityComparer.Default).ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-            var dot = new DotBuilder();
-            dot.Begin();
-            for (int i = 0; i < states.Length; i++)
-            {
-                var state = states[i];
-                var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-                dot.AddNode(i, string.Join("\\n", vars));
-            }
-
-            foreach (var step in steps)
-            {
-                var state = step.State;
-                foreach (var succ in step.Successors)
-                {
-                    var succState = succ.State;
-                    if (state.Equals(succState)) continue;
-
-                    var id1 = System.Array.IndexOf(states, state);
-                    var id2 = System.Array.IndexOf(states, succState);
-
-                    dot.AddEdge(id1, id2, $"{step.Location} &rarr; {succ.Location}");
-                }
-            }
-            dot.End();
-        }
-
-        private static void PrintSteps(Crawler crawler, VariableLookup lookup)
-        {
-            var steps = crawler.DebugGetSteps().ToArray();
-            var allVariables = Enumerable.Range(0, lookup.NumVariables).Select(lookup.QueryNamed).Where(p => p != null).ToArray();
-
-            var dot = new DotBuilder();
-            dot.Begin();
-            for (int i = 0; i < steps.Length; i++)
-            {
-                var step = steps[i];
-
-                var state = step.State;
-                var vars = allVariables.Where(p => state.Get(p, 0) > 0);
-
-                dot.AddNode(i, $"{step.Location}\\n{string.Join("\\n", vars)}");
-
-                foreach (var succ in step.Successors)
-                {
-                    var succIndex = System.Array.IndexOf(steps, succ);
-                    var succState = succ.State;
-                    var label = string.Empty;
-                    if (!state.Equals(succState))
-                    {
-                        label = "\", style=bold, color=\"maroon";
-                    }
-                    dot.AddEdge(i, succIndex, label);
-                }
-            }
-            dot.End();
-        }
 
         private static AcquireScript CreateItem(string item, VariableLookup lookup)
         {
