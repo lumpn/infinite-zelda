@@ -32,5 +32,10 @@ namespace Lumpn.ZeldaMooga
             builder.AddUndirectedTransition(a, b, new EqualsScript(0, "no water", drainId));
             builder.AddUndirectedTransition(c, d, new EqualsScript(0, "water", drainId));
         }
+
+        public override string ToString()
+        {
+            return string.Format("drain at {0}, {1}--{2}, {3}--{4}", drainLocation, a, b, c, d);
+        }
     }
 }

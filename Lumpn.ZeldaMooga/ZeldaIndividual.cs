@@ -2,6 +2,7 @@
 using Lumpn.Mooga;
 using Lumpn.Utils;
 using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -18,12 +19,11 @@ namespace Lumpn.ZeldaMooga
         private readonly double branchFactor;
 
         private readonly ZeldaGenome genome;
-        private readonly Crawler crawler;
+        private readonly CrawlerBuilder crawler;
 
         public Genome Genome { get { return genome; } }
-        public Crawler Crawler {  get { return crawler; } }
 
-        public ZeldaIndividual(ZeldaGenome genome, Crawler crawler, int numSteps, int numDeadEnds, int shortestPathLength, double revisitFactor, double branchFactor)
+        public ZeldaIndividual(ZeldaGenome genome, CrawlerBuilder crawler, int numSteps, int numDeadEnds, int shortestPathLength, double revisitFactor, double branchFactor)
         {
             Debug.Assert(genome != null);
             this.genome = genome;
@@ -48,6 +48,11 @@ namespace Lumpn.ZeldaMooga
 
             Debug.Fail();
             return 0;
+        }
+
+        public void Express(DotBuilder builder)
+        {
+            crawler.Express(builder, NoOpScript.instance);
         }
 
         public override string ToString()

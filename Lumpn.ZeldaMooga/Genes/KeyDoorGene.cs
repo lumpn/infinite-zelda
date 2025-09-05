@@ -13,6 +13,8 @@ namespace Lumpn.ZeldaMooga
         public KeyDoorGene(ZeldaConfiguration configuration, string keyName, string doorName)
             : base(configuration)
         {
+            this.keyName = keyName;
+            this.doorName = doorName;
             this.keyLocation = configuration.RandomLocation();
             int a = configuration.RandomLocation();
             int b = configuration.RandomLocation(a);

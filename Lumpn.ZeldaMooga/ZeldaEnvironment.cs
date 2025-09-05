@@ -51,7 +51,7 @@ namespace Lumpn.ZeldaMooga
             Profiler.EndSample();
 
             // create individual
-            return new ZeldaIndividual(genome, crawler, numSteps, numDeadEnds, shortestPathLength, revisitFactor, branchFactor);
+            return new ZeldaIndividual(genome, builder, numSteps, numDeadEnds, shortestPathLength, revisitFactor, branchFactor);
         }
     }
 }

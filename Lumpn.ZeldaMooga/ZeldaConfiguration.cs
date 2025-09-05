@@ -9,7 +9,7 @@ namespace Lumpn.ZeldaMooga
         private const int numLocations = 10;
 
         // initialization
-        private const double initialGeneMedian = 2;
+        private const double initialGeneMedian = 10;
 
         // complexification
         private const double mutationCoefficient = 0.10; // ~10% ([0%, 75%])

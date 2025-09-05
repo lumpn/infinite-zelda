@@ -44,5 +44,10 @@ namespace Lumpn.ZeldaMooga
             builder.AddDirectedTransition(c, b, carousel2);
             builder.AddDirectedTransition(b, a, carousel2);
         }
+
+        public override string ToString()
+        {
+            return string.Format("carousel {0}->{1}->{2}->{3}", a, b, c, d);
+        }
     }
 }

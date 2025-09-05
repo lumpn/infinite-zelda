@@ -39,7 +39,7 @@ namespace Lumpn.ZeldaMooga.Test
             Profiler.Reset();
             Profiler.BeginFrame();
 
-            var random = new SystemRandom(42);
+            var random = new SystemRandom(44);
             var configuration = new ZeldaConfiguration(random);
             var factory = new ZeldaGenomeFactory(configuration);
 
@@ -98,7 +98,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);
@@ -117,7 +117,7 @@ namespace Lumpn.ZeldaMooga.Test
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
 
-            Profiler.ExportToGoogleChromeTracing("w:\\EvolutionTest-TestEvolution.json");
+            Profiler.ExportToGoogleChromeTracing("EvolutionTest-TestEvolution.json");
         }
     }
 }

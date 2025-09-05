@@ -32,5 +32,10 @@ namespace Lumpn.ZeldaMooga
             builder.AddUndirectedTransition(junctionLocation, locationA, scriptA);
             builder.AddUndirectedTransition(junctionLocation, locationB, scriptB);
         }
+
+        public override string ToString()
+        {
+            return string.Format("track switch at {0}, {1}--{2}, {1}--{3}", switchLocation, junctionLocation, locationA, locationB);
+        }
     }
 }
