@@ -4,10 +4,10 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lumpn.Dungeon.Scripts\Lumpn.Dungeon.Scripts.csproj" />
     <ProjectReference Include="..\Lumpn.Utils\Lumpn.Utils.csproj" />
     <ProjectReference Include="..\Lumpn.Mooga\Lumpn.Mooga.csproj" />
     <ProjectReference Include="..\Lumpn.Dungeon\Lumpn.Dungeon.csproj" />
-    <ProjectReference Include="..\Lumpn.ZeldaDungeon\Lumpn.ZeldaDungeon.csproj" />
     <ProjectReference Include="..\Lumpn.Profiling\Lumpn.Profiling.csproj" />
   </ItemGroup>
 </Project>

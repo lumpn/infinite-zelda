@@ -16,6 +16,36 @@ namespace Lumpn.Utils
             return MathUtils.Lerp(min, max, value);
         }
 
+
+        /**
+         * Positive half of Gaussian distribution
+         * 
+         * Min: 0
+         * Max: 10 [inf]
+         * Mean: ~0.8
+         * Median: ~0.67
+         * StdDev: ~0.6
+         */
+        public static double HalfGaussian(this RandomNumberGenerator random)
+        {
+            return Math.Abs(Gaussian(random));
+        }
+
+        /**
+         * Gaussian distribution (logit approximation)
+         * 
+         * Min: -10 [-inf]
+         * Max: 10 [inf]
+         * Mean: 0
+         * Median: 0
+         * StdDev: 1
+         */
+        public static double Gaussian(this RandomNumberGenerator random)
+        {
+            double p = random.NextDouble();
+            return 0.62665706865775 * Math.Log(p / (1.0 - p));
+        }
+
         /**
          * Positive half of Logistic distribution
          * 

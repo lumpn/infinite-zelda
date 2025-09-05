@@ -30,7 +30,52 @@ namespace Lumpn.ZeldaMooga.Test
             Console.WriteLine("test: " + individual);
 
             Profiler.EndFrame();
-            Profiler.ExportToGoogleChromeTracing("w:\\EvolutionTest-CreateIndividual.json");
+            Profiler.ExportToGoogleChromeTracing("EvolutionTest-CreateIndividual.json");
+        }
+
+        [Test]
+        public void Mutate()
+        {
+            Profiler.Reset();
+            Profiler.BeginFrame();
+
+            var random = new SystemRandom(42);
+            var configuration = new ZeldaConfiguration(random);
+            var factory = new ZeldaGenomeFactory(configuration);
+
+            var initialVariables = new VariableAssignment();
+            var environment = new ZeldaEnvironment(new[] { initialVariables }, 10000);
+
+            var example = factory.CreateGenome();
+            var offspring = example.Mutate(random);
+            var individual = environment.Evaluate(offspring);
+            Console.WriteLine("test: " + individual);
+
+            Profiler.EndFrame();
+            Profiler.ExportToGoogleChromeTracing("EvolutionTest-Mutate.json");
+        }
+
+        [Test]
+        public void Crossover()
+        {
+            Profiler.Reset();
+            Profiler.BeginFrame();
+
+            var random = new SystemRandom(42);
+            var configuration = new ZeldaConfiguration(random);
+            var factory = new ZeldaGenomeFactory(configuration);
+
+            var initialVariables = new VariableAssignment();
+            var environment = new ZeldaEnvironment(new[] { initialVariables }, 10000);
+
+            var parent1 = factory.CreateGenome();
+            var parent2 = factory.CreateGenome();
+            var offsprings = parent1.Crossover(parent2, random);
+            var individual = environment.Evaluate(offsprings.first);
+            Console.WriteLine("test: " + individual);
+
+            Profiler.EndFrame();
+            Profiler.ExportToGoogleChromeTracing("EvolutionTest-Crossover.json");
         }
 
         [Test]

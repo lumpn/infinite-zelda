@@ -1,5 +1,5 @@
-﻿using Lumpn.Dungeon.Scripts;
-using Lumpn.ZeldaDungeon;
+﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -10,18 +10,18 @@ namespace Lumpn.ZeldaMooga
         public OneWayGene(ZeldaConfiguration configuration)
             : base(configuration)
         {
-            this.wayStart = RandomLocation();
-            this.wayEnd = RandomLocation(wayStart);
+            this.wayStart = configuration.RandomLocation();
+            this.wayEnd = configuration.RandomLocation(wayStart);
         }
 
         public override Gene Mutate()
         {
-            return new OneWayGene(Configuration);
+            return new OneWayGene(configuration);
         }
 
-        public override void Express(ZeldaDungeonBuilder builder)
+        public override void Express(CrawlerBuilder builder, VariableLookup lookup)
         {
-            builder.AddDirectedTransition(wayStart, wayEnd, new NoOpScript());
+            builder.AddDirectedTransition(wayStart, wayEnd, NoOpScript.instance);
         }
 
         public override string ToString()

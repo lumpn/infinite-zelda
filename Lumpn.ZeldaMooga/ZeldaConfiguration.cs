@@ -7,11 +7,6 @@ namespace Lumpn.ZeldaMooga
     {
         // environment
         private const int numLocations = 10;
-        private const int numGeneTypes = 6;
-        private const int numKeyTypes = 2;
-        private const int numToolTypes = 4;
-        private const int numSwitchTypes = 2;
-        private const int numSwitchColors = 2;
 
         // initialization
         private const double initialGeneMedian = 2;
@@ -21,44 +16,34 @@ namespace Lumpn.ZeldaMooga
         private const double deletionCoefficient = 0.05; // ~5% ([0%, 35%])
         private const double insertionCoefficient = 0.10; // ~10% ([0%, 75%])
 
-        private readonly RandomNumberGenerator random;
-
-        public RandomNumberGenerator Random { get { return random; } }
+        public readonly RandomNumberGenerator random;
 
         public ZeldaConfiguration(RandomNumberGenerator random)
         {
             this.random = random;
         }
 
-        public int RandomGeneType()
+        public int Random(int maxExclusive)
         {
-            // TODO: support weighted probability
-            return random.NextInt(numGeneTypes);
-        }
-
-        public int RandomKeyType()
-        {
-            return random.NextInt(numKeyTypes);
-        }
-
-        public int RandomToolType()
-        {
-            return random.NextInt(numToolTypes);
-        }
-
-        public int RandomSwitchType()
-        {
-            return random.NextInt(numSwitchTypes);
-        }
-
-        public int RandomSwitchColor()
-        {
-            return random.NextInt(numSwitchColors);
+            return random.NextInt(maxExclusive);
         }
 
         public int RandomLocation()
         {
             return random.NextInt(numLocations);
+        }
+
+        /// random location different from the other location
+        public int RandomLocation(int otherLocation)
+        {
+            int location;
+            do
+            {
+                location = RandomLocation();
+            }
+            while (location == otherLocation);
+
+            return location;
         }
 
         public int CalcNumInitialGenes()

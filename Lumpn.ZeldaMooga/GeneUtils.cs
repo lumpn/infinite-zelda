@@ -8,7 +8,7 @@ namespace Lumpn.ZeldaMooga
         /// generate some genes
         public static List<T> Generate<T>(int count, GeneFactory<T> factory, ZeldaConfiguration configuration) where T : Gene
         {
-            var result = new List<T>();
+            var result = new List<T>(count);
             for (int i = 0; i < count; i++)
             {
                 result.Add(factory.CreateGene(configuration));
@@ -18,9 +18,11 @@ namespace Lumpn.ZeldaMooga
 
         public static void Mutate<T>(List<T> genes, GeneFactory<T> geneFactory, ZeldaConfiguration configuration) where T : Gene
         {
+            // shuffling genes randomizes deletions and mutations
+            genes.Shuffle(configuration.random);
+
             // delete some genes
             int numDeletions = configuration.CalcNumDeletions(genes.Count);
-            genes.Shuffle(configuration.Random);
             genes.RemoveRange(genes.Count - numDeletions, numDeletions);
 
             // mutate some genes
@@ -42,6 +44,17 @@ namespace Lumpn.ZeldaMooga
 
         public static void Crossover<T>(List<T> a, List<T> b, RandomNumberGenerator random)
         {
+            // a: a0 a1 a2 a3 a4 a5 a6 a7 a8 a9
+            // b: b0 b1 b2 b3 b4 b5
+            //
+            // point: 2
+            // -> a0 a1 b2 b3 b4 b5
+            // -> b0 b1 a2 a3 a4 a5 a6 a7 a8 a9
+            //
+            // point 7
+            // -> a0 a1 a2 a3 a4 a5 a6 a7
+            // -> b0 b1 b2 b3 b4 b5 a8 a9
+
             // sort
             if (a.Count < b.Count)
             {
@@ -63,9 +76,11 @@ namespace Lumpn.ZeldaMooga
             }
 
             // cut & paste tail
-            int count = maxLength - minLength;
-            b.AddRange(a.GetRange(minLength, count));
-            a.RemoveRange(minLength, count);
+            for (int i = minLength; i < maxLength; i++)
+            {
+                b.Add(a[i]);
+            }
+            a.RemoveRange(minLength, maxLength - minLength);
         }
     }
 }

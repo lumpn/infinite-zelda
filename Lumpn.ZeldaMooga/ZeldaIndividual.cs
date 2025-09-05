@@ -35,11 +35,6 @@ namespace Lumpn.ZeldaMooga
             this.branchFactor = branchFactor;
         }
 
-        public double GetScore()
-        {
-            return GetScore(1);
-        }
-
         public double GetScore(int attribute)
         {
             switch (attribute)

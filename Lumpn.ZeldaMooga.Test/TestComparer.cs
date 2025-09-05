@@ -9,8 +9,8 @@ namespace Lumpn.ZeldaMooga.Test
 
         public int Compare(Individual a, Individual b)
         {
-            var scoreA = ((ZeldaIndividual)a).GetScore();
-            var scoreB = ((ZeldaIndividual)b).GetScore();
+            var scoreA = ((ZeldaIndividual)a).GetScore(1);
+            var scoreB = ((ZeldaIndividual)b).GetScore(1);
             return -comparer.Compare(scoreA, scoreB);
         }
     }

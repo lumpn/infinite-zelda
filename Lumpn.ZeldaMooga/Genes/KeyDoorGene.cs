@@ -1,42 +1,44 @@
-﻿using System;
-using Lumpn.ZeldaDungeon;
+﻿using Lumpn.Dungeon;
+using Lumpn.Dungeon.Scripts;
+using System;
 
 namespace Lumpn.ZeldaMooga
 {
     public sealed class KeyDoorGene : ZeldaGene
     {
-        private readonly int keyType;
+        private readonly string keyName, doorName;
         private readonly int keyLocation;
         private readonly int doorStart, doorEnd;
 
-        public KeyDoorGene(ZeldaConfiguration configuration)
+        public KeyDoorGene(ZeldaConfiguration configuration, string keyName, string doorName)
             : base(configuration)
         {
-            this.keyType = configuration.RandomKeyType();
-            this.keyLocation = RandomLocation();
-            int a = RandomLocation();
-            int b = RandomLocation(a);
+            this.keyLocation = configuration.RandomLocation();
+            int a = configuration.RandomLocation();
+            int b = configuration.RandomLocation(a);
             this.doorStart = Math.Min(a, b);
             this.doorEnd = Math.Max(a, b);
         }
 
         public override Gene Mutate()
         {
-            return new KeyDoorGene(Configuration);
+            return new KeyDoorGene(configuration, keyName, doorName);
         }
 
-        public override void Express(ZeldaDungeonBuilder builder)
+        public override void Express(CrawlerBuilder builder, VariableLookup lookup)
         {
             // spawn key
-            builder.AddScript(keyLocation, ZeldaScripts.CreateKey(keyType, builder.Lookup));
+            var keyScript = new AcquireScript(keyName, lookup);
+            builder.AddScript(keyLocation, keyScript);
 
             // spawn door
-            builder.AddUndirectedTransition(doorStart, doorEnd, ZeldaScripts.CreateDoor(keyType, builder.Lookup));
+            var doorScript = new ConsumeScript(doorName, keyName, lookup);
+            builder.AddUndirectedTransition(doorStart, doorEnd, doorScript);
         }
 
         public override string ToString()
         {
-            return string.Format("key {0} at {1}, door {2}--{3}", keyType, keyLocation, doorStart, doorEnd);
+            return string.Format("{0} at {1}, {2} {3}--{4}", keyName, keyLocation, doorName, doorStart, doorEnd);
         }
     }
 }

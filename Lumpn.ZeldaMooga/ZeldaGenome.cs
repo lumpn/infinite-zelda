@@ -1,29 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using Lumpn.Dungeon;
 using Lumpn.Mooga;
-using Lumpn.ZeldaDungeon;
 using Lumpn.Utils;
+using System.Collections.Generic;
 
 namespace Lumpn.ZeldaMooga
 {
     public sealed class ZeldaGenome : Genome
     {
-        private static readonly ZeldaGeneFactory factory = new ZeldaGeneFactory();
-
         private readonly ZeldaConfiguration configuration;
+        private readonly ZeldaGeneFactory factory;
         private readonly List<ZeldaGene> genes;
 
-        public ZeldaGenome(ZeldaConfiguration configuration)
+        public ZeldaGenome(ZeldaConfiguration configuration, ZeldaGeneFactory factory)
         {
             this.configuration = configuration;
+            this.factory = factory;
 
-            // add some more genes
             int count = configuration.CalcNumInitialGenes();
             this.genes = GeneUtils.Generate(count, factory, configuration);
         }
 
-        private ZeldaGenome(ZeldaConfiguration configuration, List<ZeldaGene> genes)
+        private ZeldaGenome(ZeldaConfiguration configuration, ZeldaGeneFactory factory, List<ZeldaGene> genes)
         {
             this.configuration = configuration;
+            this.factory = factory;
             this.genes = genes;
         }
 
@@ -34,11 +34,11 @@ namespace Lumpn.ZeldaMooga
             // randomly distribute genes
             var newGenesA = new List<ZeldaGene>(genes);
             var newGenesB = new List<ZeldaGene>(other.genes);
-            GeneUtils.Crossover(genes, other.genes, random);
+            GeneUtils.Crossover(newGenesA, newGenesB, random);
 
             // assemble offsprings
-            var a = new ZeldaGenome(configuration, newGenesA);
-            var b = new ZeldaGenome(configuration, newGenesB);
+            var a = new ZeldaGenome(configuration, factory, newGenesA);
+            var b = new ZeldaGenome(configuration, factory, newGenesB);
             return new Pair<Genome>(a, b);
         }
 
@@ -49,14 +49,14 @@ namespace Lumpn.ZeldaMooga
             GeneUtils.Mutate(newGenes, factory, configuration);
 
             // assemble offspring
-            return new ZeldaGenome(configuration, newGenes);
+            return new ZeldaGenome(configuration, factory, newGenes);
         }
 
-        public void Express(ZeldaDungeonBuilder builder)
+        public void Express(CrawlerBuilder builder, VariableLookup lookup)
         {
-            foreach (ZeldaGene gene in genes)
+            foreach (var gene in genes)
             {
-                gene.Express(builder);
+                gene.Express(builder, lookup);
             }
         }
 
