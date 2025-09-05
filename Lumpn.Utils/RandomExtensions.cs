@@ -17,23 +17,32 @@ namespace Lumpn.Utils
         }
 
         /**
-         * Positive half of median-normalized Gaussian distribution
+         * Positive half of Logistic distribution
          * 
-         * Min: 0.0
-         * Max: ~7.5 [inf]
-         * Mean: ~1.2
-         * Median: ~1.0
-         * StdDev: ~0.9
+         * Min: 0
+         * Max: 10 [inf]
+         * Mean: ~1.4
+         * Median: ~1.1
+         * StdDev: ~1.18
          */
-        public static double HalfGaussian(this RandomNumberGenerator random)
+        public static double HalfLogistic(this RandomNumberGenerator random)
         {
-            return 1.5 * Math.Abs(Gaussian(random));
+            return Math.Abs(Logistic(random));
         }
 
-        public static double Gaussian(this RandomNumberGenerator random)
+        /**
+         * Logistic distribution
+         * 
+         * Min: -10 [-inf]
+         * Max: 10 [inf]
+         * Mean: 0
+         * Median: 0
+         * StdDev: ~1.8
+         */
+        public static double Logistic(this RandomNumberGenerator random)
         {
-            // TODO Jonas: implement
-            throw new NotImplementedException();
+            double p = random.NextDouble();
+            return Math.Log(p / (1.0 - p));
         }
 
         /**
@@ -50,7 +59,15 @@ namespace Lumpn.Utils
             return Math.Abs(Cauchy(random));
         }
 
-        /// Standard Cauchy distribution
+        /**
+         * Standard Cauchy distribution
+         * 
+         * Min: -5 [-inf]
+         * Max: 5 [inf]
+         * Mean: 0
+         * Median: 0
+         * StdDev: inf
+         */
         public static double Cauchy(this RandomNumberGenerator random)
         {
             double p = random.NextDouble();
