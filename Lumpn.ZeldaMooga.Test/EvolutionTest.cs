@@ -111,9 +111,8 @@ namespace Lumpn.ZeldaMooga.Test
             var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
             Console.WriteLine(best);
 
-            var crawler = best.Crawler;
             var builder = new DotBuilder();
-            crawler.Express(builder);
+            best.Express(builder);
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
 
