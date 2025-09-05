@@ -98,7 +98,7 @@ namespace Lumpn.ZeldaMooga.Test
             // i.e. in some generations prefer some attribute over others
 
             // evolve
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Profiler.BeginFrame();
                 Console.WriteLine("gen " + i);
@@ -108,7 +108,7 @@ namespace Lumpn.ZeldaMooga.Test
 
             writer.Close();
 
-            var best = (ZeldaIndividual)evolution.GetBest(new TestComparer());
+            var best = (ZeldaIndividual)evolution.GetBest();
             Console.WriteLine(best);
 
             var builder = new DotBuilder();

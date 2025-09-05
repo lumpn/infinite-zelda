@@ -9,41 +9,35 @@ namespace Lumpn.ZeldaMooga
     public sealed class ZeldaIndividual : Individual
     {
         // configuration
-        public const int NumAttributes = 4;
+        public const int NumAttributes = 3;
 
         // statistics
-        private readonly int numSteps;
-        private readonly int numDeadEnds;
         private readonly int shortestPathLength;
-        private readonly double revisitFactor;
-        private readonly double branchFactor;
+        private readonly int numDeadEnds;
+        private readonly int numTerminalStates;
 
         private readonly ZeldaGenome genome;
         private readonly CrawlerBuilder crawler;
 
         public Genome Genome { get { return genome; } }
 
-        public ZeldaIndividual(ZeldaGenome genome, CrawlerBuilder crawler, int numSteps, int numDeadEnds, int shortestPathLength, double revisitFactor, double branchFactor)
+        public ZeldaIndividual(ZeldaGenome genome, CrawlerBuilder crawler, Trace trace)
         {
             Debug.Assert(genome != null);
             this.genome = genome;
             this.crawler = crawler;
-            this.numSteps = numSteps;
-            this.numDeadEnds = numDeadEnds;
-            this.shortestPathLength = shortestPathLength;
-            this.revisitFactor = revisitFactor;
-            this.branchFactor = branchFactor;
+            this.shortestPathLength = trace.CalcShortestPathLength(0);
+            this.numDeadEnds = trace.CountDeadEnds();
+            this.numTerminalStates = Replace(0, 100, trace.CountSteps(0));
         }
 
         public double GetScore(int attribute)
         {
             switch (attribute)
             {
-                case 0: return OptimizationUtils.Minimize(numDeadEnds);
-                case 1: return OptimizationUtils.Maximize(shortestPathLength);
-                case 2: return OptimizationUtils.Maximize(branchFactor);
-                case 3: return OptimizationUtils.Maximize(revisitFactor);
-                case 4: return OptimizationUtils.Maximize(numSteps); // is this a good idea?
+                case 0: return OptimizationUtils.Maximize(shortestPathLength);
+                case 1: return OptimizationUtils.Minimize(numDeadEnds);
+                case 2: return OptimizationUtils.Minimize(numTerminalStates);
             }
 
             Debug.Fail();
@@ -58,17 +52,21 @@ namespace Lumpn.ZeldaMooga
         public override string ToString()
         {
             var builder = new StringBuilder();
-            for (int i = 0; i < NumAttributes; i++)
+            builder.Append(GetScore(0));
+            for (int i = 1; i < NumAttributes; i++)
             {
-                builder.Append(GetScore(i));
                 builder.Append(", ");
+                builder.Append(GetScore(i));
             }
-            builder.Append("(");
-            builder.Append(numSteps);
-            builder.Append("): ");
+            builder.Append(": ");
             builder.Append(genome);
 
             return builder.ToString();
+        }
+
+        private static int Replace(int before, int after, int value)
+        {
+            return (value == before) ? after : value;
         }
     }
 }

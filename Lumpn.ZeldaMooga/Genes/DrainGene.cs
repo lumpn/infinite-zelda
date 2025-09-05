@@ -29,8 +29,8 @@ namespace Lumpn.ZeldaMooga
             var drainScript = new SetScript(1, drainId);
             builder.AddScript(drainLocation, drainScript);
 
-            builder.AddUndirectedTransition(a, b, new EqualsScript(0, "no water", drainId));
-            builder.AddUndirectedTransition(c, d, new EqualsScript(0, "water", drainId));
+            builder.AddUndirectedTransition(a, b, new EqualsScript(0, "flooded", drainId));
+            builder.AddUndirectedTransition(c, d, new EqualsScript(1, "drained", drainId));
         }
 
         public override string ToString()
