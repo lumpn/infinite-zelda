@@ -42,7 +42,7 @@ namespace Lumpn.ZeldaMooga
             Profiler.EndSample();
 
             // create individual
-            return new ZeldaIndividual(genome, builder, trace);
+            return new ZeldaIndividual(genome, builder, lookup, trace);
         }
     }
 }

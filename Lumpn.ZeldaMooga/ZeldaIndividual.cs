@@ -3,6 +3,7 @@ using Lumpn.Mooga;
 using Lumpn.Utils;
 using Lumpn.Dungeon;
 using Lumpn.Dungeon.Scripts;
+using System.IO;
 
 namespace Lumpn.ZeldaMooga
 {
@@ -18,14 +19,18 @@ namespace Lumpn.ZeldaMooga
 
         private readonly ZeldaGenome genome;
         private readonly CrawlerBuilder crawler;
+        private readonly VariableLookup lookup;
+        private readonly Trace trace;
 
         public Genome Genome { get { return genome; } }
 
-        public ZeldaIndividual(ZeldaGenome genome, CrawlerBuilder crawler, Trace trace)
+        public ZeldaIndividual(ZeldaGenome genome, CrawlerBuilder crawler, VariableLookup lookup, Trace trace)
         {
             Debug.Assert(genome != null);
             this.genome = genome;
             this.crawler = crawler;
+            this.lookup = lookup;
+            this.trace = trace;
             this.shortestPathLength = trace.CalcShortestPathLength(0);
             this.numDeadEnds = trace.CountDeadEnds();
             this.numTerminalStates = Replace(0, 100, trace.CountSteps(0));
@@ -47,6 +52,11 @@ namespace Lumpn.ZeldaMooga
         public void Express(DotBuilder builder)
         {
             crawler.Express(builder, NoOpScript.instance);
+        }
+
+        public void PrintTrace(TextWriter writer)
+        {
+            trace.PrintSteps(lookup, writer);
         }
 
         public override string ToString()

@@ -113,6 +113,7 @@ namespace Lumpn.ZeldaMooga.Test
 
             var builder = new DotBuilder();
             best.Express(builder);
+            best.PrintTrace(Console.Out);
 
             // TODO: output genome to puzzle unit test (puzzle building statements)
 
