@@ -10,9 +10,14 @@ namespace Lumpn.Dungeon.Scripts
 
         public string Name { get { return variableIdentifier.name; } }
 
-        public ToggleScript(string variableName, VariableLookup lookup)
+        public ToggleScript(VariableIdentifier variableIdentifier)
         {
-            this.variableIdentifier = lookup.Resolve(variableName);
+            this.variableIdentifier = variableIdentifier;
+        }
+
+        public ToggleScript(string variableName, VariableLookup lookup)
+            : this(lookup.Resolve(variableName))
+        {
         }
 
         public State Execute(State state)

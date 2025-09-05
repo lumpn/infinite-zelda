@@ -33,7 +33,7 @@ namespace Lumpn.Utils
         public static double Gaussian(this RandomNumberGenerator random)
         {
             // TODO Jonas: implement
-            return 0f;
+            throw new NotImplementedException();
         }
 
         /**

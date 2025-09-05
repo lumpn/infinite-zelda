@@ -11,9 +11,9 @@ namespace Lumpn.Utils
             random = new Random(seed);
         }
 
-        public int NextInt(int max)
+        public int NextInt(int maxExclusive)
         {
-            return random.Next(max);
+            return random.Next(maxExclusive);
         }
 
         public double NextDouble()

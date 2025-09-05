@@ -7,10 +7,15 @@ namespace Lumpn.Dungeon.Scripts
         private readonly int targetValue;
         private readonly VariableIdentifier variableIdentifier;
 
-        public SetScript(int targetValue, string variableName, VariableLookup lookup)
+        public SetScript(int targetValue, VariableIdentifier variableIdentifier)
         {
             this.targetValue = targetValue;
-            this.variableIdentifier = lookup.Resolve(variableName);
+            this.variableIdentifier = variableIdentifier;
+        }
+
+        public SetScript(int targetValue, string variableName, VariableLookup lookup)
+            : this(targetValue, lookup.Resolve(variableName))
+        {
         }
 
         public string Name { get { return $"{variableIdentifier.name}:={targetValue}"; } }
